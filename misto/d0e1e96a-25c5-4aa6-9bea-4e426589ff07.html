@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <link rel= "stylesheet" type="text/css" href= "/static/styles/style.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>
+SMRŽO - MEDIC, s.r.o. - Hrádek nad Nisou |
+COVID očkování</title>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+    <script src="https://api.mapy.cz/loader.js"></script>
+    <script>Loader.load()</script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TXSRVP25Y2"></script>
+    <script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	  gtag('config', 'G-TXSRVP25Y2');
+    </script>
+
+    <script>
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
+    
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/">COVID očkování</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item col-lg-auto ml-auto">
+                <a class="nav-link "
+                   href="/mista">Přehled očkovacích míst
+                </a>
+            </li>
+            <li class="nav-item col-lg-auto ml-auto">
+                <a class="nav-link "
+                   href="/mapa">Mapa
+                </a>
+            </li>
+            <li class="nav-item col-lg-auto ml-auto">
+                <a class="nav-link "
+                   href="/statistiky">Statistiky
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+             <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <p class="mb-0">
+                    Aktualizace zdrojových dat:&nbsp;<strong>út 09. 03. 08:04</strong> a webu:&nbsp;<strong>út 09. 03. 21:03</strong>.
+                </p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+<div class="row">
+    <div class="col">
+        <h3>Očkovací místo: SMRŽO - MEDIC, s.r.o. - Hrádek nad Nisou </h3>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-sm-6 py-2">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Podrobnosti o očkovacím místě</h5>
+                <dl>
+                    <dt>Adresa</dt>
+                    <dd>Legionářská 269, 46334, Hrádek nad Nisou</dd>
+                    <dt>Bezbariérový přístup</dt>
+                    <dd>Ne</dd>
+                    <dt>Okolní očkovací místa</dt>
+                    <dd>
+                        <span class="mr-1">
+                            Okres: <a href="/okres/Liberec">Liberec</a>
+                        </span>
+                        <span>
+                            Kraj: <a href="/kraj/Libereck%C3%BD">Liberecký</a>
+                        </span>
+                    </dd>
+                </dl>
+                <a href="https://cfa.uzis.cz/vaccination-centers/d0e1e96a-25c5-4aa6-9bea-4e426589ff07" class="btn btn-primary" target="_blank">
+                    Oficiální stránka místa
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 py-2">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Mapa</h5>
+                <div id="center-map" style="height:250px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card mb-4">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#registration">Stav registrací</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#vaccination">Stav vakcín</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="registration">
+                        <div class="row">
+                            <div class="col-sm-6 py-2">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title" data-toggle="tooltip" data-placement="bottom"
+                                            title="Dataset registrace - čekající na PIN2">Čekající na přidělení PIN2 (výběr termínu)</h5>
+                                        
+                                        <table class="table table-bordered table-striped table-sm">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col" class="text-center">Věková<br>skupina</th>
+                                                <th scope="col" class="text-center">Povolání</th>
+                                                <th scope="col" class="text-center">Počet</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            
+                                            <tr>
+                                                <td class="td-ellipsis">70-74</td>
+                                                <td class="td-ellipsis" data-toggle="tooltip" data-placement="bottom" title="neuvedeno">
+                                                    neuvedeno
+                                                </td>
+                                                <td class="td-ellipsis text-right">
+                                                    <span class="badge badge-pill badge-warning">
+                                                        2
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 py-2">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">7 denní úspěšnost</h5>
+                                        
+                                        <table class="table table-bordered table-striped table-sm">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col" class="text-center">Věková<br>skupina</th>
+                                                <th scope="col" class="text-center">Povolání</th>
+                                                <th scope="col" class="text-center">Poměr</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            
+                                            <tr>
+                                                <td class="td-ellipsis">70-74</td>
+                                                <td class="td-ellipsis" data-toggle="tooltip" data-placement="bottom" title="neuvedeno">
+                                                    neuvedeno
+                                                </td>
+                                                <td class="td-ellipsis text-right" data-toggle="tooltip" data-placement="bottom"
+                                                    title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 2">
+                                                    
+                                                    <span class="badge badge-pill badge-danger">0 %</span>
+                                                    
+                                                </td>
+                                            </tr>
+                                            
+                                            </tbody>
+                                        </table>
+                                        
+                                        <p>Za posledních 7 dní jde o poměr lidí s konkrétním očkovacím termínem a všech registrovaných (opět za 7 dnů).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="vaccination">
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-sm" style="word-break: break-all">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" class="text-center w-auto"></th>
+                                    
+                                    <th scope="col" class="text-center">Přijato</th>
+                                    
+                                    <th scope="col" class="text-center">Vydáno</th>
+                                    
+                                    <th scope="col" class="text-center">Očkováno</th>
+                                    
+                                    <th scope="col" class="text-center">Zničeno</th>
+                                    
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="text-center">Výrobce</th>
+                                    
+                                    <th scope="col" class="text-center">Dávky</th>
+                                    
+                                    <th scope="col" class="text-center">Dávky</th>
+                                    
+                                    <th scope="col" class="text-center">Dávky</th>
+                                    
+                                    <th scope="col" class="text-center">Dávky</th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                
+                                <tr>
+                                    <td>Pfizer</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                </tr>
+                                
+                                <tr>
+                                    <td>Moderna</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                </tr>
+                                
+                                <tr>
+                                    <td>AstraZeneca</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                </tr>
+                                
+                                </tbody>
+                                <tfoot class="font-weight-bold">
+                                <tr>
+                                    <td>Celkem</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                    <td class="text-right">0</td>
+                                    
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <i>Jde o orientační výpočet z distribuce a spotřeby vakcín. Dataset spotřeba vakcín vykazuje <b>velké zpoždění a nepřesnosti!!!</b></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+
+<script>
+    var center = SMap.Coords.fromWGS84(14.8469, 50.85105);
+    var m = new SMap(JAK.gel("center-map"), center, 14);
+    m.addControl(new SMap.Control.Sync());
+    m.addDefaultLayer(SMap.DEF_BASE).enable();
+    m.addDefaultControls();
+
+    var layer = new SMap.Layer.Marker();
+    m.addLayer(layer);
+    layer.enable();
+
+    var options = {};
+    var marker = new SMap.Marker(center, "marker", options);
+    layer.addMarker(marker);
+</script>
+
+
+<div class="footer text-center p-3 bg-light mt-4">
+    <p class="mb-1">
+        Vznik: 16. 01. 2021.
+        Data na tomto webu pochází z <a href="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19" target="_blank">opendat Ministerstva zdravotnictví ČR</a>.
+    </p>
+    <p class="mb-1 font-italic">
+        Provozovatel se zříká zodpovědnosti za veškeré škody a újmy, které by použitím těchto dat mohly vzniknout.
+        Pro informace o očkování COVID-19 navštivte web: <a href="https://koronavirus.mzcr.cz/ockovani-proti-covid-19/" target="_blank">Ministerstva zdravotnictví ČR</a>.
+    </p>
+    <p class="mb-0">
+        Zdroj mapy: <a href="https://www.mylog.cz/svg-mapa-ceska-a-slovenska/" target="_blank">www.mylog.cz</a>
+    </p>
+</div>
+</body>
+</html>
