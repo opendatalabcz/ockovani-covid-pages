@@ -3,8 +3,12 @@
 <head lang="en">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href= "/static/styles/style.css">
+
+    <link rel="shortcut icon" href="/static/favicon.ico">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,21 +17,9 @@
 Nemocnice Jihlava |
 COVID očkování</title>
 
-    
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
-    <style>.cip-genpw-icon.cip-icon-key-small {background-image: url(chrome-extension://dafgdjggglmmknipkhngniifhplpcldb/icons/key_16x16.png); }
-        .cip-genpw-icon.cip-icon-key-big {background-image: url(chrome-extension://dafgdjggglmmknipkhngniifhplpcldb/icons/key_24x24.png); }
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
-    </style>
     <script src="https://api.mapy.cz/loader.js"></script>
     <script>Loader.load()</script>
 
@@ -38,15 +30,21 @@ COVID očkování</title>
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
 	  gtag('config', 'G-TXSRVP25Y2');
-
     </script>
+
+    <script>
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 
     
 </head>
 <body>
 
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
     <a class="navbar-brand" href="/">COVID očkování</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +55,7 @@ COVID očkování</title>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item col-lg-auto ml-auto">
                 <a class="nav-link "
-                   href="/mista">Přehled očkovacích míst
+                   href="/mista">Očkovací místa
                 </a>
             </li>
             <li class="nav-item col-lg-auto ml-auto">
@@ -67,807 +65,766 @@ COVID očkování</title>
             </li>
             <li class="nav-item col-lg-auto ml-auto">
                 <a class="nav-link "
+                   href="/codelat">Co dělat, když…
+                </a>
+            </li>
+            <li class="nav-item col-lg-auto ml-auto">
+                <a class="nav-link "
                    href="/statistiky">Statistiky
                 </a>
             </li>
+            <li class="nav-item col-lg-auto ml-auto">
+                <a class="nav-link "
+                   href="/odkazy">Odkazy
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+          <li class="nav-item col-lg-auto ml-auto">
+              <a class="nav-link" href="https://twitter.com/ocko_bot" target="_blank">
+                  <i class="fab fa-twitter"></i>
+                  ocko_bot
+              </a>
+          </li>
         </ul>
     </div>
 </nav>
 
 
-<div class="container mt-4">
-    <div class="alert alert-warning alert-dismissible fade show row" role="alert">
-        <p class="mb-0">
-            Poslední aktualizace zdrojových dat:&nbsp;<strong>So 06. 03. 2021 07:59</strong>.
-            Poslední aktualizace webu:&nbsp;<strong>Ne 07. 03. 2021 08:07</strong>.
-        </p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+<div class="container">
+    <div class="row">
+        <div class="col">
+             <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <p class="mb-0">
+                    Aktualizace zdrojových dat:&nbsp;<strong>po 22. 03. 07:57</strong> a webu:&nbsp;<strong>út 23. 03. 08:09</strong>.
+                </p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
     </div>
+
     
 <div class="row">
-    <h3>Očkovací místo: Nemocnice Jihlava </h3>
+    <div class="col">
+        <h3>Očkovací místo: Nemocnice Jihlava </h3>
+    </div>
 </div>
 
-<div class="card row mb-4">
-    <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#info">Informace o místě</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#vaccination">Stav vakcín</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#registration">Stav registrací</a>
-            </li>
-        </ul>
-    </div>
 
-    <div class="card-body">
-        <div class="tab-content">
-            <div class="tab-pane active" id="info">
-                <!--
-                  <div class="row mb-3">
-                      <a href="https://reservatic.com/watchdogs/new?locale=cs&operation_id=5875&place_id=&service_id=411659"
-                         target="_blank" class="btn btn-primary" title="Nejdříve je třeba mít vytvořený účet na Reservatic.com">
-                          Hlídat volná místa
-                      </a>
-                      
-                  </div>
-                -->
-                <div class="row">
-                    <div class="col-sm-6 py-2">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">Podrobnosti o očkovacím místě</h5>
-                                <dl>
-                                    <dt>Adresa</dt>
-                                    <dd>Vrchlického 59, Jihlava</dd>
-                                    <dt>Bezbariérový přístup</dt>
-                                    <dd>Ano</dd>
-                                </dl>
-                                <a href="https://cfa.uzis.cz/vaccination-centers/65653e1e-fb9e-4f78-9e95-eb7c46d328d5" class="btn btn-primary"
-                                   target="_blank">
-                                    Oficiální stránka místa
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 py-2">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">Mapa</h5>
-                                <div id="center-map" style="height:250px;"></div>
-                            </div>
-                        </div>
-                    </div>
+<div class="row">
+    <div class="col">
+        <div class="alert alert-warning" role="alert">
+            <p class="mb-0">
+                Toto očkovací místo je v současnosti skryto v rezervačním systému a nepřijímá nové registrace.
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<div class="row px-2">
+    <div class="col-md-6 px-2 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Podrobnosti o očkovacím místě</h5>
+                <dl>
+                    <dt>Adresa</dt>
+                    <dd>Vrchlického 59, Jihlava</dd>
+                    <dt>Bezbariérový přístup</dt>
+                    <dd>Ano</dd>
+                    <dt>Okolní očkovací místa</dt>
+                    <dd>
+                        <span class="mr-1">
+                            Okres: <a href="/okres/Jihlava">Jihlava</a>
+                        </span>
+                        <span>
+                            Kraj: <a href="/kraj/Vyso%C4%8Dina">Vysočina</a>
+                        </span>
+                    </dd>
+                </dl>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 px-2 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Mapa</h5>
+                <div id="center-map" style="height:250px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header" id="cards">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#stats">Statistiky</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#registration">Stav registrací</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#vaccination">Stav vakcín</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#registrations_reservations">Počet registrovaných</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="stats">
+                        <div class="row px-2 mb-n2">
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Přijaté dávky">
+                            Přijaté dávky
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Počet dávek přijatých na očkovací centrum.&lt;br&gt;Dávky vydané mimo očkovací místa (např. praktickým lékařům) jsou odečtené."></i>
+                        
+                        
+                    </h6>
                 </div>
             </div>
-            <div class="tab-pane" id="vaccination">
+            
+            <p class="card-text text-right metrics-number">15 486 </p>
+            <p class="card-text text-right metrics-delta">
                 
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-sm" style="word-break: break-all">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" class="text-center w-auto"></th>
+                <span class="text-success"
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    +400
+                </span>
+                
+                
+                /
+                <span class="text-success"
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
+                    +866
+                </span>
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
                             
-                            <th scope="col" class="text-center">Přijato</th>
-                            
-                            <th scope="col" class="text-center">Vydáno</th>
-                            
-                            <th scope="col" class="text-center">Očkováno</th>
-                            
-                            <th scope="col" class="text-center">Zničeno</th>
-                            
-                        </tr>
-                        <tr>
-                            <th scope="col" class="text-center">Výrobce</th>
-                            
-                            <th scope="col" class="text-center">Dávky</th>
-                            
-                            <th scope="col" class="text-center">Dávky</th>
-                            
-                            <th scope="col" class="text-center">Dávky</th>
-                            
-                            <th scope="col" class="text-center">Dávky</th>
-                            
-                        </tr>
-                        </thead>
-                        <tbody>
-                        
-                        <tr>
-                            <td>Pfizer</td>
-                            
-                            <td class="text-right">32760</td>
-                            
-                            <td class="text-right">22314</td>
-                            
-                            <td class="text-right">1000</td>
-                            
-                            <td class="text-right">0</td>
-                            
-                        </tr>
-                        
-                        <tr>
-                            <td>Moderna</td>
-                            
-                            <td class="text-right">2400</td>
-                            
-                            <td class="text-right">1390</td>
-                            
-                            <td class="text-right">40</td>
-                            
-                            <td class="text-right">0</td>
-                            
-                        </tr>
-                        
-                        <tr>
-                            <td>AstraZeneca</td>
-                            
-                            <td class="text-right">8900</td>
-                            
-                            <td class="text-right">4790</td>
-                            
-                            <td class="text-right">69</td>
-                            
-                            <td class="text-right">0</td>
-                            
-                        </tr>
-                        
-                        </tbody>
-                        <tfoot class="font-weight-bold">
-                        <tr>
-                            <td>Celkem</td>
-                            
-                            <td class="text-right">44060</td>
-                            
-                            <td class="text-right">28494</td>
-                            
-                            <td class="text-right">1109</td>
-                            
-                            <td class="text-right">0</td>
-                            
-                        </tr>
-                        </tfoot>
-                    </table>
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Použité dávky">
+                            Použité dávky
+                        </span>
+                    </h6>
                 </div>
-                
-                <i>Jde o orientační výpočet z distribuce a spotřeby vakcín. Dataset spotřeba vakcín vykazuje <b>velké zpoždění a nepřesnosti!!!</b></i>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Počet dávek očkovaných očkovacím centrem podle dat o spotřebě vakcín."></i>
+                        
+                        
+                    </h6>
+                </div>
             </div>
-            <div class="tab-pane" id="registration">
-                <div class="row">
-                    <div class="col-sm-6 py-2">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title" data-placement="bottom"
-                                    title="Dataset registrace - čekající na PIN2">Čekající na přidělení PIN2 (výběr termínu)</h5>
-                                
-                                <table class="table table-bordered table-striped table-sm">
-                                    <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col" class="text-center">Věková skupina</th>
-                                        <th scope="col" class="text-center">Povolání</th>
-                                        <th scope="col" class="text-center">Počet</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    
-                                    <tr>
-                                        <td>0-17</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    2
+            
+            <p class="card-text text-right metrics-number">13 278 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class="text-success"
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    +630
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>18-24</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    33
+                
+                
+                /
+                <span class="text-success"
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
+                    +3 184
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>18-24</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    13
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Přibližně skladem">
+                            Přibližně skladem
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        
+                        <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto"
+                           data-html="true" title="Odhadovaný počet dávek skladem.&lt;br&gt;Údaj je počítán z dat o distribuci a spotřebě vakcín. Jednotlivé datové sady mají různá zpoždění a nepřesnosti, proto údaj berte jako orientační."></i>
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">2 208 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    -230
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>25-29</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    60
+                
+                
+                /
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
+                    -2 318
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>25-29</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    31
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Čekající ve frontě">
+                            Čekající ve frontě
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Počet registrovaných čekajících na rezervaci konkrétního termínu (přibližně odpovídá čekajícím na SMS s PIN2)."></i>
+                        
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">2 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>30-34</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    71
+                
+                
+                /
+                <span class="text-success"
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
+                    -1
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>30-34</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    35
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Čekající s rezervací">
+                            Čekající s rezervací
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Počet registrovaných s rezervovaným konkrétním termínem na očkování."></i>
+                        
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">1 351 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>35-39</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    143
+                
+                
+                /
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
+                    -660
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>35-39</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    39
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Dnešní kapacita">
+                            Dnešní kapacita
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Dnešní celková kapacita pro očkování.&lt;br&gt;Získáno z maximální kapacity uvedené v rezervačním systému."></i>
+                        
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">0 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>40-44</td>
-                                        <td>neuvedeno</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    1
+                
+                
+                /
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
+                    0
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>40-44</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    249
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Doba ve frontě">
+                            Doba ve frontě
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Průměrná doba strávená čekajícími ve frontě k dnešnímu dni."></i>
+                        
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">9,1 týdne</p>
+            <p class="card-text text-right metrics-delta">
+                
+                
+                <span class="text-danger"
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    +0,1
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>40-44</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    58
+                
+                
+                
+                /
+                <span class="text-danger"
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
+                    +1,1
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>45-49</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    247
+                
+                
+                týdne
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Naočkování registrovaných">
+                            Naočkování registrovaných
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        
+                        <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto"
+                           data-html="true" title="Odhadovaný počet týdnů potřebný k naočkování lidí ve frontě 1. dávkou při rychlostí očkování podle posledních 7 dnů. Data o očkování se doplňují zpětně a u nových míst chybí úplně, proto číslo berte jako orientační!"></i>
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">0,4 týdne</p>
+            <p class="card-text text-right metrics-delta">
+                
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    +0,0
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>45-49</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    79
+                
+                
+                
+                /
+                <span class="text-success"
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
+                    -0,5
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>50-54</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    142
+                
+                
+                týdne
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+                            
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="30denní úspěšnost">
+                            30denní úspěšnost
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Poměr počtu registrovaných za posledních 30 dní s vybraným termínem ku počtu všech registrovaných za posledních 30 dní."></i>
+                        
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">100,0 %</p>
+            <p class="card-text text-right metrics-delta">
+                
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0,0
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>50-54</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    60
+                
+                
+                
+                /
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
+                    0,0
                 </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>55-59</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    32
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>55-59</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    58
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>60-64</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    12
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>60-64</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    32
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>65-69</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    5
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>65-69</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    16
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>70-74</td>
-                                        <td>neuvedeno</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    1429
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>70-74</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    1
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>70-74</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    5
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>75-79</td>
-                                        <td>neuvedeno</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    1116
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>75-79</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    3
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>80+</td>
-                                        <td>neuvedeno</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    578
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>80+</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    1
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>neuvedeno</td>
-                                        <td>neuvedeno</td>
-                                        <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    3
-                </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    </tbody>
-                                </table>
-                                
-                            </div>
+                
+                
+                %
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
                         </div>
                     </div>
-                    <div class="col-sm-6 py-2">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">7 denní úspěšnost</h5>
-                                
-                                <table class="table table-bordered table-striped table-sm">
-                                    <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col" class="text-center">Věková skupina</th>
-                                        <th scope="col" class="text-center">Povolání</th>
-                                        <th scope="col" class="text-center">Poměr</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    
-                                    <tr>
-                                        <td>0-17</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 1">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>18-24</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 11">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>25-29</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 14">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>25-29</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 1 / 1">
-                                            
-                                            <span class="badge badge-pill badge-success">
-                    100 %
+                    <div class="tab-pane" id="registration">
+                        <div class="table-responsive">
+    <table class="table table-bordered table-striped table-sm mb-0" style="table-layout: fixed">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="w-15 text-center">Věková<br>skupina</th>
+            <th scope="col" class="w-25 text-center">Povolání</th>
+            <th scope="col" class="w-15 text-center">
+                Ve frontě
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet registrovaných čekajících na rezervaci konkrétního termínu (přibližně odpovídá čekajícím na SMS s PIN2).">
+                </i>
+            </th>
+            <th scope="col" class="w-15 text-center">
+                Čekání na rezervaci
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Průměrná doba mezi registrací a rezervací konkrétního termínu za posledních 7 dní (přibližně odpovídá čekání na SMS s PIN2).<br>Červená (>2), žlutá (>1), zelená (>0).">
+                </i>
+            </th>
+            <th scope="col" class="w-15 text-center">
+                Doba ve frontě
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Průměrná doba strávená čekajícími ve frontě k dnešnímu dni.<br>Červená (>2), žlutá (>1), zelená (>0).">
+                </i>
+            </th>
+            <th scope="col" class="w-15 text-center">
+                7denní úspěšnost
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Poměr počtu registrovaných za posledních 7 dní s vybraným termínem ku počtu všech registrovaných za posledních 7 dní.<br>Zelená (>50 %), žlutá (>5 %), červená (>0 %).">
+                </i>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        <tr>
+            <td>40-44</td>
+            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="neuvedeno">
+                neuvedeno
+            </td>
+            <td class="text-right">
+                1
+            </td>
+            <td class="text-center">
+                <span class="badge badge-pill badge-light">
+                    bez dat 
                 </span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>30-34</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 19">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>30-34</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 5">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>35-39</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 31">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>35-39</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 4">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>40-44</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 61">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>40-44</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 4">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>45-49</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 59">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>45-49</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 2">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>50-54</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 26 / 65">
-                                            
-                                            <span class="badge badge-pill badge-warning">
-                    40 %
+            </td>
+            <td class="text-center">
+                <span class="badge badge-pill badge-danger">
+                    9,4 týdne
                 </span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>50-54</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 2">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>55-59</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 50 / 63">
-                                            
-                                            <span class="badge badge-pill badge-success">
-                    79 %
+            </td>
+            <td class="text-center">
+                <span class="badge badge-pill badge-light"
+                      data-toggle="tooltip" data-placement="auto"
+                      title="0 / 0">
+                    bez dat 
                 </span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>55-59</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 1">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>60-64</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 36 / 45">
-                                            
-                                            <span class="badge badge-pill badge-success">
-                    80 %
+            </td>
+        </tr>
+        
+        <tr>
+            <td>80+</td>
+            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="neuvedeno">
+                neuvedeno
+            </td>
+            <td class="text-right">
+                1
+            </td>
+            <td class="text-center">
+                <span class="badge badge-pill badge-light">
+                    bez dat 
                 </span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>60-64</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 3">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>65-69</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 17 / 22">
-                                            
-                                            <span class="badge badge-pill badge-success">
-                    77 %
+            </td>
+            <td class="text-center">
+                <span class="badge badge-pill badge-danger">
+                    9,0 týdne
                 </span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>70-74</td>
-                                        <td>neuvedeno</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 1 / 1428">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>70-74</td>
-                                        <td>Pedagogický pracovník/nepedagogický zaměstnanec škol a školských zařízení/pečující osoba v dětských skupinách (mikrojeslích)/zaměstnanec v přímé péči zajišťující činnost zařízení pro děti vyžadující okamžitou pomoc</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 11 / 11">
-                                            
-                                            <span class="badge badge-pill badge-success">
-                    100 %
+            </td>
+            <td class="text-center">
+                <span class="badge badge-pill badge-light"
+                      data-toggle="tooltip" data-placement="auto"
+                      title="0 / 0">
+                    bez dat 
                 </span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>75-79</td>
-                                        <td>neuvedeno</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 1115">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>75-79</td>
-                                        <td>Zdravotnický pracovník dle §76 a §77 zákona 372/2011  Sb.</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 1">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>80+</td>
-                                        <td>neuvedeno</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 47 / 128">
-                                            
-                                            <span class="badge badge-pill badge-warning">
-                    37 %
-                </span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>neuvedeno</td>
-                                        <td>neuvedeno</td>
-                                        <td class="text-right"
-                                            title="Dataset registrace - registrace za 7 dní s PIN2/celkem - 0 / 1">
-                                            
-                                            <span class="badge badge-pill badge-danger">0 %</span>
-                                            
-                                        </td>
-                                    </tr>
-                                    
-                                    </tbody>
-                                </table>
-                                
-                                <p>Za posledních 7 dní jde o poměr lidí s konkrétním očkovacím termínem a všech registrovaných (opět za 7 dnů).</p>
+            </td>
+        </tr>
+        
+        </tbody>
+    </table>
+</div>
+                    </div>
+                    <div class="tab-pane" id="vaccination">
+                        <div class="table-responsive">
+    <table class="table table-bordered table-striped table-sm mb-0">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="w-20 text-center">Výrobce</th>
+            <th scope="col" class="w-20 text-center">
+                Přijato
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet dávek přijatých na dané místo.<br>V případě přehledu kraje předpokládáme, že dávky vydané mimo očkovací místa (např. praktickým lékařům) zůstaly ve stejném kraji. Vakcíny, které jsou praktickým lékařům distribuovány přímo, v celkovém počtu chybí.">
+                </i>
+            </th>
+            
+            <th scope="col" class="w-20 text-center">
+                Použito
+                <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet použitých dávek podle spotřeby vakcín.<br>Dataset spotřeba vakcín vykazuje velké zpoždění a nepřesnosti!">
+                </i>
+            </th>
+            
+            <th scope="col" class="w-20 text-center">
+                Zničeno
+                <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet zničených dávek podle spotřeby vakcín.<br>Dataset spotřeba vakcín vykazuje velké zpoždění a nepřesnosti!">
+                </i>
+            </th>
+            <th scope="col" class="w-20 text-center">
+                Skladem
+                <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Odhadovaný počet dávek skladem.<br>Údaj je počítán z předchozích sloupců a může vykazovat velké nepřesnosti způsobené zpožděním v datech! U vakcín, které jsou distribuovány praktickým lékařům přímo, může být dokonce záporný.">
+                </i>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        <tr>
+            <td>AstraZeneca</td>
+            <td class="text-right">2 520</td>
+            
+            <td class="text-right">1 800</td>
+            
+            <td class="text-right">0</td>
+            <td class="text-right">720</td>
+        </tr>
+        
+        <tr>
+            <td>Moderna</td>
+            <td class="text-right">1 440</td>
+            
+            <td class="text-right">1 440</td>
+            
+            <td class="text-right">0</td>
+            <td class="text-right">0</td>
+        </tr>
+        
+        <tr>
+            <td>Pfizer</td>
+            <td class="text-right">11 526</td>
+            
+            <td class="text-right">10 038</td>
+            
+            <td class="text-right">0</td>
+            <td class="text-right">1 488</td>
+        </tr>
+        
+        </tbody>
+        <tfoot class="font-weight-bold">
+        <tr>
+            <td>Celkem</td>
+            <td class="text-right">15 486</td>
+            
+            <td class="text-right">13 278</td>
+            
+            <td class="text-right">0</td>
+            <td class="text-right">2 208</td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+                    </div>
+                    <div class="tab-pane" id="registrations_reservations">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Počet registrovaných a rezervací</h5>
+                                        <div id="trend"></div>
+                                        <div class="card-text font-italic">
+                                            <h6>Poznámky</h6>
+                                            <ul>
+                                                <li>15. 1. 2021 - otevření registrací pro starší 80 let</li>
+                                                <li>27. 2. 2021 - otevření registrací pro zaměstnance škol a školských zařízení</li>
+                                                <li>1. 3. 2021 - otevření registrací pro starší 70 let</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -875,385 +832,6 @@ COVID očkování</title>
             </div>
         </div>
     </div>
-</div>
-
-<div class="row">
-    
-    <table class="table table-bordered table-striped table-sm">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col" class="text-center">Název</th>
-            <th scope="col" class="text-center">Okres</th>
-            <th scope="col" class="text-center">Kraj</th>
-            <th scope="col" class="text-center">Datum</th>
-            <th scope="col" class="text-center">Volná místa</th>
-        </tr>
-        </thead>
-        <tbody>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Ne 07. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-success">
-                    171
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Po 08. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Út 09. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">St 10. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Čt 11. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-warning">
-                    82
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Pá 12. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">So 13. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Ne 14. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Po 15. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Út 16. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">St 17. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Čt 18. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Pá 19. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">So 20. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Ne 21. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Po 22. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Út 23. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">St 24. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Čt 25. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Pá 26. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">So 27. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Ne 28. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Po 29. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Út 30. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">St 31. 03. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Čt 01. 04. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Pá 02. 04. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">So 03. 04. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Ne 04. 04. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>Nemocnice Jihlava</td>
-            <td><a href="../okres/Jihlava">Jihlava</a></td>
-            <td><a href="../kraj/Vysočina">Vysočina</a></td>
-            <td class="text-right">Po 05. 04. 2021</td>
-            <td class="text-right">
-                <span class="badge badge-pill badge-danger">
-                    0
-                </span>
-            </td>
-        </tr>
-        
-        </tbody>
-    </table>
-    
 </div>
 
 </div>
@@ -1275,15 +853,133 @@ COVID očkování</title>
     layer.addMarker(marker);
 
 
+</script>
+
+<!-- Script creating graph -->
+<script>
+    var registrace = {
+        x: ["2021-01-15","2021-01-16","2021-01-17","2021-01-18","2021-01-19","2021-01-20","2021-01-21","2021-01-22","2021-01-23","2021-01-24","2021-01-25","2021-01-26","2021-01-27","2021-01-28","2021-01-29","2021-01-30","2021-01-31","2021-02-01","2021-02-02","2021-02-03","2021-02-04","2021-02-05","2021-02-06","2021-02-07","2021-02-08","2021-02-09","2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05",],
+        y: [808,141,138,164,76,61,37,73,33,35,35,42,31,23,13,16,15,6,14,12,11,10,7,7,9,11,5,9,11,3,8,20,11,14,16,17,6,10,18,22,11,2,15,509,66,109,41,39,23,6,],
+        mode: "lines+markers",
+        type: "scatter",
+        name: "Nové registrace (počet nově registrovaných, včetně těch, kteří již mají vybraný termín očkování)",
+    };
+
+    var rezervace = {
+        x: ["2021-01-15","2021-01-16","2021-01-17","2021-01-18","2021-01-19","2021-01-20","2021-01-21","2021-01-22","2021-01-25","2021-01-26","2021-01-28","2021-01-29","2021-01-30","2021-01-31","2021-02-01","2021-02-02","2021-02-05","2021-02-06","2021-02-07","2021-02-08","2021-02-09","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06",],
+        y: [6,12,17,47,18,25,4,5,45,48,5,158,14,5,33,12,83,6,3,49,4,178,16,86,233,128,16,2,335,148,145,34,1,1,2,187,42,8,513,81,62,],
+        mode: "lines+markers",
+        type: "scatter",
+        name: "Nové rezervace (počet lidí, kteří ten den získali termín očkování)",
+    };
+
+    var layout = {
+        autosize: true,
+        xaxis: {
+            title: "Datum [den]",
+            type: "date",
+            tickformat: "%-d.%-m.%Y",
+            autorange: true,
+            rangeslider: {
+                range: ["2021-01-15", "2021-03-06"]
+            },
+            rangeselector: {
+                buttons: [
+                    {
+                        count: 7,
+                        label: "1 týden",
+                        step: "day",
+                        stepmode: "backward"
+                    },
+                    {
+                        count: 14,
+                        label: "2 týdny",
+                        step: "day",
+                        stepmode: "backward"
+                    },
+                    {
+                        count: 1,
+                        label: "1 měsíc",
+                        step: "month",
+                        stepmode: "backward",
+                    },
+                    {
+                        label: "všechna data",
+                        step: "all"
+                    }
+                ],
+                xanchor: "center",
+                x: 0.5,
+            }
+        },
+        yaxis: {
+            title: "Počet osob",
+            automargin: true
+        },
+        showlegend: true,
+        legend: {
+            orientation: "h",
+            xanchor: "center",
+            x: 0.5,
+            yanchor: "bottom",
+            y: -0.5,
+        },
+        height: 700,
+    }
+
+    var data = [registrace, rezervace];
+
+    var config = {
+        responsive: true,
+        displayModeBar: false,
+    }
+
+    
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+
+        var target = $(e.target).attr("href") // activated tab
+        if(target==="#registrations_reservations")
+        {
+            //call the corresponding function which generates that plot
+            Plotly.newPlot("trend", data, layout, config);
+        }
+    });
 
 
+</script>
+<script>
+<!-- To have the possibility to send links with opened tab -->
+  $(document).ready(() => {
+  let url = location.href.replace(/\/$/, "");
 
+  if (location.hash) {
+    const hash = url.split("#");
+    $('#cards a[href="#'+hash[1]+'"]').tab("show");
+    url = location.href.replace(/\/#/, "#");
+    history.replaceState(null, null, url);
+    setTimeout(() => {
+      $(window).scrollTop(0);
+    }, 400);
+  }
+
+  $('a[data-toggle="tab"]').on("click", function() {
+    let newUrl;
+    const hash = $(this).attr("href");
+    if(hash == "#") {
+      newUrl = url.split("#")[0];
+    } else {
+      newUrl = url.split("#")[0] + hash;
+    }
+    newUrl += "";
+    history.replaceState(null, null, newUrl);
+  });
+});
 </script>
 
 
 <div class="footer text-center p-3 bg-light mt-4">
     <p class="mb-1">
-        Vznik: 16. 01. 2021.
+        Vznik: 16. 01. 2021, <a href="https://opendatalab.cz/" target="_blank">OpenDataLab</a>.
         Data na tomto webu pochází z <a href="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19" target="_blank">opendat Ministerstva zdravotnictví ČR</a>.
     </p>
     <p class="mb-1 font-italic">
