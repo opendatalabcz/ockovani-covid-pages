@@ -96,7 +96,7 @@ COVID očkování</title>
         <div class="col">
              <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Aktualizace zdrojových dat:&nbsp;<strong>pá 26. 03. 08:29</strong> a webu:&nbsp;<strong>pá 26. 03. 08:59</strong>.
+                    Aktualizace zdrojových dat:&nbsp;<strong>pá 26. 03. 08:29</strong> a webu:&nbsp;<strong>pá 26. 03. 23:03</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -170,7 +170,10 @@ COVID očkování</title>
                         <a class="nav-link" data-toggle="tab" href="#vaccination">Stav vakcín</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#registrations_reservations">Počet registrovaných</a>
+                        <a class="nav-link" data-toggle="tab" href="#queue">Vývoj fronty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#registrations_reservations">Vývoj registrací a rezervací</a>
                     </li>
                 </ul>
             </div>
@@ -690,7 +693,7 @@ COVID očkování</title>
                         
                         
                         <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto"
-                           data-html="true" title="Odhadovaný počet týdnů potřebný k naočkování lidí ve frontě 1. dávkou při rychlostí očkování podle posledních 7 dnů. Data o očkování se doplňují zpětně a u nových míst chybí úplně, proto číslo berte jako orientační!"></i>
+                           data-html="true" title="Odhadovaný počet týdnů potřebný k naočkování lidí s rezervací a lidí ve frontě 1. dávkou při rychlostí očkování podle posledních 7 dnů. Data o očkování se doplňují zpětně a u nových míst chybí úplně, proto číslo berte jako orientační!"></i>
                         
                     </h6>
                 </div>
@@ -2107,25 +2110,207 @@ COVID očkování</title>
     </table>
 </div>
                     </div>
+                    <div class="tab-pane" id="queue">
+                        <div id="graf-fronta"></div>
+<div class="font-italic">
+    <h6>Poznámky</h6>
+    <ul>
+        <li>15. 1. 2021 - otevření registrace pro starší 80 let</li>
+        <li>27. 2. 2021 - otevření registrace pro zaměstnance škol a školských zařízení</li>
+        <li>1. 3. 2021 - otevření registrace pro starší 70 let</li>
+        <li>24. 3. 2021 - otevření registrace pro chronicky nemocné či s vysokým rizikem těžkého průběhu</li>
+    </ul>
+</div>
+
+<script>
+$('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+    var target = $(e.target).attr("href") // activated tab
+
+    if(target==="#queue") {
+        const fronta = {
+            x: ["2021-03-03 00:00:00","2021-03-04 00:00:00","2021-03-05 00:00:00","2021-03-06 00:00:00","2021-03-07 00:00:00","2021-03-08 00:00:00","2021-03-09 00:00:00","2021-03-10 00:00:00","2021-03-11 00:00:00","2021-03-12 00:00:00","2021-03-13 00:00:00","2021-03-14 00:00:00","2021-03-15 00:00:00","2021-03-16 00:00:00","2021-03-17 00:00:00","2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00",],
+            y: [4600,4922,5083,5458,5563,5667,5728,4226,3761,3871,3159,3168,3220,3100,3000,2840,2852,2838,2859,2890,2945,2812,2873,3137,],
+            mode: "lines+markers",
+            type: "scatter",
+            name: "Čekající na rezervaci termínu",
+        }
+
+        const rezervace_1 = {
+            x: ["2021-03-03 00:00:00","2021-03-04 00:00:00","2021-03-05 00:00:00","2021-03-06 00:00:00","2021-03-07 00:00:00","2021-03-08 00:00:00","2021-03-09 00:00:00","2021-03-10 00:00:00","2021-03-11 00:00:00","2021-03-12 00:00:00","2021-03-13 00:00:00","2021-03-14 00:00:00","2021-03-15 00:00:00","2021-03-16 00:00:00","2021-03-17 00:00:00","2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00",],
+            y: [0,0,0,0,0,0,0,213,2233,1285,746,524,544,806,115,557,262,0,0,0,0,281,667,725,],
+            mode: "lines+markers",
+            type: "scatter",
+            name: "Čekající na očkování 1. dávkou",
+        }
+
+        const rezervace_2 = {
+            x: ["2021-03-03 00:00:00","2021-03-04 00:00:00","2021-03-05 00:00:00","2021-03-06 00:00:00","2021-03-07 00:00:00","2021-03-08 00:00:00","2021-03-09 00:00:00","2021-03-10 00:00:00","2021-03-11 00:00:00","2021-03-12 00:00:00","2021-03-13 00:00:00","2021-03-14 00:00:00","2021-03-15 00:00:00","2021-03-16 00:00:00","2021-03-17 00:00:00","2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00",],
+            y: [1789,1789,1789,1789,1789,1789,1789,3007,2828,2828,5280,5266,5788,5809,6072,6336,6216,5856,5864,5864,5861,5860,6140,5770,],
+            mode: "lines+markers",
+            type: "scatter",
+            name: "Čekající na očkování 2. dávkou",
+        }
+
+        const layout = {
+            title: "Počet čekajících ve frontě a s rezervací",
+            autosize: true,
+            xaxis: {
+                title: "Datum [den]",
+                type: "date",
+                tickformat: "%-d.%-m.%Y",
+                range: [new Date().setMonth(new Date().getMonth()-1), new Date()],
+                rangeslider: true,
+                rangeselector: {
+                    buttons: [
+                        {
+                            count: 7,
+                            label: "1 týden",
+                            step: "day",
+                            stepmode: "backward"
+                        },
+                        {
+                            count: 14,
+                            label: "2 týdny",
+                            step: "day",
+                            stepmode: "backward"
+                        },
+                        {
+                            count: 1,
+                            label: "1 měsíc",
+                            step: "month",
+                            stepmode: "backward",
+                        },
+                        {
+                            label: "všechna data",
+                            step: "all"
+                        }
+                    ],
+                    xanchor: "center",
+                    x: 0.5,
+                }
+            },
+            yaxis: {
+                title: "Počet osob",
+                automargin: true
+            },
+            showlegend: true,
+            legend: {
+                orientation: "h",
+                xanchor: "center",
+                x: 0.5,
+                y: -0.4,
+            },
+            height: 700,
+        }
+
+        const data = [fronta, rezervace_1, rezervace_2];
+
+        const config = {
+            responsive: true,
+            displayModeBar: false,
+        }
+
+        Plotly.newPlot("graf-fronta", data, layout, config);
+    }
+});
+</script>
+                    </div>
                     <div class="tab-pane" id="registrations_reservations">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Počet registrovaných a rezervací</h5>
-                                        <div id="trend"></div>
-                                        <div class="card-text font-italic">
-                                            <h6>Poznámky</h6>
-                                            <ul>
-                                                <li>15. 1. 2021 - otevření registrací pro starší 80 let</li>
-                                                <li>27. 2. 2021 - otevření registrací pro zaměstnance škol a školských zařízení</li>
-                                                <li>1. 3. 2021 - otevření registrací pro starší 70 let</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="graf-registrace"></div>
+<div class="font-italic">
+    <h6>Poznámky</h6>
+    <ul>
+        <li>15. 1. 2021 - otevření registrace pro starší 80 let</li>
+        <li>27. 2. 2021 - otevření registrace pro zaměstnance škol a školských zařízení</li>
+        <li>1. 3. 2021 - otevření registrace pro starší 70 let</li>
+        <li>24. 3. 2021 - otevření registrace pro chronicky nemocné či s vysokým rizikem těžkého průběhu</li>
+    </ul>
+</div>
+
+<script>
+$('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+    var target = $(e.target).attr("href") // activated tab
+
+    if(target==="#registrations_reservations") {
+        const registrace = {
+            x: ["2021-01-15 00:00:00","2021-01-16 00:00:00","2021-01-17 00:00:00","2021-01-18 00:00:00","2021-01-19 00:00:00","2021-01-20 00:00:00","2021-01-21 00:00:00","2021-01-22 00:00:00","2021-01-23 00:00:00","2021-01-24 00:00:00","2021-01-25 00:00:00","2021-01-26 00:00:00","2021-01-27 00:00:00","2021-01-28 00:00:00","2021-01-29 00:00:00","2021-01-30 00:00:00","2021-01-31 00:00:00","2021-02-01 00:00:00","2021-02-02 00:00:00","2021-02-03 00:00:00","2021-02-04 00:00:00","2021-02-05 00:00:00","2021-02-06 00:00:00","2021-02-07 00:00:00","2021-02-08 00:00:00","2021-02-09 00:00:00","2021-02-10 00:00:00","2021-02-11 00:00:00","2021-02-12 00:00:00","2021-02-13 00:00:00","2021-02-14 00:00:00","2021-02-15 00:00:00","2021-02-16 00:00:00","2021-02-17 00:00:00","2021-02-18 00:00:00","2021-02-19 00:00:00","2021-02-20 00:00:00","2021-02-21 00:00:00","2021-02-22 00:00:00","2021-02-23 00:00:00","2021-02-24 00:00:00","2021-02-25 00:00:00","2021-02-26 00:00:00","2021-02-27 00:00:00","2021-02-28 00:00:00","2021-03-01 00:00:00","2021-03-02 00:00:00","2021-03-03 00:00:00","2021-03-04 00:00:00","2021-03-05 00:00:00","2021-03-06 00:00:00","2021-03-07 00:00:00","2021-03-08 00:00:00","2021-03-09 00:00:00","2021-03-10 00:00:00","2021-03-11 00:00:00","2021-03-12 00:00:00","2021-03-13 00:00:00","2021-03-14 00:00:00","2021-03-15 00:00:00","2021-03-16 00:00:00","2021-03-17 00:00:00","2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00",],
+            y: [898.0,175.0,141.0,163.0,131.0,109.0,88.0,84.0,34.0,36.0,80.0,62.0,48.0,31.0,21.0,16.0,10.0,12.0,8.0,12.0,21.0,12.0,9.0,6.0,13.0,12.0,9.0,8.0,9.0,9.0,9.0,9.0,39.0,18.0,29.0,46.0,10.0,26.0,42.0,29.0,36.0,31.0,24.0,1133.0,152.0,2832.0,764.0,401.0,99.0,71.0,47.0,32.0,85.0,69.0,107.0,117.0,81.0,46.0,42.0,105.0,102.0,111.0,113.0,76.0,47.0,44.0,91.0,159.0,478.0,302.0,],
+            mode: "lines+markers",
+            type: "scatter",
+            name: "Nové registrace",
+        }
+
+        const rezervace = {
+            x: ["2021-01-15 00:00:00","2021-01-16 00:00:00","2021-01-17 00:00:00","2021-01-18 00:00:00","2021-01-19 00:00:00","2021-01-20 00:00:00","2021-01-21 00:00:00","2021-01-22 00:00:00","2021-01-23 00:00:00","2021-01-24 00:00:00","2021-01-25 00:00:00","2021-01-26 00:00:00","2021-01-27 00:00:00","2021-01-28 00:00:00","2021-01-29 00:00:00","2021-01-30 00:00:00","2021-01-31 00:00:00","2021-02-01 00:00:00","2021-02-02 00:00:00","2021-02-03 00:00:00","2021-02-04 00:00:00","2021-02-05 00:00:00","2021-02-06 00:00:00","2021-02-07 00:00:00","2021-02-08 00:00:00","2021-02-09 00:00:00","2021-02-10 00:00:00","2021-02-11 00:00:00","2021-02-12 00:00:00","2021-02-13 00:00:00","2021-02-14 00:00:00","2021-02-15 00:00:00","2021-02-16 00:00:00","2021-02-17 00:00:00","2021-02-18 00:00:00","2021-02-19 00:00:00","2021-02-20 00:00:00","2021-02-21 00:00:00","2021-02-22 00:00:00","2021-02-23 00:00:00","2021-02-24 00:00:00","2021-02-25 00:00:00","2021-02-26 00:00:00","2021-02-27 00:00:00","2021-02-28 00:00:00","2021-03-01 00:00:00","2021-03-02 00:00:00","2021-03-03 00:00:00","2021-03-04 00:00:00","2021-03-05 00:00:00","2021-03-06 00:00:00","2021-03-07 00:00:00","2021-03-08 00:00:00","2021-03-09 00:00:00","2021-03-10 00:00:00","2021-03-11 00:00:00","2021-03-12 00:00:00","2021-03-13 00:00:00","2021-03-14 00:00:00","2021-03-15 00:00:00","2021-03-16 00:00:00","2021-03-17 00:00:00","2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00",],
+            y: [10.0,19.0,13.0,4.0,4.0,429.0,7.0,56.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,109.0,63.0,4.0,0.0,0.0,0.0,0.0,0.0,536.0,256.0,38.0,9.0,1.0,0.0,1.0,548.0,179.0,30.0,1.0,0.0,419.0,100.0,919.0,135.0,27.0,1.0,0.0,0.0,161.0,1158.0,420.0,27.0,376.0,21.0,18.0,191.0,25.0,135.0,24.0,2.0,0.0,0.0,1.0,282.0,377.0,47.0,],
+            mode: "lines+markers",
+            type: "scatter",
+            name: "Nové rezervace",
+        }
+
+        const layout = {
+            title: "Počet nových registrací a rezervací",
+            autosize: true,
+            xaxis: {
+                title: "Datum [den]",
+                type: "date",
+                tickformat: "%-d.%-m.%Y",
+                range: [new Date().setMonth(new Date().getMonth()-1), new Date()],
+                rangeslider: true,
+                rangeselector: {
+                    buttons: [
+                        {
+                            count: 7,
+                            label: "1 týden",
+                            step: "day",
+                            stepmode: "backward"
+                        },
+                        {
+                            count: 14,
+                            label: "2 týdny",
+                            step: "day",
+                            stepmode: "backward"
+                        },
+                        {
+                            count: 1,
+                            label: "1 měsíc",
+                            step: "month",
+                            stepmode: "backward",
+                        },
+                        {
+                            label: "všechna data",
+                            step: "all"
+                        }
+                    ],
+                    xanchor: "center",
+                    x: 0.5,
+                }
+            },
+            yaxis: {
+                title: "Počet osob",
+                automargin: true
+            },
+            showlegend: true,
+            legend: {
+                orientation: "h",
+                xanchor: "center",
+                x: 0.5,
+                y: -0.4,
+            },
+            height: 700,
+        }
+
+        const data = [registrace, rezervace];
+
+        const config = {
+            responsive: true,
+            displayModeBar: false,
+        }
+
+        Plotly.newPlot("graf-registrace", data, layout, config);
+    }
+});
+</script>
                     </div>
                 </div>
             </div>
@@ -2150,102 +2335,8 @@ COVID očkování</title>
     var options = {};
     var marker = new SMap.Marker(center, "marker", options);
     layer.addMarker(marker);
-
-
 </script>
 
-<!-- Script creating graph -->
-<script>
-    var registrace = {
-        x: ["2021-01-15","2021-01-16","2021-01-17","2021-01-18","2021-01-19","2021-01-20","2021-01-21","2021-01-22","2021-01-23","2021-01-24","2021-01-25","2021-01-26","2021-01-27","2021-01-28","2021-01-29","2021-01-30","2021-01-31","2021-02-01","2021-02-02","2021-02-03","2021-02-04","2021-02-05","2021-02-06","2021-02-07","2021-02-08","2021-02-09","2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25",],
-        y: [898,175,141,163,131,109,88,84,34,36,80,62,48,31,21,16,10,12,8,12,21,12,9,6,13,12,9,8,9,9,9,9,39,18,29,46,10,26,42,29,36,31,24,1133,152,2832,764,401,99,71,47,32,85,69,107,117,81,46,42,105,102,111,113,76,47,44,91,159,478,302,],
-        mode: "lines+markers",
-        type: "scatter",
-        name: "Nové registrace (počet nově registrovaných, včetně těch, kteří již mají vybraný termín očkování)",
-    };
-
-    var rezervace = {
-        x: ["2021-01-15","2021-01-16","2021-01-17","2021-01-18","2021-01-19","2021-01-20","2021-01-21","2021-01-22","2021-01-29","2021-02-08","2021-02-09","2021-02-10","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-22","2021-03-23","2021-03-24","2021-03-25",],
-        y: [10,19,13,4,4,429,7,56,1,109,63,4,536,256,38,9,1,1,548,179,30,1,419,100,919,135,27,1,161,1158,420,27,376,21,18,191,25,135,24,2,1,282,377,47,],
-        mode: "lines+markers",
-        type: "scatter",
-        name: "Nové rezervace (počet lidí, kteří ten den získali termín očkování)",
-    };
-
-    var layout = {
-        autosize: true,
-        xaxis: {
-            title: "Datum [den]",
-            type: "date",
-            tickformat: "%-d.%-m.%Y",
-            autorange: true,
-            rangeslider: {
-                range: ["2021-01-15", "2021-03-25"]
-            },
-            rangeselector: {
-                buttons: [
-                    {
-                        count: 7,
-                        label: "1 týden",
-                        step: "day",
-                        stepmode: "backward"
-                    },
-                    {
-                        count: 14,
-                        label: "2 týdny",
-                        step: "day",
-                        stepmode: "backward"
-                    },
-                    {
-                        count: 1,
-                        label: "1 měsíc",
-                        step: "month",
-                        stepmode: "backward",
-                    },
-                    {
-                        label: "všechna data",
-                        step: "all"
-                    }
-                ],
-                xanchor: "center",
-                x: 0.5,
-            }
-        },
-        yaxis: {
-            title: "Počet osob",
-            automargin: true
-        },
-        showlegend: true,
-        legend: {
-            orientation: "h",
-            xanchor: "center",
-            x: 0.5,
-            yanchor: "bottom",
-            y: -0.5,
-        },
-        height: 700,
-    }
-
-    var data = [registrace, rezervace];
-
-    var config = {
-        responsive: true,
-        displayModeBar: false,
-    }
-
-    
-    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-
-        var target = $(e.target).attr("href") // activated tab
-        if(target==="#registrations_reservations")
-        {
-            //call the corresponding function which generates that plot
-            Plotly.newPlot("trend", data, layout, config);
-        }
-    });
-
-
-</script>
 <script>
 <!-- To have the possibility to send links with opened tab -->
   $(document).ready(() => {
