@@ -98,7 +98,7 @@ COVID očkování</title>
         <div class="col">
              <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>ne 04. 04. 09:03</strong>. Web byl aktualizován: <strong>ne 04. 04. 09:35</strong>.
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>po 05. 04. 09:03</strong>. Web byl aktualizován: <strong>po 05. 04. 09:27</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -375,7 +375,7 @@ COVID očkování</title>
                 <span class="text-success"
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
-                    -65
+                    -106
                 </span>
                 
                 
@@ -424,7 +424,7 @@ COVID očkování</title>
                 <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
-                    -259
+                    -271
                 </span>
                 
                 
@@ -473,7 +473,7 @@ COVID očkování</title>
                 <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
-                    -128
+                    -213
                 </span>
                 
                 
@@ -519,10 +519,10 @@ COVID očkování</title>
                 
                 
                 /
-                <span class=""
+                <span class="text-danger"
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
-                    0
+                    -64
                 </span>
                 
                 
@@ -596,27 +596,27 @@ COVID očkování</title>
     <table class="table table-bordered table-striped table-sm" style="table-layout: fixed">
         <thead class="thead-dark">
         <tr>
-            <th scope="col" class="w-15 text-center">Věková<br>skupina</th>
-            <th scope="col" class="w-25 text-center">Povolání</th>
-            <th scope="col" class="w-15 text-center">
+            <th scope="col" class="w-15 text-center col-sortable">Věková<br>skupina</th>
+            <th scope="col" class="w-25 text-center col-sortable">Povolání</th>
+            <th scope="col" class="w-15 text-center col-sortable">
                 Ve frontě
                 <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
                    title="Počet registrovaných čekajících na rezervaci konkrétního termínu (přibližně odpovídá čekajícím na SMS s PIN2).">
                 </i>
             </th>
-            <th scope="col" class="w-15 text-center">
+            <th scope="col" class="w-15 text-center col-sortable">
                 Čekání na rezervaci
                 <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
                    title="Průměrná doba mezi registrací a rezervací konkrétního termínu za posledních 7 dní (přibližně odpovídá čekání na SMS s PIN2).<br>Červená (>2), žlutá (>1), zelená (>0).">
                 </i>
             </th>
-            <th scope="col" class="w-15 text-center">
+            <th scope="col" class="w-15 text-center col-sortable">
                 Doba ve frontě
                 <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
                    title="Průměrná doba strávená čekajícími ve frontě k dnešnímu dni.<br>Červená (>2), žlutá (>1), zelená (>0).">
                 </i>
             </th>
-            <th scope="col" class="w-15 text-center">
+            <th scope="col" class="w-15 text-center col-sortable">
                 7denní úspěšnost
                 <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
                    title="Poměr počtu registrovaných za posledních 7 dní s vybraným termínem ku počtu všech registrovaných za posledních 7 dní.<br>Zelená (>50 %), žlutá (>5 %), červená (>0 %).">
@@ -733,29 +733,26 @@ COVID očkování</title>
 </div>
 
 <script>
-$('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-    var target = $(e.target).attr("href")
-
-    if(target==="#queue_graph") {
+    function grafFronta() {
         const fronta = {
-            x: ["2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00",],
-            y: [2,11,22,32,36,61,77,77,74,65,65,106,130,0,0,0,0,0,],
+            x: ["2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00","2021-04-05 00:00:00",],
+            y: [2,11,22,32,36,61,77,77,74,65,65,106,130,0,0,0,0,0,0,],
             mode: "lines+markers",
             type: "scatter",
             name: "Čekající na rezervaci termínu",
         }
 
         const rezervace_1 = {
-            x: ["2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00",],
-            y: [0,0,0,0,0,0,0,52,135,222,259,271,244,0,0,0,0,0,],
+            x: ["2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00","2021-04-05 00:00:00",],
+            y: [0,0,0,0,0,0,0,52,135,222,259,271,244,0,0,0,0,0,0,],
             mode: "lines+markers",
             type: "scatter",
             name: "Čekající na očkování 1. dávkou",
         }
 
         const rezervace_2 = {
-            x: ["2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00",],
-            y: [0,0,0,0,0,0,0,0,0,64,128,213,273,0,0,0,0,0,],
+            x: ["2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00","2021-04-05 00:00:00",],
+            y: [0,0,0,0,0,0,0,0,0,64,128,213,273,0,0,0,0,0,0,],
             mode: "lines+markers",
             type: "scatter",
             name: "Čekající na očkování 2. dávkou",
@@ -822,7 +819,15 @@ $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
 
         Plotly.newPlot("graf-fronta", data, layout, config);
     }
-});
+
+    grafFronta()
+
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+        let target = $(e.target).attr("href")
+        if(target==="#queue_graph") {
+            grafFronta()
+        }
+    });
 </script>
                     </div>
                     <div class="tab-pane" id="vaccination_graph">
@@ -841,12 +846,8 @@ $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
     </p>
 </div>
 
-
 <script>
-$('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-    var target = $(e.target).attr("href")
-
-    if(target==="#vaccination_graph") {
+    function grafOckovani() {
         
 
         const pouzite = {
@@ -973,7 +974,15 @@ $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
 
         Plotly.newPlot("graf-ockovani", data, layout, config);
     }
-});
+
+    grafOckovani();
+
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+        let target = $(e.target).attr("href")
+        if(target==="#vaccination_graph") {
+            grafOckovani();
+        }
+    });
 </script>
                     </div>
                     <div class="tab-pane" id="registrations_graph">
@@ -990,10 +999,7 @@ $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
 </div>
 
 <script>
-$('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-    var target = $(e.target).attr("href")
-
-    if(target==="#registrations_graph") {
+    function grafRegistrace() {
         const registrace = {
             x: [],
             y: [],
@@ -1071,7 +1077,15 @@ $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
 
         Plotly.newPlot("graf-registrace", data, layout, config);
     }
-});
+
+    grafRegistrace();
+
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
+        let target = $(e.target).attr("href")
+        if(target==="#registrations_graph") {
+            grafRegistrace();
+        }
+    });
 </script>
                     </div>
                 </div>
