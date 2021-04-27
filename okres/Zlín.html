@@ -89,7 +89,7 @@ COVID očkování</title>
         <div class="col">
              <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 09:22</strong>.
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 22:08</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -126,12 +126,18 @@ COVID očkování</title>
                 <div class="tab-content">
                     <div class="tab-pane active" id="centers">
                         <div class="row">
-    <div class="col">
-        <div class="input-group mb-3">
+    <div class="col mb-2">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
             </div>
             <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    <div class="col-12 col-md-auto mb-3">
+        <div class="custom-control custom-switch">
+            <input id="centers-barrierfree" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-barrierfree">jen bezbariérová</label>
         </div>
     </div>
 </div>
@@ -169,7 +175,7 @@ COVID očkování</title>
                 </thead>
                 <tbody>
                 
-                <tr class="table-warning">
+                <tr class="table-warning" data-barrierfree="True">
                     <td data-value="IVF Czech Republic s.r.o. (Sanatorium Tomášov)">
                         <a href="/misto/17f9de03-18a0-48e8-91dd-c9b925b2f66a">IVF Czech Republic s.r.o. (Sanatorium Tomášov)</a>
                     </td>
@@ -211,7 +217,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="table-warning">
+                <tr class="table-warning" data-barrierfree="True">
                     <td data-value="Krajská nemocnice T. Bati, a. s.">
                         <a href="/misto/e342972a-ccb3-4a9a-9a9f-ac95a11997eb">Krajská nemocnice T. Bati, a. s.</a>
                     </td>
@@ -253,7 +259,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Krajská nemocnice T. Bati, a. s. - PSG Aréna">
                         <a href="/misto/7c7aa47c-bd44-46b8-b428-a132a7bc2f07">Krajská nemocnice T. Bati, a. s. - PSG Aréna</a>
                     </td>
@@ -295,7 +301,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Luhačovice - Zdravotní středisko">
                         <a href="/misto/b61479a7-8702-4529-b0a0-d6f31e635199">Luhačovice - Zdravotní středisko</a>
                     </td>
@@ -344,7 +350,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="table-warning">
+                <tr class="table-warning" data-barrierfree="True">
                     <td data-value="MOJE AMBULANCE a.s. Zlín">
                         <a href="/misto/707c3baf-21d0-48e9-b986-49e9f6097701">MOJE AMBULANCE a.s. Zlín</a>
                     </td>
@@ -386,7 +392,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="table-warning">
+                <tr class="table-warning" data-barrierfree="False">
                     <td data-value="Zorma s.r.o.">
                         <a href="/misto/df477c63-b6cc-49b2-aa3c-e9c956232f39">Zorma s.r.o.</a>
                     </td>
@@ -432,13 +438,24 @@ COVID očkování</title>
 </div>
 
 <script>
-    $(document).ready(function(){
-      $("#centers-searchbox").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
+    function filterChanged() {
+        const searchValue = $("#centers-searchbox").val().toLowerCase();
+        const barrierfreeValue = $("#centers-barrierfree")[0].checked;
         $("#centers-table tbody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $(this).toggle(
+                $(this).text().toLowerCase().indexOf(searchValue) > -1
+                && (!barrierfreeValue || $(this)[0].dataset.barrierfree === 'True')
+            )
         });
-      });
+    }
+
+    $(document).ready(function(){
+        $("#centers-searchbox").keyup(function () {
+            filterChanged();
+        });
+        $("#centers-barrierfree").change(function () {
+            filterChanged();
+        });
     });
 </script>
                     </div>

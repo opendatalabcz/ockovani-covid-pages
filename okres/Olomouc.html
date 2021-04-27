@@ -89,7 +89,7 @@ COVID očkování</title>
         <div class="col">
              <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 09:21</strong>.
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 22:06</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -126,12 +126,18 @@ COVID očkování</title>
                 <div class="tab-content">
                     <div class="tab-pane active" id="centers">
                         <div class="row">
-    <div class="col">
-        <div class="input-group mb-3">
+    <div class="col mb-2">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
             </div>
             <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    <div class="col-12 col-md-auto mb-3">
+        <div class="custom-control custom-switch">
+            <input id="centers-barrierfree" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-barrierfree">jen bezbariérová</label>
         </div>
     </div>
 </div>
@@ -169,7 +175,7 @@ COVID očkování</title>
                 </thead>
                 <tbody>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="AGE Centrum Olomouc">
                         <a href="/misto/a91d8128-c379-456c-b04b-1f1d6aa2da76">AGE Centrum Olomouc</a>
                     </td>
@@ -218,7 +224,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="AGEL Středomoravská nemocniční a.s., Nemocnice AGEL Šternberk">
                         <a href="/misto/bbbcf265-9f34-4056-a7e8-f9067fd339a4">AGEL Středomoravská nemocniční a.s., Nemocnice AGEL Šternberk</a>
                     </td>
@@ -267,7 +273,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Fakultní nemocnice Olomouc">
                         <a href="/misto/a1f7b243-f18c-45a2-8d82-5a3273c687b8">Fakultní nemocnice Olomouc</a>
                     </td>
@@ -316,7 +322,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Vojenská nemocnice Olomouc">
                         <a href="/misto/de1fc22a-e006-4725-8860-7534682fb18c">Vojenská nemocnice Olomouc</a>
                     </td>
@@ -376,13 +382,24 @@ COVID očkování</title>
 </div>
 
 <script>
-    $(document).ready(function(){
-      $("#centers-searchbox").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
+    function filterChanged() {
+        const searchValue = $("#centers-searchbox").val().toLowerCase();
+        const barrierfreeValue = $("#centers-barrierfree")[0].checked;
         $("#centers-table tbody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $(this).toggle(
+                $(this).text().toLowerCase().indexOf(searchValue) > -1
+                && (!barrierfreeValue || $(this)[0].dataset.barrierfree === 'True')
+            )
         });
-      });
+    }
+
+    $(document).ready(function(){
+        $("#centers-searchbox").keyup(function () {
+            filterChanged();
+        });
+        $("#centers-barrierfree").change(function () {
+            filterChanged();
+        });
     });
 </script>
                     </div>

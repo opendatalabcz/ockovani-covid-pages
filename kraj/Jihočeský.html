@@ -89,7 +89,7 @@ COVID očkování</title>
         <div class="col">
              <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 09:19</strong>.
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 22:05</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -138,12 +138,18 @@ COVID očkování</title>
                 <div class="tab-content">
                     <div class="tab-pane active" id="centers">
                         <div class="row">
-    <div class="col">
-        <div class="input-group mb-3">
+    <div class="col mb-2">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
             </div>
             <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    <div class="col-12 col-md-auto mb-3">
+        <div class="custom-control custom-switch">
+            <input id="centers-barrierfree" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-barrierfree">jen bezbariérová</label>
         </div>
     </div>
 </div>
@@ -181,7 +187,7 @@ COVID očkování</title>
                 </thead>
                 <tbody>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice České Budějovice - OČKO Výstaviště České Budějovice">
                         <a href="/misto/ade1335c-0185-4292-af9a-5de58be97774">Nemocnice České Budějovice - OČKO Výstaviště České Budějovice</a>
                     </td>
@@ -230,7 +236,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice Český Krumlov - OČKO Sportovní hala">
                         <a href="/misto/e7d3f647-96bc-44ba-88d2-77e1b2b1be48">Nemocnice Český Krumlov - OČKO Sportovní hala</a>
                     </td>
@@ -279,7 +285,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice Jindřichův Hradec- Očko VŠE">
                         <a href="/misto/c4411674-d3bd-4666-96df-fdedefed8b68">Nemocnice Jindřichův Hradec- Očko VŠE</a>
                     </td>
@@ -328,7 +334,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice Písek - OČKO">
                         <a href="/misto/1ae4455d-99b0-4baa-9613-4cd2fb67ac4e">Nemocnice Písek - OČKO</a>
                     </td>
@@ -377,7 +383,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice Prachatice - OČKO Hotel Park">
                         <a href="/misto/74087959-c707-4d8e-b5d7-9a2b5ba4844d">Nemocnice Prachatice - OČKO Hotel Park</a>
                     </td>
@@ -426,7 +432,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice Strakonice - OČKO centrum, tělocvična STARZ Lidická 193">
                         <a href="/misto/313285e5-df33-485b-aad2-1f121d45aba8">Nemocnice Strakonice - OČKO centrum, tělocvična STARZ Lidická 193</a>
                     </td>
@@ -475,7 +481,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice Tábor - OČKO  Zimní stadion">
                         <a href="/misto/2cd34358-0cf7-43de-8bf1-e2892ad9611e">Nemocnice Tábor - OČKO  Zimní stadion</a>
                     </td>
@@ -535,13 +541,24 @@ COVID očkování</title>
 </div>
 
 <script>
-    $(document).ready(function(){
-      $("#centers-searchbox").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
+    function filterChanged() {
+        const searchValue = $("#centers-searchbox").val().toLowerCase();
+        const barrierfreeValue = $("#centers-barrierfree")[0].checked;
         $("#centers-table tbody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $(this).toggle(
+                $(this).text().toLowerCase().indexOf(searchValue) > -1
+                && (!barrierfreeValue || $(this)[0].dataset.barrierfree === 'True')
+            )
         });
-      });
+    }
+
+    $(document).ready(function(){
+        $("#centers-searchbox").keyup(function () {
+            filterChanged();
+        });
+        $("#centers-barrierfree").change(function () {
+            filterChanged();
+        });
     });
 </script>
                     </div>
@@ -6170,15 +6187,15 @@ COVID očkování</title>
             
             <th scope="col" class="w-20 text-center">
                 Očkováno
-                <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Počet očkovaných dávek podle vykázaných očkování.<br>Dataset vykázaných očkování vykazuje velké zpoždění a nepřesnosti!">
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet očkovaných dávek podle vykázaných očkování.">
                 </i>
             </th>
             
             <th scope="col" class="w-20 text-center">
                 Zničeno
                 <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Počet zničených dávek podle spotřeby vakcín.<br>Dataset spotřeba vakcín vykazuje velké zpoždění a nepřesnosti!">
+                   title="Počet zničených dávek podle spotřeby vakcín.<br>Dataset spotřeba vakcín vykazuje zpoždění a nepřesnosti!">
                 </i>
             </th>
             <!--<th scope="col" class="w-20 text-center">
@@ -9496,6 +9513,8 @@ COVID očkování</title>
         <li>29. 3. 2021 - otevření registrace pro pracovníky kritické infrastruktury</li>
         <li>7. 4. 2021 - otevření registrace pro pracovníky v sociálních službách</li>
         <li>14. 4. 2021 - otevření registrace pro starší 65 let</li>
+        <li>23. 4. 2021 - otevření registrace pro starší 60 let</li>
+        <li>28. 4. 2021 - otevření registrace pro starší 55 let</li>
     </ul>
 </div>
 
@@ -9565,7 +9584,8 @@ COVID očkování</title>
             },
             yaxis: {
                 title: "Počet osob",
-                automargin: true
+                automargin: true,
+                tickformat: ',f',
             },
             showlegend: true,
             legend: {

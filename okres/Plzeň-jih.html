@@ -89,7 +89,7 @@ COVID očkování</title>
         <div class="col">
              <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 09:21</strong>.
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 22:06</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -126,12 +126,18 @@ COVID očkování</title>
                 <div class="tab-content">
                     <div class="tab-pane active" id="centers">
                         <div class="row">
-    <div class="col">
-        <div class="input-group mb-3">
+    <div class="col mb-2">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
             </div>
             <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    <div class="col-12 col-md-auto mb-3">
+        <div class="custom-control custom-switch">
+            <input id="centers-barrierfree" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-barrierfree">jen bezbariérová</label>
         </div>
     </div>
 </div>
@@ -169,7 +175,7 @@ COVID očkování</title>
                 </thead>
                 <tbody>
                 
-                <tr class="table-warning">
+                <tr class="table-warning" data-barrierfree="False">
                     <td data-value="Psychiatrická nemocnice v Dobřanech">
                         <a href="/misto/eecc0842-a27e-4e28-8e69-24e624877713">Psychiatrická nemocnice v Dobřanech</a>
                     </td>
@@ -211,7 +217,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="table-warning">
+                <tr class="table-warning" data-barrierfree="True">
                     <td data-value="Stodská nemocnice">
                         <a href="/misto/af3ecd8e-ad5d-4098-8bcd-bbcee81bfdc0">Stodská nemocnice</a>
                     </td>
@@ -246,7 +252,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Stodská nemocnice - očkovací místo Kulturní dům Stod">
                         <a href="/misto/6ce2ad8f-b1f6-4252-b6f0-e8029219c17b">Stodská nemocnice - očkovací místo Kulturní dům Stod</a>
                     </td>
@@ -306,13 +312,24 @@ COVID očkování</title>
 </div>
 
 <script>
-    $(document).ready(function(){
-      $("#centers-searchbox").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
+    function filterChanged() {
+        const searchValue = $("#centers-searchbox").val().toLowerCase();
+        const barrierfreeValue = $("#centers-barrierfree")[0].checked;
         $("#centers-table tbody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $(this).toggle(
+                $(this).text().toLowerCase().indexOf(searchValue) > -1
+                && (!barrierfreeValue || $(this)[0].dataset.barrierfree === 'True')
+            )
         });
-      });
+    }
+
+    $(document).ready(function(){
+        $("#centers-searchbox").keyup(function () {
+            filterChanged();
+        });
+        $("#centers-barrierfree").change(function () {
+            filterChanged();
+        });
     });
 </script>
                     </div>

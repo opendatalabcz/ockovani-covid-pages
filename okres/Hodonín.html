@@ -89,7 +89,7 @@ COVID očkování</title>
         <div class="col">
              <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 09:20</strong>.
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 22:05</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -126,12 +126,18 @@ COVID očkování</title>
                 <div class="tab-content">
                     <div class="tab-pane active" id="centers">
                         <div class="row">
-    <div class="col">
-        <div class="input-group mb-3">
+    <div class="col mb-2">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
             </div>
             <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    <div class="col-12 col-md-auto mb-3">
+        <div class="custom-control custom-switch">
+            <input id="centers-barrierfree" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-barrierfree">jen bezbariérová</label>
         </div>
     </div>
 </div>
@@ -169,7 +175,7 @@ COVID očkování</title>
                 </thead>
                 <tbody>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Kyjov Městské kulturní středisko">
                         <a href="/misto/7db4f337-4936-4175-b7a9-4ddffa91b6f4">Kyjov Městské kulturní středisko</a>
                     </td>
@@ -218,7 +224,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="table-warning">
+                <tr class="table-warning" data-barrierfree="True">
                     <td data-value="Nemocnice TGM Hodonín">
                         <a href="/misto/ccccfd3b-1362-49d5-b3b6-b0f71dc6d572">Nemocnice TGM Hodonín</a>
                     </td>
@@ -253,7 +259,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice TGM Hodonín, přísp. organizace Dům kultury Hodonín - očkovací centrum COVID-19">
                         <a href="/misto/ca2ebe9a-25f5-4386-a47a-1def0c83afa5">Nemocnice TGM Hodonín, přísp. organizace Dům kultury Hodonín - očkovací centrum COVID-19</a>
                     </td>
@@ -313,13 +319,24 @@ COVID očkování</title>
 </div>
 
 <script>
-    $(document).ready(function(){
-      $("#centers-searchbox").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
+    function filterChanged() {
+        const searchValue = $("#centers-searchbox").val().toLowerCase();
+        const barrierfreeValue = $("#centers-barrierfree")[0].checked;
         $("#centers-table tbody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $(this).toggle(
+                $(this).text().toLowerCase().indexOf(searchValue) > -1
+                && (!barrierfreeValue || $(this)[0].dataset.barrierfree === 'True')
+            )
         });
-      });
+    }
+
+    $(document).ready(function(){
+        $("#centers-searchbox").keyup(function () {
+            filterChanged();
+        });
+        $("#centers-barrierfree").change(function () {
+            filterChanged();
+        });
     });
 </script>
                     </div>

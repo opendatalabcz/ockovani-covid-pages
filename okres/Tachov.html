@@ -89,7 +89,7 @@ COVID očkování</title>
         <div class="col">
              <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 09:21</strong>.
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 22:06</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -126,12 +126,18 @@ COVID očkování</title>
                 <div class="tab-content">
                     <div class="tab-pane active" id="centers">
                         <div class="row">
-    <div class="col">
-        <div class="input-group mb-3">
+    <div class="col mb-2">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
             </div>
             <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    <div class="col-12 col-md-auto mb-3">
+        <div class="custom-control custom-switch">
+            <input id="centers-barrierfree" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-barrierfree">jen bezbariérová</label>
         </div>
     </div>
 </div>
@@ -169,7 +175,7 @@ COVID očkování</title>
                 </thead>
                 <tbody>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Bor - Poliklinika Bor">
                         <a href="/misto/95d1157e-5f77-49fe-ae2d-24e5eef3606c">Bor - Poliklinika Bor</a>
                     </td>
@@ -211,7 +217,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Konstantinovy Lázně - Kulturní dům">
                         <a href="/misto/22761b98-e54e-451a-832a-63f0e7a17d66">Konstantinovy Lázně - Kulturní dům</a>
                     </td>
@@ -253,7 +259,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice následné péče Svatá Anna, s.r.o.">
                         <a href="/misto/c5881ce2-0007-4fe1-8a80-66fba7dafa3d">Nemocnice následné péče Svatá Anna, s.r.o.</a>
                     </td>
@@ -302,7 +308,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Stříbro - Kulturní dům Stříbro">
                         <a href="/misto/d420fe26-7f32-4287-b929-4dc90d824b77">Stříbro - Kulturní dům Stříbro</a>
                     </td>
@@ -344,7 +350,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Tachov - Poliklinika Tachov">
                         <a href="/misto/c10c6184-1773-46c8-85c3-7c09f8877880">Tachov - Poliklinika Tachov</a>
                     </td>
@@ -397,13 +403,24 @@ COVID očkování</title>
 </div>
 
 <script>
-    $(document).ready(function(){
-      $("#centers-searchbox").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
+    function filterChanged() {
+        const searchValue = $("#centers-searchbox").val().toLowerCase();
+        const barrierfreeValue = $("#centers-barrierfree")[0].checked;
         $("#centers-table tbody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $(this).toggle(
+                $(this).text().toLowerCase().indexOf(searchValue) > -1
+                && (!barrierfreeValue || $(this)[0].dataset.barrierfree === 'True')
+            )
         });
-      });
+    }
+
+    $(document).ready(function(){
+        $("#centers-searchbox").keyup(function () {
+            filterChanged();
+        });
+        $("#centers-barrierfree").change(function () {
+            filterChanged();
+        });
     });
 </script>
                     </div>

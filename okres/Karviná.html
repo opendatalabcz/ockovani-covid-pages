@@ -89,7 +89,7 @@ COVID očkování</title>
         <div class="col">
              <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 09:20</strong>.
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 22:06</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -126,12 +126,18 @@ COVID očkování</title>
                 <div class="tab-content">
                     <div class="tab-pane active" id="centers">
                         <div class="row">
-    <div class="col">
-        <div class="input-group mb-3">
+    <div class="col mb-2">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
             </div>
             <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    <div class="col-12 col-md-auto mb-3">
+        <div class="custom-control custom-switch">
+            <input id="centers-barrierfree" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-barrierfree">jen bezbariérová</label>
         </div>
     </div>
 </div>
@@ -169,7 +175,7 @@ COVID očkování</title>
                 </thead>
                 <tbody>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Bohumínská městská nemocnice, a.s.">
                         <a href="/misto/c2ec6521-6a37-44c7-a661-1370adbac9c5">Bohumínská městská nemocnice, a.s.</a>
                     </td>
@@ -218,7 +224,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Karvinská hornická nemocnice a.s. Oddělení pracovního lékařství KHN">
                         <a href="/misto/ae9c4f09-2a1d-41dd-bf45-f8864f24dd5c">Karvinská hornická nemocnice a.s. Oddělení pracovního lékařství KHN</a>
                     </td>
@@ -267,7 +273,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Lázně Darkov, a.s.">
                         <a href="/misto/ca4e137c-319d-45b5-a1f4-1a5ed0b02a9c">Lázně Darkov, a.s.</a>
                     </td>
@@ -309,7 +315,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Moje Ambulance a.s. Havířov">
                         <a href="/misto/3ffb874d-db62-4e50-8c75-d819d283d160">Moje Ambulance a.s. Havířov</a>
                     </td>
@@ -351,7 +357,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Moje Ambulance a.s. Karviná">
                         <a href="/misto/3aff95e6-8ae8-445c-9cdf-dfdb187f7f2e">Moje Ambulance a.s. Karviná</a>
                     </td>
@@ -400,7 +406,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice s poliklinikou Havířov, p.o.  - OČKO Sportovní hala Slávie">
                         <a href="/misto/d98e57cf-fc29-40fb-a432-7631f17956ea">Nemocnice s poliklinikou Havířov, p.o.  - OČKO Sportovní hala Slávie</a>
                     </td>
@@ -449,7 +455,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice s poliklinikou Karviná-Ráj, p.o. - pracoviště Karviná">
                         <a href="/misto/77e3d92d-123b-452d-93ec-30afac4e2c0b">Nemocnice s poliklinikou Karviná-Ráj, p.o. - pracoviště Karviná</a>
                     </td>
@@ -498,7 +504,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice s poliklinikou Karviná-Ráj, p.o. - pracoviště Orlová">
                         <a href="/misto/63a56753-7d68-44cb-a025-d605c6c8d307">Nemocnice s poliklinikou Karviná-Ráj, p.o. - pracoviště Orlová</a>
                     </td>
@@ -558,13 +564,24 @@ COVID očkování</title>
 </div>
 
 <script>
-    $(document).ready(function(){
-      $("#centers-searchbox").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
+    function filterChanged() {
+        const searchValue = $("#centers-searchbox").val().toLowerCase();
+        const barrierfreeValue = $("#centers-barrierfree")[0].checked;
         $("#centers-table tbody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $(this).toggle(
+                $(this).text().toLowerCase().indexOf(searchValue) > -1
+                && (!barrierfreeValue || $(this)[0].dataset.barrierfree === 'True')
+            )
         });
-      });
+    }
+
+    $(document).ready(function(){
+        $("#centers-searchbox").keyup(function () {
+            filterChanged();
+        });
+        $("#centers-barrierfree").change(function () {
+            filterChanged();
+        });
     });
 </script>
                     </div>

@@ -89,7 +89,7 @@ COVID očkování</title>
         <div class="col">
              <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 09:21</strong>.
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 22:06</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -138,12 +138,18 @@ COVID očkování</title>
                 <div class="tab-content">
                     <div class="tab-pane active" id="centers">
                         <div class="row">
-    <div class="col">
-        <div class="input-group mb-3">
+    <div class="col mb-2">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
             </div>
             <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    <div class="col-12 col-md-auto mb-3">
+        <div class="custom-control custom-switch">
+            <input id="centers-barrierfree" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-barrierfree">jen bezbariérová</label>
         </div>
     </div>
 </div>
@@ -181,7 +187,7 @@ COVID očkování</title>
                 </thead>
                 <tbody>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Nemocnice AGEL Jeseník a.s.">
                         <a href="/misto/004e0965-84f6-4aa1-92cb-7242c8ae394a">Nemocnice AGEL Jeseník a.s.</a>
                     </td>
@@ -230,7 +236,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="AGE Centrum Olomouc">
                         <a href="/misto/a91d8128-c379-456c-b04b-1f1d6aa2da76">AGE Centrum Olomouc</a>
                     </td>
@@ -279,7 +285,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="AGEL Středomoravská nemocniční a.s., Nemocnice AGEL Šternberk">
                         <a href="/misto/bbbcf265-9f34-4056-a7e8-f9067fd339a4">AGEL Středomoravská nemocniční a.s., Nemocnice AGEL Šternberk</a>
                     </td>
@@ -328,7 +334,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Fakultní nemocnice Olomouc">
                         <a href="/misto/a1f7b243-f18c-45a2-8d82-5a3273c687b8">Fakultní nemocnice Olomouc</a>
                     </td>
@@ -377,7 +383,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Vojenská nemocnice Olomouc">
                         <a href="/misto/de1fc22a-e006-4725-8860-7534682fb18c">Vojenská nemocnice Olomouc</a>
                     </td>
@@ -426,7 +432,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="AGEL Středomoravská nemocniční a.s., Nemocnice AGEL Přerov">
                         <a href="/misto/df835442-d55c-4653-ad02-23443d6b1700">AGEL Středomoravská nemocniční a.s., Nemocnice AGEL Přerov</a>
                     </td>
@@ -475,7 +481,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Nemocnice Hranice a.s.">
                         <a href="/misto/09eed895-008f-4a50-839d-8ba8dbfe2850">Nemocnice Hranice a.s.</a>
                     </td>
@@ -524,7 +530,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Středomoravská nemocniční a.s., Nemocnice AGEL Prostějov">
                         <a href="/misto/29b4659f-2463-4125-bbf6-2be99d607807">Středomoravská nemocniční a.s., Nemocnice AGEL Prostějov</a>
                     </td>
@@ -573,7 +579,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Nemocnice Šumperk">
                         <a href="/misto/0980ebfa-a1f3-4b2f-8ae3-a946d3b77cc8">Nemocnice Šumperk</a>
                     </td>
@@ -633,13 +639,24 @@ COVID očkování</title>
 </div>
 
 <script>
-    $(document).ready(function(){
-      $("#centers-searchbox").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
+    function filterChanged() {
+        const searchValue = $("#centers-searchbox").val().toLowerCase();
+        const barrierfreeValue = $("#centers-barrierfree")[0].checked;
         $("#centers-table tbody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $(this).toggle(
+                $(this).text().toLowerCase().indexOf(searchValue) > -1
+                && (!barrierfreeValue || $(this)[0].dataset.barrierfree === 'True')
+            )
         });
-      });
+    }
+
+    $(document).ready(function(){
+        $("#centers-searchbox").keyup(function () {
+            filterChanged();
+        });
+        $("#centers-barrierfree").change(function () {
+            filterChanged();
+        });
     });
 </script>
                     </div>
@@ -6187,15 +6204,15 @@ COVID očkování</title>
             
             <th scope="col" class="w-20 text-center">
                 Očkováno
-                <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Počet očkovaných dávek podle vykázaných očkování.<br>Dataset vykázaných očkování vykazuje velké zpoždění a nepřesnosti!">
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet očkovaných dávek podle vykázaných očkování.">
                 </i>
             </th>
             
             <th scope="col" class="w-20 text-center">
                 Zničeno
                 <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Počet zničených dávek podle spotřeby vakcín.<br>Dataset spotřeba vakcín vykazuje velké zpoždění a nepřesnosti!">
+                   title="Počet zničených dávek podle spotřeby vakcín.<br>Dataset spotřeba vakcín vykazuje zpoždění a nepřesnosti!">
                 </i>
             </th>
             <!--<th scope="col" class="w-20 text-center">
@@ -9654,6 +9671,8 @@ COVID očkování</title>
         <li>29. 3. 2021 - otevření registrace pro pracovníky kritické infrastruktury</li>
         <li>7. 4. 2021 - otevření registrace pro pracovníky v sociálních službách</li>
         <li>14. 4. 2021 - otevření registrace pro starší 65 let</li>
+        <li>23. 4. 2021 - otevření registrace pro starší 60 let</li>
+        <li>28. 4. 2021 - otevření registrace pro starší 55 let</li>
     </ul>
 </div>
 
@@ -9723,7 +9742,8 @@ COVID očkování</title>
             },
             yaxis: {
                 title: "Počet osob",
-                automargin: true
+                automargin: true,
+                tickformat: ',f',
             },
             showlegend: true,
             legend: {

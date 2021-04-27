@@ -89,7 +89,7 @@ COVID očkování</title>
         <div class="col">
              <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 09:21</strong>.
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>út 27. 04. 09:05</strong>. Web byl aktualizován: <strong>út 27. 04. 22:06</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -126,12 +126,18 @@ COVID očkování</title>
                 <div class="tab-content">
                     <div class="tab-pane active" id="centers">
                         <div class="row">
-    <div class="col">
-        <div class="input-group mb-3">
+    <div class="col mb-2">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
             </div>
             <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    <div class="col-12 col-md-auto mb-3">
+        <div class="custom-control custom-switch">
+            <input id="centers-barrierfree" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-barrierfree">jen bezbariérová</label>
         </div>
     </div>
 </div>
@@ -169,7 +175,7 @@ COVID očkování</title>
                 </thead>
                 <tbody>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Dopravní zdravotnictví a.s., Poliklinika AGEL Plzeň">
                         <a href="/misto/586ab361-ba26-4429-b0f3-8ff9831f07b2">Dopravní zdravotnictví a.s., Poliklinika AGEL Plzeň</a>
                     </td>
@@ -218,7 +224,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="EUC Klinika Plzeň">
                         <a href="/misto/f6a9ae5b-0d93-4bd4-b630-b3667a9c9059">EUC Klinika Plzeň</a>
                     </td>
@@ -260,7 +266,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Fakultní nemocnice Plzeň - očkovací místo">
                         <a href="/misto/41c51947-5951-432c-9099-bf317756b09d">Fakultní nemocnice Plzeň - očkovací místo</a>
                     </td>
@@ -309,7 +315,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="table-warning">
+                <tr class="table-warning" data-barrierfree="False">
                     <td data-value="FN Plzeň - sklad">
                         <a href="/misto/ceecb0f2-e752-4719-a586-22edc89ab5f1">FN Plzeň - sklad</a>
                     </td>
@@ -344,7 +350,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="table-warning">
+                <tr class="table-warning" data-barrierfree="False">
                     <td data-value="Mulačova nemocnice s.r.o.">
                         <a href="/misto/4a387070-9a9b-4824-b1b0-437120b10481">Mulačova nemocnice s.r.o.</a>
                     </td>
@@ -386,7 +392,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="True">
                     <td data-value="Velkokapacitní OČM Plzeňského kraje Plzeň-Skvrňany">
                         <a href="/misto/a2dce440-6580-4f31-9c03-bd832da754e3">Velkokapacitní OČM Plzeňského kraje Plzeň-Skvrňany</a>
                     </td>
@@ -428,7 +434,7 @@ COVID očkování</title>
                     </td>
                 </tr>
                 
-                <tr class="">
+                <tr class="" data-barrierfree="False">
                     <td data-value="Zdravotní ústav se sídlem v Ústí nad Labem - pracoviště Plzeň">
                         <a href="/misto/591855d9-aad8-4d12-86e0-db30cfbb36ee">Zdravotní ústav se sídlem v Ústí nad Labem - pracoviště Plzeň</a>
                     </td>
@@ -481,13 +487,24 @@ COVID očkování</title>
 </div>
 
 <script>
-    $(document).ready(function(){
-      $("#centers-searchbox").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
+    function filterChanged() {
+        const searchValue = $("#centers-searchbox").val().toLowerCase();
+        const barrierfreeValue = $("#centers-barrierfree")[0].checked;
         $("#centers-table tbody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $(this).toggle(
+                $(this).text().toLowerCase().indexOf(searchValue) > -1
+                && (!barrierfreeValue || $(this)[0].dataset.barrierfree === 'True')
+            )
         });
-      });
+    }
+
+    $(document).ready(function(){
+        $("#centers-searchbox").keyup(function () {
+            filterChanged();
+        });
+        $("#centers-barrierfree").change(function () {
+            filterChanged();
+        });
     });
 </script>
                     </div>
