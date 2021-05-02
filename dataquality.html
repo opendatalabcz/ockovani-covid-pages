@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href= "/static/css/style.css">
+
+    <link rel="shortcut icon" href="/static/favicon.ico">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>
+Datová kvalita |
+COVID očkování</title>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+    <script src="/static/js/main.js"></script>
+
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+    <script src="https://api.mapy.cz/loader.js"></script>
+    <script>Loader.load()</script>
+
+    
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/">COVID očkování</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item col-lg-auto ml-auto">
+                <a class="nav-link "
+                   href="/mista">Očkovací místa
+                </a>
+            </li>
+            <li class="nav-item col-lg-auto ml-auto">
+                <a class="nav-link "
+                   href="/mapa">Mapa
+                </a>
+            </li>
+            <li class="nav-item col-lg-auto ml-auto">
+                <a class="nav-link "
+                   href="/praktici">Praktici
+                </a>
+            </li>
+            <li class="nav-item col-lg-auto ml-auto">
+                <a class="nav-link "
+                   href="/statistiky">Statistiky
+                </a>
+            </li>
+            <li class="nav-item col-lg-auto ml-auto">
+                <a class="nav-link "
+                   href="/odkazy">Odkazy
+                </a>
+            </li>
+            <li class="nav-item col-lg-auto ml-auto">
+                <a class="nav-link "
+                   href="/napoveda">Nápověda
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+          <li class="nav-item col-lg-auto ml-auto">
+              <a class="nav-link" href="https://twitter.com/ocko_bot" target="_blank">
+                  <i class="fab fa-twitter"></i>
+                  ocko_bot
+              </a>
+          </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+             <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <p class="mb-0">
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>ne 02. 05. 09:02</strong>. Web byl aktualizován: <strong>ne 02. 05. 13:22</strong>.
+                </p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+<div class="row">
+    <div class="col">
+        <h3>Datová kvalita</h3>
+    </div>
+</div>
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+    <p class="mb-0">
+        <b>TENTO PŘEHLED NENÍ URČEN PRO VEŘEJNOST. UKAZUJE MOŽNÉ CHYBY V DATECH.</b>
+    </p>
+</div>
+<div class="row mb-3">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Očkovaní vakcínami, které nejsou v ČR</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-sm mb-0">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="w-20 text-center">Datum</th>
+                            <th scope="col" class="w-20 text-center">Vakcína</th>
+                            <th scope="col" class="w-20 text-center">Kód zařízení</th>
+                            <th scope="col" class="w-20 text-center">Název zařízení</th>
+                            <th scope="col" class="w-20 text-center">Věková skupina</th>
+                            <th scope="col" class="w-20 text-center">Počet</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Očkovaní mimo SPC (jen Pfizer povoluje očkovat skupinu 16+)</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-sm mb-0">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="w-20 text-center">Datum</th>
+                            <th scope="col" class="w-20 text-center">Vakcína</th>
+                            <th scope="col" class="w-20 text-center">Kód zařízení</th>
+                            <th scope="col" class="w-20 text-center">Název zařízení</th>
+                            <th scope="col" class="w-20 text-center">Věková skupina</th>
+                            <th scope="col" class="w-20 text-center">Počet</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        
+                        <tr>
+                            <td>2021-02-12</td>
+                            <td>VAXZEVRIA</td>
+                            <td>26397943000</td>
+                            <td>Masarykova nemocnice Rakovník s.r.o.</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-02-19</td>
+                            <td>VAXZEVRIA</td>
+                            <td>26361086000</td>
+                            <td>Stodská nemocnice a.s.</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-02-23</td>
+                            <td>VAXZEVRIA</td>
+                            <td>27256391000</td>
+                            <td>Oblastní nemocnice Kolín, a.s.</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-03-05</td>
+                            <td>VAXZEVRIA</td>
+                            <td>25488627020</td>
+                            <td>KZ, a.s., Nemocnice Děčín, o.z.</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-03-06</td>
+                            <td>VAXZEVRIA</td>
+                            <td>25479300000</td>
+                            <td>Nemocnice Kadaň s.r.o.</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-03-07</td>
+                            <td>VAXZEVRIA</td>
+                            <td>25479300000</td>
+                            <td>Nemocnice Kadaň s.r.o.</td>
+                            <td>0-17</td>
+                            <td>3</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-03-08</td>
+                            <td>VAXZEVRIA</td>
+                            <td>06623832000</td>
+                            <td>MAUCY s.r.o.</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-03-23</td>
+                            <td>VAXZEVRIA</td>
+                            <td>00873764000</td>
+                            <td>Městská nemocnice Čáslav</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-04-01</td>
+                            <td>VAXZEVRIA</td>
+                            <td>03653919000</td>
+                            <td>Ordinace Bochov s.r.o.</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-04-01</td>
+                            <td>VAXZEVRIA</td>
+                            <td>49120441000</td>
+                            <td>MUDr. Petr Ráliš</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-04-13</td>
+                            <td>VAXZEVRIA</td>
+                            <td>70816522000</td>
+                            <td>MUDr. František PÁŠA</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-04-19</td>
+                            <td>VAXZEVRIA</td>
+                            <td>47730200000</td>
+                            <td>MUDr. Jindřiška Procházková</td>
+                            <td>0-17</td>
+                            <td>2</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-04-26</td>
+                            <td>VAXZEVRIA</td>
+                            <td>28802527000</td>
+                            <td>Praktická lékařka Suchá s.r.o.</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-04-28</td>
+                            <td>VAXZEVRIA</td>
+                            <td>27798941004</td>
+                            <td>MOJE AMBULANCE a.s.</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-04-28</td>
+                            <td>VAXZEVRIA</td>
+                            <td>29366925000</td>
+                            <td>POKORNÝ MUDr. s.r.o.</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2021-04-30</td>
+                            <td>VAXZEVRIA</td>
+                            <td>04126173000</td>
+                            <td>ZJ Praktik s.r.o.</td>
+                            <td>0-17</td>
+                            <td>1</td>
+                        </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Vakcíny skladem, ale neočkuje se</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-sm mb-0">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="w-20 text-center">Poměr očkovaných/skladem</th>
+                            <th scope="col" class="w-20 text-center">Skladem počet</th>
+                            <th scope="col" class="w-20 text-center">Počet očkovaných</th>
+                            <th scope="col" class="w-20 text-center">Název zařízení</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Přijaté vakcíny, ale neočkuje se</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-sm mb-0">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="w-20 text-center">Přijaté vakcíny počet</th>
+                            <th scope="col" class="w-20 text-center">Počet očkovaných</th>
+                            <th scope="col" class="w-20 text-center">Název zařízení</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        
+                        <tr>
+                            <td>5940</td>
+                            <td>583</td>
+                            <td>ARC-MED s.r.o. Klášterec, Kyselka 104</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>20924</td>
+                            <td>2722</td>
+                            <td>Zdravotnické zařízení Ministerstva vnitra</td>
+                        </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Očkujeme, ale nemáme vakcíny</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-sm mb-0">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="w-20 text-center">Přijaté vakcíny počet</th>
+                            <th scope="col" class="w-20 text-center">Počet očkovaných</th>
+                            <th scope="col" class="w-20 text-center">Název zařízení</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        
+                        <tr>
+                            <td>348</td>
+                            <td>9900</td>
+                            <td>Nemocnice AGEL Nový Jičín a.s. - Vakcinační centrum pro veřejnost</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>2968</td>
+                            <td>13753</td>
+                            <td>Stodská nemocnice - očkovací místo Kulturní dům Stod</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>5526</td>
+                            <td>33703</td>
+                            <td>Krajská nemocnice T. Bati, a. s. - PSG Aréna</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>500</td>
+                            <td>1031</td>
+                            <td>Poliklinika Prahy 7 - OČM</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>3132</td>
+                            <td>7453</td>
+                            <td>Zdravotní ústav se sídlem v Ostravě</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>826</td>
+                            <td>2013</td>
+                            <td>Nemocnice Milosrdných bratří, p.o., mobilní očkovací tým Zahradníkova</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>1600</td>
+                            <td>20850</td>
+                            <td>Nemocnice Pelhřimov - Kulturní dům Máj</td>
+                        </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Očkujeme, ale nemáme lidi v rezervačním systému (za poslední měsíc a poměr více, než 1:2)</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-sm mb-0">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="w-20 text-center">Název zařízení</th>
+                            <th scope="col" class="w-20 text-center">NRPZS kód</th>
+                            <th scope="col" class="w-20 text-center">Počet očkovaných mimo rezervace</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        
+                        <tr>
+                            <td>Institut klinické a experimentální medicíny (IKEM)</td>
+                            <td>00023001000</td>
+                            <td>4037</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Fakultní nemocnice Plzeň - očkovací místo</td>
+                            <td>00669806000</td>
+                            <td>2948</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nemocnice Kadaň s.r.o.</td>
+                            <td>25479300000</td>
+                            <td>2138</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Privamed</td>
+                            <td>46885251000</td>
+                            <td>1475</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Centrum zdravotní péče Jirny</td>
+                            <td>25606328000</td>
+                            <td>1203</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oblastní nemocnice Příbram</td>
+                            <td>27085031000</td>
+                            <td>1092</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Vakcinační centrum COVID19 - Obecní dům Nymburk, provozovatel Nemocnice Nymburk s.r.o.</td>
+                            <td>28762886000</td>
+                            <td>946</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Státní zdravotní ústav - budova 11</td>
+                            <td>75010330000</td>
+                            <td>930</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nemocnice Na Františku</td>
+                            <td>00879444000</td>
+                            <td>869</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Masarykova nemocnice Rakovník s.r.o.</td>
+                            <td>26397943000</td>
+                            <td>797</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Všeobecná fakultní nemocnice Praha</td>
+                            <td>00064165000</td>
+                            <td>667</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Městská nemocnice Ostrava, p.o., Vakcinační centrum</td>
+                            <td>00635162000</td>
+                            <td>566</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Fakultní nemocnice Hradec Králové</td>
+                            <td>00179906000</td>
+                            <td>494</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>OČM Kongresové centrum (GASK)</td>
+                            <td>27256391005</td>
+                            <td>457</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Očkovací centrum - AL INVEST Břidličná (SZZ Krnov)</td>
+                            <td>00844641001</td>
+                            <td>448</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Slezská nemocnice v Opavě, p.o.</td>
+                            <td>47813750000</td>
+                            <td>384</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nemocnice Žatec, o.p.s.</td>
+                            <td>25026259000</td>
+                            <td>374</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Rokycanská nemocnice, a. s.</td>
+                            <td>26360900000</td>
+                            <td>345</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oblastní nemocnice Kladno</td>
+                            <td>27256537000</td>
+                            <td>300</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Zdravotníci SurGal</td>
+                            <td>46965033000</td>
+                            <td>299</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Podřipská nemocnice s poliklinikou Roudnice n. L., s.r.o.</td>
+                            <td>25443801000</td>
+                            <td>296</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Kroměřížská nemocnice a.s. - Výstaviště Kroměříž</td>
+                            <td>27660532000</td>
+                            <td>282</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>LITVÍNOV - Krušnohorská poliklinika s.r.o.</td>
+                            <td>25030302000</td>
+                            <td>281</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Krajská zdravotní, a.s. - Nemocnice Most, o.z. - SPORTOVNÍ HALA</td>
+                            <td>25488627040</td>
+                            <td>273</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Fakultní nemocnice u sv. Anny v Brně</td>
+                            <td>00159816000</td>
+                            <td>248</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Krajská majetková, p.o. středisko Lužická nemocnice Rumburk</td>
+                            <td>00829048015</td>
+                            <td>228</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Nemocnice Vrchlabí, s.r.o.</td>
+                            <td>64827232000</td>
+                            <td>192</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Klášter - Staré náměstí Sokolov</td>
+                            <td>24747246000</td>
+                            <td>177</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>EUC Klinika Plzeň - Denisovo nábřeží, Plzeň</td>
+                            <td>25202171000</td>
+                            <td>162</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>THERÁPON 98, a.s. - Kopřivnice</td>
+                            <td>25399195000</td>
+                            <td>137</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Krajská zdravotní, a.s. - Nemocnice Chomutov, o.z.</td>
+                            <td>25488627050</td>
+                            <td>134</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Mobilní očkovací jednotka Nemocnice Tišnov p.o.</td>
+                            <td>44947909000</td>
+                            <td>130</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Infocentrum Chodov</td>
+                            <td>26365804000</td>
+                            <td>126</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Městská nemocnice, a.s. ve Dvoře Králové n. L.</td>
+                            <td>25262238000</td>
+                            <td>112</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Krajská zdravotní, a.s. - Nemocnice Teplice - SPORTARÉNA</td>
+                            <td>25488627030</td>
+                            <td>98</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>MUDr. Radoslav Svoboda s.r.o. - Seč</td>
+                            <td>28782089000</td>
+                            <td>85</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Oblastní nemocnice Jičín a.s.</td>
+                            <td>26001551000</td>
+                            <td>73</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Comfort Care a.s. - poliklinika Chodov, Praha 11</td>
+                            <td>25755021000</td>
+                            <td>70</td>
+                        </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Máme "volná místa", ale nikoho neočkujeme</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-sm mb-0">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="w-20 text-center">Název zařízení</th>
+                            <th scope="col" class="w-20 text-center">NRPZS kód</th>
+                            <th scope="col" class="w-20 text-center">Datum</th>
+                            <th scope="col" class="w-20 text-center">Počet rezervací</th>
+                            <th scope="col" class="w-20 text-center">Počet očkování</th>
+                            <th scope="col" class="w-20 text-center">Poměr</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        
+                        <tr>
+                            <td>Nemocnice Neratovice</td>
+                            <td>25079174000</td>
+                            <td>2021-04-30</td>
+                            <td>106</td>
+                            <td>30</td>
+                            <td>0.28</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Očkovací centrum Dobřichovice sportovní hala BIOS</td>
+                            <td>02084325000</td>
+                            <td>2021-04-27</td>
+                            <td>303</td>
+                            <td>19</td>
+                            <td>0.06</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>AGEL Středomoravská nemocniční a.s., Nemocnice AGEL Šternberk</td>
+                            <td>27797660002</td>
+                            <td>2021-04-21</td>
+                            <td>137</td>
+                            <td>4</td>
+                            <td>0.03</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>VOČM DDM Třinec</td>
+                            <td>00534242000</td>
+                            <td>2021-04-07</td>
+                            <td>126</td>
+                            <td>1</td>
+                            <td>0.01</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>ARC-MED s.r.o. Klášterec, Kyselka 104</td>
+                            <td>62245082002</td>
+                            <td>2021-04-08</td>
+                            <td>198</td>
+                            <td>2</td>
+                            <td>0.01</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>ARC-MED s.r.o. Klášterec, Kyselka 104</td>
+                            <td>62245082002</td>
+                            <td>2021-04-19</td>
+                            <td>290</td>
+                            <td>1</td>
+                            <td>0.00</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>ARC-MED s.r.o. Klášterec, Kyselka 104</td>
+                            <td>62245082002</td>
+                            <td>2021-04-14</td>
+                            <td>201</td>
+                            <td>1</td>
+                            <td>0.00</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Očkovací centrum Dobřichovice sportovní hala BIOS</td>
+                            <td>02084325000</td>
+                            <td>2021-04-23</td>
+                            <td>297</td>
+                            <td>1</td>
+                            <td>0.00</td>
+                        </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<div class="footer text-center p-3 bg-light mt-4">
+    <p class="mb-1">
+        Vznik: 16. 01. 2021, <a href="https://opendatalab.cz/" target="_blank">OpenDataLab</a>.
+        Data na tomto webu pochází z <a href="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19" target="_blank">opendat Ministerstva zdravotnictví ČR</a>.
+    </p>
+    <p class="mb-1 font-italic">
+        Provozovatel neodpovídá za správnost a úplnost zpracovaných dat a informací, ani tato neověřuje a zříká se zodpovědnosti za veškeré škody a újmy, které by použitím těchto dat mohly vzniknout.
+        Pro informace o očkování COVID-19 navštivte web: <a href="https://koronavirus.mzcr.cz/ockovani-proti-covid-19/" target="_blank">Ministerstva zdravotnictví ČR</a>.
+    </p>
+    <p class="mb-0">
+        Zdroj mapy: <a href="https://www.mylog.cz/svg-mapa-ceska-a-slovenska/" target="_blank">www.mylog.cz</a>
+    </p>
+</div>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TXSRVP25Y2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-TXSRVP25Y2');
+</script>
+
+<!-- Hotjar Tracking Code for ockovani.opendatalab.cz -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:2355869,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+</body>
+</html>
