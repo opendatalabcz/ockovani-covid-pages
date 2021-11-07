@@ -90,8 +90,8 @@ COVID očkování</title>
         <div class="col">
             <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>so 06. 11. 08:16</strong>.
-                    Web byl aktualizován: <strong>so 06. 11. 08:49</strong>.
+                    Zdrojová data jsou aktualizována jen 1&times; denně, naposledy: <strong>ne 07. 11. 08:07</strong>.
+                    Web byl aktualizován: <strong>ne 07. 11. 08:45</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -151,10 +151,13 @@ COVID očkování</title>
             <input id="centers-children" type="checkbox" class="custom-control-input" >
             <label class="custom-control-label" for="centers-children">děti</label>
         </div>
-        
         <div class="custom-control custom-switch mr-3" style="display: inline-block">
             <input id="centers-selfpaid" type="checkbox" class="custom-control-input" >
             <label class="custom-control-label" for="centers-selfpaid">samoplátci</label>
+        </div>
+        <div class="custom-control custom-switch mr-3" style="display: inline-block">
+            <input id="centers-walkin" type="checkbox" class="custom-control-input" >
+            <label class="custom-control-label" for="centers-walkin">bez registrace</label>
         </div>
         <div class="custom-control custom-switch mr-3" style="display: inline-block">
             <input id="centers-thirddoses" type="checkbox" class="custom-control-input" >
@@ -231,10 +234,10 @@ COVID očkování</title>
                     <td class="text-right" data-value="1071">
                         1 071
                     </td>
-                    <td class="text-right" data-value="824">
-                        824
+                    <td class="text-right" data-value="795">
+                        795
                     </td>
-                    <td class="text-center" data-value="11.0">
+                    <td class="text-center" data-value="10.0">
                         
 
 
@@ -242,7 +245,7 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    1,6
+    1,4
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
@@ -275,13 +278,13 @@ COVID očkování</title>
                             
                         
                     </td>
-                    <td class="text-right" data-value="10">
-                        10
+                    <td class="text-right" data-value="8">
+                        8
                     </td>
                     <td class="text-right" data-value="5">
                         5
                     </td>
-                    <td class="text-center" data-value="0.0">
+                    <td class="text-center" data-value="1.0">
                         
 
 
@@ -289,7 +292,7 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    0,0
+    0,1
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
@@ -314,7 +317,7 @@ COVID očkování</title>
     function filterChanged() {
         const searchValue = stripAccents($("#centers-searchbox").val().toLowerCase());
         const childrenValue = $("#centers-children")[0].checked;
-        // const walkinValue = $("#centers-walkin")[0].checked;
+        const walkinValue = $("#centers-walkin")[0].checked;
         const selfpaidValue = $("#centers-selfpaid")[0].checked;
         const thirddosesValue = $("#centers-thirddoses")[0].checked;
         const activeValue = $("#centers-active")[0].checked;
@@ -323,7 +326,7 @@ COVID očkování</title>
         $("#centers-table tbody tr").filter(function () {
             const normalized = stripAccents($(this).text().toLowerCase());
             const children = $(this)[0].dataset.children;
-            // const walkin = $(this)[0].dataset.walkin;
+            const walkin = $(this)[0].dataset.walkin;
             const selfpaid = $(this)[0].dataset.selfpaid;
             const thirddoses = $(this)[0].dataset.thirddoses;
             const active = $(this)[0].dataset.active;
@@ -331,8 +334,8 @@ COVID očkování</title>
 
             $(this).toggle(
                 normalized.indexOf(searchValue) > -1
-                && ((childrenValue && children === 'True') || (!childrenValue && (children === 'False' || selfpaid === 'True')))
-                // && ((walkinValue && walkin === 'True') || (!walkinValue && walkin === 'False'))
+                && ((childrenValue && children === 'True') || (!childrenValue && (children === 'False' || selfpaid === 'True' || walkin === 'True')))
+                && ((walkinValue && walkin === 'True') || (!walkinValue && walkin === 'False'))
                 && ((selfpaidValue && selfpaid === 'True') || (!selfpaidValue && selfpaid === 'False'))
                 && (!thirddosesValue || thirddoses === 'True')
                 && (!activeValue || active === 'True')
@@ -352,9 +355,9 @@ COVID očkování</title>
         $("#centers-children").change(function () {
             filterChanged();
         });
-        // $("#centers-walkin").change(function () {
-        //     filterChanged();
-        // });
+        $("#centers-walkin").change(function () {
+            filterChanged();
+        });
         $("#centers-selfpaid").change(function () {
             filterChanged();
         });
@@ -476,13 +479,13 @@ COVID očkování</title>
                 </div>
             </div>
             
-            <p class="card-text text-right metrics-number">1 081 </p>
+            <p class="card-text text-right metrics-number">1 079 </p>
             <p class="card-text text-right metrics-delta">
                 
-                <span class="text-danger"
+                <span class="text-success"
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
-                    +112
+                    -2
                 </span>
                 
                 
@@ -490,7 +493,7 @@ COVID očkování</title>
                 <span class="text-danger"
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
-                    +573
+                    +504
                 </span>
                 
                 
@@ -525,13 +528,13 @@ COVID očkování</title>
                 </div>
             </div>
             
-            <p class="card-text text-right metrics-number">829 </p>
+            <p class="card-text text-right metrics-number">800 </p>
             <p class="card-text text-right metrics-delta">
                 
-                <span class="text-danger"
+                <span class="text-success"
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
-                    +53
+                    -29
                 </span>
                 
                 
@@ -539,7 +542,7 @@ COVID očkování</title>
                 <span class="text-danger"
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
-                    +608
+                    +450
                 </span>
                 
                 
@@ -574,13 +577,13 @@ COVID očkování</title>
                 </div>
             </div>
             
-            <p class="card-text text-right metrics-number">51 </p>
+            <p class="card-text text-right metrics-number">56 </p>
             <p class="card-text text-right metrics-delta">
                 
                 <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
-                    -7
+                    +5
                 </span>
                 
                 
@@ -588,7 +591,7 @@ COVID očkování</title>
                 <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
-                    -155
+                    -117
                 </span>
                 
                 
@@ -623,13 +626,13 @@ COVID očkování</title>
                 </div>
             </div>
             
-            <p class="card-text text-right metrics-number">545 </p>
+            <p class="card-text text-right metrics-number">578 </p>
             <p class="card-text text-right metrics-delta">
                 
                 <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
-                    -82
+                    +33
                 </span>
                 
                 
@@ -637,7 +640,7 @@ COVID očkování</title>
                 <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
-                    -103
+                    -73
                 </span>
                 
                 
@@ -672,13 +675,13 @@ COVID očkování</title>
                 </div>
             </div>
             
-            <p class="card-text text-right metrics-number">803 </p>
+            <p class="card-text text-right metrics-number">836 </p>
             <p class="card-text text-right metrics-delta">
                 
                 <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
-                    -19
+                    +33
                 </span>
                 
                 
@@ -686,7 +689,7 @@ COVID očkování</title>
                 <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 7 dní<br>(rozdíl od hodnoty před týdnem - zahrnuje i zpětně doplněné)">
-                    +207
+                    +238
                 </span>
                 
                 
@@ -721,13 +724,13 @@ COVID očkování</title>
                 </div>
             </div>
             
-            <p class="card-text text-right metrics-number">1 187 </p>
+            <p class="card-text text-right metrics-number">1 185 </p>
             <p class="card-text text-right metrics-delta">
                 
                 <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
-                    -51
+                    -2
                 </span>
                 
                 
@@ -773,10 +776,10 @@ COVID očkování</title>
             <p class="card-text text-right metrics-number">0 </p>
             <p class="card-text text-right metrics-delta">
                 
-                <span class="text-danger"
+                <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
-                    -90
+                    0
                 </span>
                 
                 
@@ -823,10 +826,10 @@ COVID očkování</title>
             <p class="card-text text-right metrics-number">0 </p>
             <p class="card-text text-right metrics-delta">
                 
-                <span class="text-danger"
+                <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
-                    -610
+                    0
                 </span>
                 
                 
@@ -873,10 +876,10 @@ COVID očkování</title>
             <p class="card-text text-right metrics-delta">
                 
                 
-                <span class="text-danger"
+                <span class=""
                       data-toggle="tooltip" data-placement="auto" data-html="true"
                       title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
-                    +0,3
+                    0,0
                 </span>
                 
                 
@@ -949,13 +952,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="10">
-                10
+            <td class="text-right" data-value="8">
+                8
             </td>
-            <td class="text-right" data-value="54">
-                54
+            <td class="text-right" data-value="47">
+                47
             </td>
-            <td class="text-center" data-value="0.1142857142857143">
+            <td class="text-center" data-value="0.18045112781954886">
                 
 
 
@@ -963,14 +966,14 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    0,1
+    0,2
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="6.314285714285715">
+            <td class="text-center" data-value="6.107142857142857">
                 
 
 
@@ -978,22 +981,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    6,3
+    6,1
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="70.0">
+            <td class="text-center" data-value="77.77777777777779">
                 
 
 
 <span class="badge badge-pill badge-success"
-      data-toggle="tooltip" data-placement="auto" title="14/20">
+      data-toggle="tooltip" data-placement="auto" title="14/18">
 
     
-    70
+    78
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1024,7 +1027,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="32.42857142857143">
+            <td class="text-center" data-value="32.57142857142857">
                 
 
 
@@ -1032,7 +1035,7 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    32,4
+    32,6
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
@@ -1057,13 +1060,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="9">
-                9
+            <td class="text-right" data-value="15">
+                15
             </td>
-            <td class="text-right" data-value="13">
-                13
+            <td class="text-right" data-value="19">
+                19
             </td>
-            <td class="text-center" data-value="0.42857142857142855">
+            <td class="text-center" data-value="0.41666666666666663">
                 
 
 
@@ -1078,7 +1081,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="5.349206349206349">
+            <td class="text-center" data-value="3.8095238095238098">
                 
 
 
@@ -1086,22 +1089,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    5,3
+    3,8
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="28.57142857142857">
+            <td class="text-center" data-value="40.0">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="2/7">
+      data-toggle="tooltip" data-placement="auto" title="6/15">
 
     
-    29
+    40
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1118,13 +1121,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="52">
-                52
+            <td class="text-right" data-value="50">
+                50
             </td>
-            <td class="text-right" data-value="85">
-                85
+            <td class="text-right" data-value="76">
+                76
             </td>
-            <td class="text-center" data-value="0.6645962732919255">
+            <td class="text-center" data-value="0.673469387755102">
                 
 
 
@@ -1139,7 +1142,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="1.2142857142857142">
+            <td class="text-center" data-value="1.3257142857142856">
                 
 
 
@@ -1147,22 +1150,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    1,2
+    1,3
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="24.074074074074073">
+            <td class="text-center" data-value="26.41509433962264">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="13/54">
+      data-toggle="tooltip" data-placement="auto" title="14/53">
 
     
-    24
+    26
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1179,13 +1182,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="41">
-                41
+            <td class="text-right" data-value="39">
+                39
             </td>
             <td class="text-right" data-value="49">
                 49
             </td>
-            <td class="text-center" data-value="0.551948051948052">
+            <td class="text-center" data-value="0.5773809523809524">
                 
 
 
@@ -1200,7 +1203,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="0.5226480836236934">
+            <td class="text-center" data-value="0.619047619047619">
                 
 
 
@@ -1208,22 +1211,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    0,5
+    0,6
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="13.636363636363635">
+            <td class="text-center" data-value="10.256410256410255">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="6/44">
+      data-toggle="tooltip" data-placement="auto" title="4/39">
 
     
-    14
+    10
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1287,13 +1290,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="61">
-                61
+            <td class="text-right" data-value="55">
+                55
             </td>
-            <td class="text-right" data-value="89">
-                89
+            <td class="text-right" data-value="82">
+                82
             </td>
-            <td class="text-center" data-value="0.6">
+            <td class="text-center" data-value="0.6137566137566138">
                 
 
 
@@ -1308,7 +1311,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="1.1967213114754098">
+            <td class="text-center" data-value="1.342857142857143">
                 
 
 
@@ -1316,22 +1319,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    1,2
+    1,3
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="20.0">
+            <td class="text-center" data-value="22.0">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="11/55">
+      data-toggle="tooltip" data-placement="auto" title="11/50">
 
     
-    20
+    22
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1362,7 +1365,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="35.57142857142857">
+            <td class="text-center" data-value="35.714285714285715">
                 
 
 
@@ -1370,7 +1373,7 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    35,6
+    35,7
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
@@ -1395,13 +1398,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="57">
-                57
+            <td class="text-right" data-value="55">
+                55
             </td>
-            <td class="text-right" data-value="85">
-                85
+            <td class="text-right" data-value="81">
+                81
             </td>
-            <td class="text-center" data-value="0.619047619047619">
+            <td class="text-center" data-value="0.6285714285714287">
                 
 
 
@@ -1416,7 +1419,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="3.754385964912281">
+            <td class="text-center" data-value="3.984415584415584">
                 
 
 
@@ -1424,22 +1427,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    3,8
+    4,0
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="7.142857142857142">
+            <td class="text-center" data-value="10.256410256410255">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="3/42">
+      data-toggle="tooltip" data-placement="auto" title="4/39">
 
     
-    7
+    10
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1456,13 +1459,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="67">
-                67
+            <td class="text-right" data-value="63">
+                63
             </td>
-            <td class="text-right" data-value="95">
-                95
+            <td class="text-right" data-value="92">
+                92
             </td>
-            <td class="text-center" data-value="0.48872180451127817">
+            <td class="text-center" data-value="0.5542857142857143">
                 
 
 
@@ -1470,14 +1473,14 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    0,5
+    0,6
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="2.488272921108742">
+            <td class="text-center" data-value="2.743764172335601">
                 
 
 
@@ -1485,22 +1488,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    2,5
+    2,7
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="14.814814814814813">
+            <td class="text-center" data-value="20.754716981132077">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="8/54">
+      data-toggle="tooltip" data-placement="auto" title="11/53">
 
     
-    15
+    21
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1564,13 +1567,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="54">
-                54
+            <td class="text-right" data-value="52">
+                52
             </td>
-            <td class="text-right" data-value="112">
-                112
+            <td class="text-right" data-value="99">
+                99
             </td>
-            <td class="text-center" data-value="0.7647058823529411">
+            <td class="text-center" data-value="0.7593984962406015">
                 
 
 
@@ -1585,7 +1588,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="3.055555555555556">
+            <td class="text-center" data-value="3.260989010989011">
                 
 
 
@@ -1593,22 +1596,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    3,1
+    3,3
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="12.5">
+            <td class="text-center" data-value="13.88888888888889">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="5/40">
+      data-toggle="tooltip" data-placement="auto" title="5/36">
 
     
-    12
+    14
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1628,10 +1631,10 @@ COVID očkování</title>
             <td class="text-right" data-value="71">
                 71
             </td>
-            <td class="text-right" data-value="88">
-                88
+            <td class="text-right" data-value="87">
+                87
             </td>
-            <td class="text-center" data-value="0.4761904761904762">
+            <td class="text-center" data-value="0.6122448979591837">
                 
 
 
@@ -1639,14 +1642,14 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    0,5
+    0,6
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="2.7404426559356136">
+            <td class="text-center" data-value="2.82897384305835">
                 
 
 
@@ -1654,22 +1657,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    2,7
+    2,8
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="2.0">
+            <td class="text-center" data-value="9.090909090909092">
                 
 
 
-<span class="badge badge-pill badge-danger"
-      data-toggle="tooltip" data-placement="auto" title="1/50">
+<span class="badge badge-pill badge-warning"
+      data-toggle="tooltip" data-placement="auto" title="5/55">
 
     
-    2
+    9
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1686,13 +1689,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="72">
-                72
+            <td class="text-right" data-value="70">
+                70
             </td>
-            <td class="text-right" data-value="109">
-                109
+            <td class="text-right" data-value="102">
+                102
             </td>
-            <td class="text-center" data-value="0.5285714285714286">
+            <td class="text-center" data-value="0.5142857142857143">
                 
 
 
@@ -1707,7 +1710,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="2.511904761904762">
+            <td class="text-center" data-value="2.6755102040816325">
                 
 
 
@@ -1715,22 +1718,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    2,5
+    2,7
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="6.896551724137931">
+            <td class="text-center" data-value="8.771929824561402">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="4/58">
+      data-toggle="tooltip" data-placement="auto" title="5/57">
 
     
-    7
+    9
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1794,11 +1797,11 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="52">
-                52
+            <td class="text-right" data-value="55">
+                55
             </td>
-            <td class="text-right" data-value="64">
-                64
+            <td class="text-right" data-value="57">
+                57
             </td>
             <td class="text-center" data-value="0.375">
                 
@@ -1815,7 +1818,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="4.607142857142857">
+            <td class="text-center" data-value="4.485714285714286">
                 
 
 
@@ -1823,22 +1826,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    4,6
+    4,5
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="12.82051282051282">
+            <td class="text-center" data-value="5.263157894736842">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="5/39">
+      data-toggle="tooltip" data-placement="auto" title="2/38">
 
     
-    13
+    5
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1855,13 +1858,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="56">
-                56
+            <td class="text-right" data-value="53">
+                53
             </td>
-            <td class="text-right" data-value="63">
-                63
+            <td class="text-right" data-value="59">
+                59
             </td>
-            <td class="text-center" data-value="0.4642857142857143">
+            <td class="text-center" data-value="0.5476190476190477">
                 
 
 
@@ -1876,7 +1879,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="9.85204081632653">
+            <td class="text-center" data-value="10.49865229110512">
                 
 
 
@@ -1884,22 +1887,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    9,9
+    10,5
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="6.451612903225806">
+            <td class="text-center" data-value="10.714285714285714">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="2/31">
+      data-toggle="tooltip" data-placement="auto" title="3/28">
 
     
-    6
+    11
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -1930,7 +1933,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="30.642857142857142">
+            <td class="text-center" data-value="30.785714285714285">
                 
 
 
@@ -1938,7 +1941,7 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    30,6
+    30,8
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
@@ -1977,7 +1980,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="29.214285714285715">
+            <td class="text-center" data-value="29.357142857142858">
                 
 
 
@@ -1985,7 +1988,7 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    29,2
+    29,4
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
@@ -2010,11 +2013,11 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="109">
-                109
+            <td class="text-right" data-value="111">
+                111
             </td>
-            <td class="text-right" data-value="146">
-                146
+            <td class="text-right" data-value="137">
+                137
             </td>
             <td class="text-center" data-value="0.3956043956043956">
                 
@@ -2031,7 +2034,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="2.6880733944954125">
+            <td class="text-center" data-value="2.7644787644787643">
                 
 
 
@@ -2039,22 +2042,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    2,7
+    2,8
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="11.956521739130435">
+            <td class="text-center" data-value="7.792207792207792">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="11/92">
+      data-toggle="tooltip" data-placement="auto" title="6/77">
 
     
-    12
+    8
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -2085,7 +2088,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="31.285714285714285">
+            <td class="text-center" data-value="31.428571428571427">
                 
 
 
@@ -2093,7 +2096,7 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    31,3
+    31,4
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
@@ -2132,7 +2135,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="33.245714285714286">
+            <td class="text-center" data-value="33.38857142857143">
                 
 
 
@@ -2140,7 +2143,7 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    33,2
+    33,4
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
@@ -2165,13 +2168,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="161">
-                161
+            <td class="text-right" data-value="169">
+                169
             </td>
-            <td class="text-right" data-value="357">
-                357
+            <td class="text-right" data-value="341">
+                341
             </td>
-            <td class="text-center" data-value="0.3583535108958838">
+            <td class="text-center" data-value="0.36904761904761907">
                 
 
 
@@ -2186,7 +2189,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="1.8535936113575866">
+            <td class="text-center" data-value="1.9070160608622149">
                 
 
 
@@ -2201,15 +2204,15 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="22.641509433962266">
+            <td class="text-center" data-value="20.125786163522015">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="36/159">
+      data-toggle="tooltip" data-placement="auto" title="32/159">
 
     
-    23
+    20
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -2247,7 +2250,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="29.428571428571427">
+            <td class="text-center" data-value="29.571428571428573">
                 
 
 
@@ -2255,7 +2258,7 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    29,4
+    29,6
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
@@ -2280,13 +2283,13 @@ COVID očkování</title>
                 data-value="Na základě dosaženého věku">
                 Na základě dosaženého věku
             </td>
-            <td class="text-right" data-value="169">
-                169
+            <td class="text-right" data-value="173">
+                173
             </td>
-            <td class="text-right" data-value="423">
-                423
+            <td class="text-right" data-value="408">
+                408
             </td>
-            <td class="text-center" data-value="0.31714285714285717">
+            <td class="text-center" data-value="0.31313131313131315">
                 
 
 
@@ -2301,7 +2304,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="2.603550295857988">
+            <td class="text-center" data-value="2.685383980181668">
                 
 
 
@@ -2309,22 +2312,22 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    2,6
+    2,7
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
 </span>
 
             </td>
-            <td class="text-center" data-value="36.787564766839374">
+            <td class="text-center" data-value="31.868131868131865">
                 
 
 
 <span class="badge badge-pill badge-warning"
-      data-toggle="tooltip" data-placement="auto" title="71/193">
+      data-toggle="tooltip" data-placement="auto" title="58/182">
 
     
-    37
+    32
     
     <span class="d-none d-sm-inline">%</span>
     <span class="d-inline d-sm-none">%</span>
@@ -2362,7 +2365,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="37.476190476190474">
+            <td class="text-center" data-value="37.61904761904761">
                 
 
 
@@ -2370,7 +2373,7 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    37,5
+    37,6
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
@@ -2409,7 +2412,7 @@ COVID očkování</title>
 </span>
 
             </td>
-            <td class="text-center" data-value="33.285714285714285">
+            <td class="text-center" data-value="33.42857142857143">
                 
 
 
@@ -2417,7 +2420,7 @@ COVID očkování</title>
       data-toggle="tooltip" data-placement="auto" title="">
 
     
-    33,3
+    33,4
     
     <span class="d-none d-sm-inline">týdne</span>
     <span class="d-inline d-sm-none">t</span>
