@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>
-Statistiky |
+Souhrnné statistiky |
 COVID očkování</title>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -42,37 +42,49 @@ COVID očkování</title>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item col-lg-auto ml-auto">
+            <li class="nav-item">
                 <a class="nav-link "
                    href="/mista">Očkovací místa
                 </a>
             </li>
-            <li class="nav-item col-lg-auto ml-auto">
+            <li class="nav-item">
                 <a class="nav-link "
                    href="/praktici">Praktici
                 </a>
             </li>
-            <li class="nav-item col-lg-auto ml-auto">
-                <a class="nav-link active"
-                   href="/statistiky">Statistiky
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active"
+                   href="#" id="menu-dropdown-stats" data-toggle="dropdown">Statistiky
                 </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/statistiky">Souhrnné statistiky</a>
+                    <a class="dropdown-item" href="/statistiky_ockovani">Statistiky očkování</a>
+                    <a class="dropdown-item" href="/statistiky_srovnani">Srovnání očkovaní &times; neočkovaní</a>
+                    <a class="dropdown-item" href="/statistiky_nemocnice">Kapacita nemocnic</a>
+                </div>
             </li>
-            <li class="nav-item col-lg-auto ml-auto">
+            <li class="nav-item">
                 <a class="nav-link "
                    href="/odkazy">Odkazy
                 </a>
             </li>
-            <li class="nav-item col-lg-auto ml-auto">
+            <li class="nav-item">
                 <a class="nav-link "
                    href="/napoveda">Nápověda
                 </a>
             </li>
         </ul>
         <ul class="navbar-nav navbar-right">
-            <li class="nav-item col-lg-auto ml-auto">
+            <li class="nav-item">
                 <a class="nav-link" href="https://twitter.com/ocko_bot" target="_blank">
                     <i class="fab fa-twitter"></i>
-                    ocko_bot
+                    Twitter
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/msusicky/ockovani-covid" target="_blank">
+                    <i class="fab fa-github"></i>
+                    GitHub
                 </a>
             </li>
         </ul>
@@ -85,30 +97,34 @@ COVID očkování</title>
         <div class="col">
             <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data aktualizována: <strong>po 29. 11. 13:38</strong>.
-                    Web byl aktualizován: <strong>po 29. 11. 13:46</strong>.
+                    Zdrojová data aktualizována: <strong>po 29. 11. 14:38</strong>.
+                    Web byl aktualizován: <strong>po 29. 11. 14:45</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <!--
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <p class="mb-0">
-                    <a href="/praktici#free_vaccines" class="alert-link">ZACHRAŇTE VAKCÍNY</a> - jejich datum spotřeby se blíží a čekají u praktických lékařů.
-                </p>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            -->
         </div>
     </div>
 
     
 <div class="row">
     <div class="col">
-        <h3>Souhrnné statistiky očkování</h3>
+        <div class="alert alert-warning" role="alert">
+            <p class="text-justify mb-0">
+                Pro lepší přehlednost byly statistiky rozděleny na několik samostatných stránek: souhrnné statistiky,
+                <a href="/statistiky_ockovani" class="alert-link">statistiky očkování</a>,
+                <a href="/statistiky_srovnani" class="alert-link">srovnání očkovaných a neočkovaných</a>,
+                <a href="/statistiky_nemocnice" class="alert-link">kapacita nemocnic</a>,
+                všechny najdete také v menu.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <h3>Souhrnné statistiky</h3>
     </div>
 </div>
 
@@ -1027,11 +1043,11 @@ COVID očkování</title>
                     Počet aktivních případů na 100 000 obyvatel
                     <a href="#mapa-aktivni-pripady" class="text-secondary"><i class="fas fa-link"></i></a>
                 </h5>
-                <div id="graf-nakazeni-orp"></div>
+                <div id="plotly-nakazeni-orp"></div>
 
 <script>
     function grafNakazeniOrp() {
-        let width = $("#graf-nakazeni-orp").width() - 63;
+        let width = $("#plotly-nakazeni-orp").width() - 63;
 
         const layout = {
             mapbox: {
@@ -1063,7 +1079,7 @@ COVID očkování</title>
             scrollZoom: false,
         }
 
-        Plotly.newPlot("graf-nakazeni-orp", data, layout, config);
+        Plotly.newPlot("plotly-nakazeni-orp", data, layout, config);
     }
 
     $(window).resize(function() {
@@ -1082,11 +1098,11 @@ COVID očkování</title>
                     Pozitivita testů (7denní průměr)
                     <a href="#mapa-pozitivita-testu" class="text-secondary"><i class="fas fa-link"></i></a>
                 </h5>
-                <div id="graf-testy-orp"></div>
+                <div id="plotly-testy-orp"></div>
 
 <script>
     function grafTestyOrp() {
-        let width = $("#graf-testy-orp").width() - 63;
+        let width = $("#plotly-testy-orp").width() - 63;
 
         const layout = {
             mapbox: {
@@ -1119,7 +1135,7 @@ COVID očkování</title>
             scrollZoom: false,
         }
 
-        Plotly.newPlot("graf-testy-orp", data, layout, config);
+        Plotly.newPlot("plotly-testy-orp", data, layout, config);
     }
 
     $(window).resize(function() {
@@ -1138,11 +1154,11 @@ COVID očkování</title>
                     Počet hospitalizovaných na 100 000 obyvatel
                     <a href="#mapa-hospitalizace" class="text-secondary"><i class="fas fa-link"></i></a>
                 </h5>
-                <div id="graf-hospitalizace-orp"></div>
+                <div id="plotly-hospitalizace-orp"></div>
 
 <script>
     function grafHospitalizaceOrp() {
-        let width = $("#graf-hospitalizace-orp").width() - 63;
+        let width = $("#plotly-hospitalizace-orp").width() - 63;
 
         const layout = {
             mapbox: {
@@ -1175,7 +1191,7 @@ COVID očkování</title>
             scrollZoom: false,
         }
 
-        Plotly.newPlot("graf-hospitalizace-orp", data, layout, config);
+        Plotly.newPlot("plotly-hospitalizace-orp", data, layout, config);
     }
 
     $(window).resize(function() {
@@ -1194,11 +1210,11 @@ COVID očkování</title>
                     Podíl plně očkovaných
                     <a href="#mapa-proockovanost" class="text-secondary"><i class="fas fa-link"></i></a>
                 </h5>
-                <div id="graf-ockovani-orp"></div>
+                <div id="plotly-ockovani-orp"></div>
 
 <script>
     function grafOckovaniOrp() {
-        let width = $("#graf-ockovani-orp").width() - 63;
+        let width = $("#plotly-ockovani-orp").width() - 63;
 
         const layout = {
             mapbox: {
@@ -1231,7 +1247,7 @@ COVID očkování</title>
             scrollZoom: false,
         }
 
-        Plotly.newPlot("graf-ockovani-orp", data, layout, config);
+        Plotly.newPlot("plotly-ockovani-orp", data, layout, config);
     }
 
     $(window).resize(function() {
@@ -1249,13 +1265,13 @@ COVID očkování</title>
     <div class="col">
         <div class="card mb-3">
             <div class="card-body">
-                <h5 class="card-title" id="srovnani" data-toggle="tooltip" data-placement="bottom">
+                <h5 class="card-title" id="srovnani">
                     Srovnání očkovaných a neočkovaných podle zastoupení v populaci za týden
                     22. 11. -
                     28. 11.
                     <a href="#srovnani" class="text-secondary"><i class="fas fa-link"></i></a>
                 </h5>
-                <div id="graf-srovnani-ockovani-neockovani"></div>
+                <div id="plotly-srovnani-ockovani-neockovani"></div>
 
 <script>
     function grafSrovnaniOckovaniNeockovani() {
@@ -1372,16 +1388,15 @@ COVID očkování</title>
                 orientation: "h",
                 xanchor: "center",
                 x: 0.5,
-                yanchor: "bottom",
-                y: -0.4,
+                y: -0.18,
             },
-            height: 500,
+            height: 600,
             updatemenus: [{
                 direction: "right",
                 xanchor: "center",
                 yanchor: "center",
-                y: 1.6,
                 x: 0.5,
+                y: 1.5,
                 type: "buttons",
                 showactive: true,
                 buttons: buttons,
@@ -1393,1315 +1408,41 @@ COVID očkování</title>
             displayModeBar: false,
         };
 
-        Plotly.newPlot("graf-srovnani-ockovani-neockovani", traces, layout, config);
+        Plotly.newPlot("plotly-srovnani-ockovani-neockovani", traces, layout, config);
 
-        Plotly.update("graf-srovnani-ockovani-neockovani", buttons[0].args[0], buttons[0].args[1]);
+        Plotly.update("plotly-srovnani-ockovani-neockovani", buttons[0].args[0], buttons[0].args[1]);
     }
 
     grafSrovnaniOckovaniNeockovani();
 </script>
-                <br>
-                <div class="table-responsive">
-    <table class="table table-bordered table-striped table-sm">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col" class="text-center" rowspan="2" style="width: 7%">Věková skupina</th>
-            <th scope="col" class="text-center" rowspan="2" style="width: 7%">
-                Plně očkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Podíl plně očkovaných na začátku uvedeného týdne.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" colspan="3">Nakažení</th>
-            <th scope="col" class="text-center" colspan="3">Hospitalizace</th>
-            <th scope="col" class="text-center" colspan="3">Hospitalizace na JIP</th>
-        </tr>
-        <tr>
-            <th scope="col" class="text-center" style="width: 10%">
-                Neočkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Počet nově nakažených bez očkování.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 10%">
-                Plně očkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Počet nově nakažených plně očkováných.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 7%">
-                Poměr
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Poměr udává kolikrát více je nakažených bez očkování než plně očkovaných při přepočtu na stejně velké skupiny.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 10%">
-                Neočkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Počet nově hospitalizovaných bez očkování.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 10%">
-                Plně očkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Počet nově hospitalizovaných plně očkovaných.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 7%">
-                Poměr
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Poměr udává kolikrát více je hospitalizovaných bez očkování než plně očkovaných při přepočtu na stejně velké skupiny.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 10%">
-                Neočkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Počet neočkovaných nově hospitalizovaných na JIP.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 10%">
-                Plně očkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Počet plně očkovaných nově hospitalizovaných na JIP.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 7%">
-                Poměr
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Poměr udává kolikrát více je hospitalizovaných na JIP bez očkování než plně očkovaných při přepočtu na stejně velké skupiny.">
-                </i>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        
-        <tr class="table-warning">
-            <td>0-11</td>
-            <td class="text-right">0,0 %</td>
-            <td class="text-right">24 472</td>
-            <td class="text-right">2</td>
-            <td class="text-right">bez dat</td>
-            <td class="text-right">0</td>
-            <td class="text-right">0</td>
-            <td class="text-right">bez dat</td>
-            <td class="text-right">0</td>
-            <td class="text-right">0</td>
-            <td class="text-right">bez dat</td>
-        </tr>
-        
-        <tr class="">
-            <td>12-17</td>
-            <td class="text-right">40,6 %</td>
-            <td class="text-right">14 669</td>
-            <td class="text-right">1 303</td>
-            <td class="text-right">8,6&times;</td>
-            <td class="text-right">3</td>
-            <td class="text-right">1</td>
-            <td class="text-right">2,3&times;</td>
-            <td class="text-right">1</td>
-            <td class="text-right">0</td>
-            <td class="text-right">bez dat</td>
-        </tr>
-        
-        <tr class="">
-            <td>18-29</td>
-            <td class="text-right">55,0 %</td>
-            <td class="text-right">10 075</td>
-            <td class="text-right">3 914</td>
-            <td class="text-right">3,5&times;</td>
-            <td class="text-right">100</td>
-            <td class="text-right">10</td>
-            <td class="text-right">13,7&times;</td>
-            <td class="text-right">12</td>
-            <td class="text-right">1</td>
-            <td class="text-right">16,4&times;</td>
-        </tr>
-        
-        <tr class="">
-            <td>30-39</td>
-            <td class="text-right">55,3 %</td>
-            <td class="text-right">11 810</td>
-            <td class="text-right">6 688</td>
-            <td class="text-right">2,4&times;</td>
-            <td class="text-right">212</td>
-            <td class="text-right">31</td>
-            <td class="text-right">9,2&times;</td>
-            <td class="text-right">29</td>
-            <td class="text-right">1</td>
-            <td class="text-right">39,0&times;</td>
-        </tr>
-        
-        <tr class="">
-            <td>40-49</td>
-            <td class="text-right">67,0 %</td>
-            <td class="text-right">11 713</td>
-            <td class="text-right">11 281</td>
-            <td class="text-right">2,3&times;</td>
-            <td class="text-right">274</td>
-            <td class="text-right">66</td>
-            <td class="text-right">9,1&times;</td>
-            <td class="text-right">48</td>
-            <td class="text-right">12</td>
-            <td class="text-right">8,8&times;</td>
-        </tr>
-        
-        <tr class="">
-            <td>50-59</td>
-            <td class="text-right">73,0 %</td>
-            <td class="text-right">5 867</td>
-            <td class="text-right">6 626</td>
-            <td class="text-right">2,6&times;</td>
-            <td class="text-right">349</td>
-            <td class="text-right">104</td>
-            <td class="text-right">9,8&times;</td>
-            <td class="text-right">80</td>
-            <td class="text-right">10</td>
-            <td class="text-right">23,3&times;</td>
-        </tr>
-        
-        <tr class="">
-            <td>60-69</td>
-            <td class="text-right">79,0 %</td>
-            <td class="text-right">2 866</td>
-            <td class="text-right">5 565</td>
-            <td class="text-right">2,1&times;</td>
-            <td class="text-right">455</td>
-            <td class="text-right">312</td>
-            <td class="text-right">6,0&times;</td>
-            <td class="text-right">91</td>
-            <td class="text-right">41</td>
-            <td class="text-right">9,1&times;</td>
-        </tr>
-        
-        <tr class="">
-            <td>70-79</td>
-            <td class="text-right">86,3 %</td>
-            <td class="text-right">1 333</td>
-            <td class="text-right">3 824</td>
-            <td class="text-right">2,3&times;</td>
-            <td class="text-right">496</td>
-            <td class="text-right">683</td>
-            <td class="text-right">4,9&times;</td>
-            <td class="text-right">68</td>
-            <td class="text-right">67</td>
-            <td class="text-right">6,8&times;</td>
-        </tr>
-        
-        <tr class="">
-            <td>80+</td>
-            <td class="text-right">81,6 %</td>
-            <td class="text-right">693</td>
-            <td class="text-right">1 404</td>
-            <td class="text-right">2,3&times;</td>
-            <td class="text-right">437</td>
-            <td class="text-right">606</td>
-            <td class="text-right">3,3&times;</td>
-            <td class="text-right">19</td>
-            <td class="text-right">25</td>
-            <td class="text-right">3,5&times;</td>
-        </tr>
-        
-        </tbody>
-        <tfoot class="font-weight-bold">
-        <tr>
-            <td>Celkem</td>
-            <td class="text-right">58,5 %</td>
-            <td class="text-right">83 498</td>
-            <td class="text-right">40 607</td>
-            <td></td>
-            <td class="text-right">2 326</td>
-            <td class="text-right">1 813</td>
-            <td></td>
-            <td class="text-right">348</td>
-            <td class="text-right">157</td>
-            <td></td>
-        </tr>
-        </tfoot>
-    </table>
-</div>
-
-<p class="card-text font-italic text-justify">
-    Oranžově jsou zvýrazněny skupiny s proočkovaností menší než 10 %, pro ně poměr nepočítáme kvůli nízké přesnosti.
-    Poměry vycházející z nízkého počtu případů také nemusí být přesné.
-</p>
-<p class="card-text font-italic text-justify">
-    Mezi plně očkované řadíme i očkované posilující dávkou, podíl očkovaných posilující dávkou je zatím příliš malý pro
-    samostatné srovnání. Ze stejného důvodu nezahrnujeme částečně očkované v žádné kategorii.
-</p>
-<p class="card-text font-italic text-justify">
-    Počty představují nové případy za uvedený týden.
-</p>
-<p class="card-text font-italic text-justify">
-    Pro úmrtí nejsou v současné době k dispozici data obsahující věkové skupiny.
-</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title" id="ockovani" data-toggle="tooltip" data-placement="bottom"
-                    title="Dataset očkování, data se postupně doplňují.">
-                    Počty očkovaných dle věku
-                    <a href="#ockovani" class="text-secondary"><i class="fas fa-link"></i></a>
-                </h5>
-                <div class="table-responsive">
-    <table class="table table-bordered table-striped table-sm mb-0">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col" class="text-center" style="width: 10%">
-                Věková skupina
-            </th>
-            <th scope="col" class="text-center" style="width: 15%">
-                Ve frontě
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Počet čekajících ve frontě (bez vybraného termínu) na očkování 1. nebo 3. dávkou.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 15%">
-                S termínem
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Počet čekajících na očkování 1. nebo 3. dávkou s vybraným termínem.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 15%">
-                Očkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Podíl obyvatel žijících na daném území očkovaných alespoň 1. dávkou.<br>Najetím na číslo si můžete zobrazit přesný počet.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 15%">
-                Plně očkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Podíl obyvatel žijících na daném území očkovaných všemi potřebnými dávkami.<br>Najetím na číslo si můžete zobrazit přesný počet.">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 15%">
-                Očkovaní posilující
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Podíl obyvatel žijících na daném území očkovaných posilující dávkou.<br>Najetím na číslo si můžete zobrazit přesný počet.">
-                </i>
-            </th>
-            
-        </tr>
-        </thead>
-        <tbody>
-        
-        <tr>
-            <td>0-11</td>
-            <td class="text-right">37</td>
-            <td class="text-right">7</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="3">
-                    0,0 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="2">
-                    0,0 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="0">
-                    0,0 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>12-15</td>
-            <td class="text-right">1 902</td>
-            <td class="text-right">4 912</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="196 668">
-                    43,1 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="163 615">
-                    35,8 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="10">
-                    0,0 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>16-17</td>
-            <td class="text-right">949</td>
-            <td class="text-right">1 995</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="124 756">
-                    64,0 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="109 737">
-                    56,3 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="116">
-                    0,1 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>18-24</td>
-            <td class="text-right">5 197</td>
-            <td class="text-right">14 679</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="443 318">
-                    66,2 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="407 158">
-                    60,8 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="5 799">
-                    0,9 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>25-29</td>
-            <td class="text-right">4 479</td>
-            <td class="text-right">11 935</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="353 812">
-                    57,0 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="323 907">
-                    52,2 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="9 893">
-                    1,6 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>30-34</td>
-            <td class="text-right">4 910</td>
-            <td class="text-right">12 451</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="424 141">
-                    59,0 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="392 815">
-                    54,6 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="12 565">
-                    1,7 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>35-39</td>
-            <td class="text-right">4 910</td>
-            <td class="text-right">11 616</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="466 137">
-                    61,9 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="438 757">
-                    58,2 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="18 415">
-                    2,4 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>40-44</td>
-            <td class="text-right">5 428</td>
-            <td class="text-right">11 563</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="602 049">
-                    67,4 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="574 640">
-                    64,3 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="29 842">
-                    3,3 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>45-49</td>
-            <td class="text-right">5 520</td>
-            <td class="text-right">11 546</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="650 088">
-                    73,7 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="630 530">
-                    71,4 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="39 516">
-                    4,5 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>50-54</td>
-            <td class="text-right">4 352</td>
-            <td class="text-right">8 903</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="517 117">
-                    74,8 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="502 825">
-                    72,8 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="36 684">
-                    5,3 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>55-59</td>
-            <td class="text-right">4 537</td>
-            <td class="text-right">9 041</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="513 172">
-                    76,6 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="500 935">
-                    74,8 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="42 798">
-                    6,4 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>60-64</td>
-            <td class="text-right">5 927</td>
-            <td class="text-right">8 441</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="492 685">
-                    78,8 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="479 638">
-                    76,7 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="42 819">
-                    6,8 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>65-69</td>
-            <td class="text-right">10 248</td>
-            <td class="text-right">10 140</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="562 201">
-                    83,6 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="550 879">
-                    81,9 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="49 944">
-                    7,4 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>70-74</td>
-            <td class="text-right">16 758</td>
-            <td class="text-right">25 162</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="541 271">
-                    87,1 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="533 867">
-                    85,9 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="145 867">
-                    23,5 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>75-79</td>
-            <td class="text-right">7 734</td>
-            <td class="text-right">16 237</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="367 863">
-                    88,2 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="365 681">
-                    87,7 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="156 802">
-                    37,6 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td>80+</td>
-            <td class="text-right">10 083</td>
-            <td class="text-right">15 408</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="370 144">
-                    82,7 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="366 068">
-                    81,8 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="197 222">
-                    44,1 %
-                </span>
-            </td>
-            
-        </tr>
-        
-        </tbody>
-        <tfoot class="font-weight-bold">
-        <tr>
-            <td>Celkem</td>
-            <td class="text-right">92 971</td>
-            <td class="text-right">174 036</td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="6 625 425">
-                    61,9 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="6 341 054">
-                    59,3 %
-                </span>
-            </td>
-
-            <td class="text-right">
-                <span data-toggle="tooltip" data-placement="auto" data-html="true"
-                      title="788 292">
-                    7,4 %
-                </span>
-            </td>
-            
-        </tr>
-        </tfoot>
-    </table>
-</div>
+                <div class="font-italic">
+                    <h6>Poznámky</h6>
+                    <p class="card-text text-justify">
+                        Mezi plně očkované řadíme i očkované posilující dávkou, podíl očkovaných posilující dávkou je
+                        zatím příliš malý pro samostatné srovnání. Ze stejného důvodu nezahrnujeme částečně očkované v
+                        žádné kategorii.
+                    </p>
+                    <p class="card-text text-justify">
+                        Detailní tabulka s poměry a počty případů byla přesunuta na
+                        <a href="/statistiky_srovnani">samostatnou stránku</a>, která bude později
+                        rozšířena o další grafy.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-lg-7">
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title" id="registrace" data-toggle="tooltip" data-placement="bottom"
-                    title="Dataset registrovaných dle profesí.">
-                    Stav registrací dle prioritních skupin
-                    <a href="#registrace" class="text-secondary"><i class="fas fa-link"></i></a>
-                </h5>
-                <div class="table-responsive">
-    <table class="table table-bordered table-striped table-sm mb-0" style="table-layout: fixed">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col" class="w-20 text-center">Skupina</th>
-            <th scope="col" class="w-20 text-center">
-                Ve frontě
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
-                   title="Počet čekajících ve frontě před závorou na SMS s PIN2 (výběr termínu).">
-                </i>
-            </th>
-            <th scope="col" class="w-20 text-center">
-                S termínem
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Počet lidí s PIN2, kteří ještě pravděpodobně nebyli očkováni - možná nepřesnost cca 1 den.">
-                </i>
-            </th>
-            <th scope="col" class="w-20 text-center">
-                Očkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Počet lidí s PIN2, kteří již byli očkováni alespoň jednou dávkou. Více nelze rozlišit. Pokud sloupec obsahuje nuly, výpočet se nepovedl.">
-                </i>
-            </th>
-            <th scope="col" class="w-20 text-center">
-                Celkem
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Celkový počet lidí v dané kategorii">
-                </i>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Na základě dosaženého věku"
-                data-value="Na základě dosaženého věku">Na základě dosaženého věku</td>
-            <td class="text-right">73 139</td>
-            <td class="text-right">132 513</td>
-            <td class="text-right">3 378 310</td>
-            <td class="text-right">3 583 962</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="neuvedeno"
-                data-value="neuvedeno">neuvedeno</td>
-            <td class="text-right">6 272</td>
-            <td class="text-right">6 624</td>
-            <td class="text-right">530 901</td>
-            <td class="text-right">543 797</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Osoba s chronickým onemocněním"
-                data-value="Osoba s chronickým onemocněním">Osoba s chronickým onemocněním</td>
-            <td class="text-right">7 113</td>
-            <td class="text-right">11 220</td>
-            <td class="text-right">160 482</td>
-            <td class="text-right">178 815</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Pedagogický pracovník/nepedagogický zaměstnanec"
-                data-value="Pedagogický pracovník/nepedagogický zaměstnanec">Pedagogický pracovník/nepedagogický zaměstnanec</td>
-            <td class="text-right">4 285</td>
-            <td class="text-right">4 436</td>
-            <td class="text-right">128 445</td>
-            <td class="text-right">137 166</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Kritická infrastruktura"
-                data-value="Kritická infrastruktura">Kritická infrastruktura</td>
-            <td class="text-right">266</td>
-            <td class="text-right">341</td>
-            <td class="text-right">49 218</td>
-            <td class="text-right">49 825</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Zdravotnický pracovník dle §76 a §77 zákona 372/2011 Sb."
-                data-value="Zdravotnický pracovník dle §76 a §77 zákona 372/2011 Sb.">Zdravotnický pracovník dle §76 a §77 zákona 372/2011 Sb.</td>
-            <td class="text-right">624</td>
-            <td class="text-right">833</td>
-            <td class="text-right">33 420</td>
-            <td class="text-right">34 877</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Samoplátce"
-                data-value="Samoplátce">Samoplátce</td>
-            <td class="text-right">1 003</td>
-            <td class="text-right">17 539</td>
-            <td class="text-right">3 969</td>
-            <td class="text-right">22 511</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Osoba s chronickým onemocněním - v péči specializovaného centra"
-                data-value="Osoba s chronickým onemocněním - v péči specializovaného centra">Osoba s chronickým onemocněním - v péči specializovaného centra</td>
-            <td class="text-right">181</td>
-            <td class="text-right">172</td>
-            <td class="text-right">18 047</td>
-            <td class="text-right">18 400</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Akademický pracovník VŠ"
-                data-value="Akademický pracovník VŠ">Akademický pracovník VŠ</td>
-            <td class="text-right">9</td>
-            <td class="text-right">123</td>
-            <td class="text-right">15 060</td>
-            <td class="text-right">15 192</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Zaměstnanci Ministerstva obrany"
-                data-value="Zaměstnanci Ministerstva obrany">Zaměstnanci Ministerstva obrany</td>
-            <td class="text-right">2</td>
-            <td class="text-right">16</td>
-            <td class="text-right">14 060</td>
-            <td class="text-right">14 078</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Pracovník v sociálních službách"
-                data-value="Pracovník v sociálních službách">Pracovník v sociálních službách</td>
-            <td class="text-right">232</td>
-            <td class="text-right">304</td>
-            <td class="text-right">13 118</td>
-            <td class="text-right">13 654</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Osoba pečující o osobu v III. nebo IV. stupni závislosti"
-                data-value="Osoba pečující o osobu v III. nebo IV. stupni závislosti">Osoba pečující o osobu v III. nebo IV. stupni závislosti</td>
-            <td class="text-right">1</td>
-            <td class="text-right">11</td>
-            <td class="text-right">3 379</td>
-            <td class="text-right">3 391</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="Nezdravotničtí pracovníci podílející se na poskytování zdravotní péče a péče o covid-19 pozitivní osoby"
-                data-value="Nezdravotničtí pracovníci podílející se na poskytování zdravotní péče a péče o covid-19 pozitivní osoby">Nezdravotničtí pracovníci podílející se na poskytování zdravotní péče a péče o covid-19 pozitivní osoby</td>
-            <td class="text-right">6</td>
-            <td class="text-right">2</td>
-            <td class="text-right">1 092</td>
-            <td class="text-right">1 100</td>
-        </tr>
-        
-        <tr>
-            <td class="ellipsis" data-toggle="tooltip" data-placement="auto" title="THP pracovníci v nemocnicích"
-                data-value="THP pracovníci v nemocnicích">THP pracovníci v nemocnicích</td>
-            <td class="text-right">0</td>
-            <td class="text-right">0</td>
-            <td class="text-right">1 064</td>
-            <td class="text-right">1 064</td>
-        </tr>
-        
-        </tbody>
-        <tfoot class="font-weight-bold">
-        <tr>
-            <td>Celkem</td>
-            <td class="text-right">93 133</td>
-            <td class="text-right">174 134</td>
-            <td class="text-right">4 350 565</td>
-            <td class="text-right">4 617 832</td>
-        </tr>
-        </tfoot>
-    </table>
-</div>                
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-5">
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title" id="ockovani-indikace" data-toggle="tooltip" data-placement="bottom"
-                    title="Dataset očkování, data se postupně doplňují.">
-                    Počty očkovaných dle indikací
-                    <a href="#ockovani-indikace" class="text-secondary"><i class="fas fa-link"></i></a>
-                </h5>
-                <div class="table-responsive">
-    <table class="table table-bordered table-striped table-sm mb-0">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col" class="text-center" style="width: 8%" rowspan="1">
-                Indikace
-            </th>
-            <th scope="col" class="text-center" style="width: 28%" colspan="1">
-                Očkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Počet lidí, kterým byla aplikována alespoň jedna dávka (zahrnuje i plně očkované)">
-                </i>
-            </th>
-            <th scope="col" class="text-center" style="width: 28%" colspan="1">
-                Plně očkovaní
-                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
-                   title="Počet očkovaných všemi potřebnými dávkami (typicky 2)">
-                </i>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        
-        <tr>
-            <td>
-                <span data-toggle="tooltip" data-placement="auto" data-html="true" title="">
-                    bez indikace
-                </span>
-            </td>
-            <td class="text-right">5 545 120</td>
-            <td class="text-right">5 276 815</td>
-        </tr>
-        
-        <tr>
-            <td>
-                <span data-toggle="tooltip" data-placement="auto" data-html="true" title="Zdravotničtí pracovníci (zejména nemocnice, ZZS, primární ambulantní péče, farmaceuti, laboratoře 
-            vyšetřující COVID-19, zdravotníci v sociálních službách), oblast ochrany veřejného zdraví.">
-                    Zdravotník
-                </span>
-            </td>
-            <td class="text-right">355 172</td>
-            <td class="text-right">346 262</td>
-        </tr>
-        
-        <tr>
-            <td>
-                <span data-toggle="tooltip" data-placement="auto" data-html="true" title="Chronicky nemocní (hematoonkologické onemocnění, onkologické onemocnění (solidní nádory), závažné akutní 
-            nebo dlouhodobé onemocnění srdce, závažné dlouhodobé onemocnění plic, diabetes mellitus, obezita, závažné 
-            dlouhodobé onemocnění ledvin, závažné dlouhodobé onemocnění jater, stav po transplantaci nebo na čekací 
-            listině, hypertenze, závažné neurologické nebo neuromuskulární onemocnění, vrozený nebo získaný kognitivní 
-            deficit, vzácné genetické onemocnění, závažné oslabení imunitního systému, jiné závažné onemocnění).">
-                    Chronické onemocnění
-                </span>
-            </td>
-            <td class="text-right">301 231</td>
-            <td class="text-right">297 644</td>
-        </tr>
-        
-        <tr>
-            <td>
-                <span data-toggle="tooltip" data-placement="auto" data-html="true" title="Pedagogičtí pracovníci.">
-                    Pedagog
-                </span>
-            </td>
-            <td class="text-right">149 715</td>
-            <td class="text-right">149 141</td>
-        </tr>
-        
-        <tr>
-            <td>
-                <span data-toggle="tooltip" data-placement="auto" data-html="true" title="Pracovníci nebo klienti v sociálních službách.">
-                    Sociální služby
-                </span>
-            </td>
-            <td class="text-right">136 323</td>
-            <td class="text-right">133 617</td>
-        </tr>
-        
-        <tr>
-            <td>
-                <span data-toggle="tooltip" data-placement="auto" data-html="true" title="Pracovníci kritické infrastruktury, kteří zahrnují integrovaný záchranný systém, pracovníky energetiky, 
-            vládu a krizové štáby (osoba není začleněna v indikačních skupinách zdravotník nebo sociální služby).">
-                    Ostatní
-                </span>
-            </td>
-            <td class="text-right">74 272</td>
-            <td class="text-right">74 091</td>
-        </tr>
-        
-        <tr>
-            <td>
-                <span data-toggle="tooltip" data-placement="auto" data-html="true" title="Zaměstnanci Ministerstva obrany nebo bezpečnostní sbory.">
-                    Bezpečnostní infrastruktura
-                </span>
-            </td>
-            <td class="text-right">54 291</td>
-            <td class="text-right">54 134</td>
-        </tr>
-        
-        <tr>
-            <td>
-                <span data-toggle="tooltip" data-placement="auto" data-html="true" title="Ostatní pracovníci ve školství.">
-                    Školství ostatní
-                </span>
-            </td>
-            <td class="text-right">33 857</td>
-            <td class="text-right">33 716</td>
-        </tr>
-        
-        </tbody>
-    </table>
-</div>
-                <p class="card-text font-italic text-justify mt-3">Lidé s více indikacemi jsou započteni v každé.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-6">
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title" id="ockovani-10-dni" data-toggle="tooltip" data-placement="bottom"
-                    title="Dataset očkování, data se postupně doplňují.">
-                    Počet očkovaných v posledních 10 dnech
-                    <a href="#ockovani-10-dni" class="text-secondary"><i class="fas fa-link"></i></a>
-                </h5>
-                <div class="table-responsive">
-    <table class="table table-bordered table-striped table-sm mb-0">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col" class="w-20 text-center">Datum</th>
-            <th scope="col" class="w-20 text-center">1. dávky</th>
-            <th scope="col" class="w-20 text-center">2. dávky</th>
-            <th scope="col" class="w-20 text-center">3. dávky</th>
-            <th scope="col" class="w-20 text-center">Celkem</th>
-        </tr>
-        </thead>
-        <tbody>
-        
-        <tr>
-            <td class="text-right">pá 19. 11. 2021</td>
-            <td class="text-right">24 364</td>
-            <td class="text-right">10 787</td>
-            <td class="text-right">25 241</td>
-            <td class="text-right">60 392</td>
-        </tr>
-        
-        <tr>
-            <td class="text-right">so 20. 11. 2021</td>
-            <td class="text-right">8 508</td>
-            <td class="text-right">2 607</td>
-            <td class="text-right">5 548</td>
-            <td class="text-right">16 663</td>
-        </tr>
-        
-        <tr>
-            <td class="text-right">ne 21. 11. 2021</td>
-            <td class="text-right">6 744</td>
-            <td class="text-right">1 978</td>
-            <td class="text-right">2 975</td>
-            <td class="text-right">11 697</td>
-        </tr>
-        
-        <tr>
-            <td class="text-right">po 22. 11. 2021</td>
-            <td class="text-right">18 177</td>
-            <td class="text-right">9 654</td>
-            <td class="text-right">22 306</td>
-            <td class="text-right">50 137</td>
-        </tr>
-        
-        <tr>
-            <td class="text-right">út 23. 11. 2021</td>
-            <td class="text-right">18 786</td>
-            <td class="text-right">9 351</td>
-            <td class="text-right">28 385</td>
-            <td class="text-right">56 522</td>
-        </tr>
-        
-        <tr>
-            <td class="text-right">st 24. 11. 2021</td>
-            <td class="text-right">18 707</td>
-            <td class="text-right">12 036</td>
-            <td class="text-right">28 413</td>
-            <td class="text-right">59 156</td>
-        </tr>
-        
-        <tr>
-            <td class="text-right">čt 25. 11. 2021</td>
-            <td class="text-right">18 794</td>
-            <td class="text-right">11 326</td>
-            <td class="text-right">32 475</td>
-            <td class="text-right">62 595</td>
-        </tr>
-        
-        <tr>
-            <td class="text-right">pá 26. 11. 2021</td>
-            <td class="text-right">20 552</td>
-            <td class="text-right">14 519</td>
-            <td class="text-right">33 685</td>
-            <td class="text-right">68 756</td>
-        </tr>
-        
-        <tr>
-            <td class="text-right">so 27. 11. 2021</td>
-            <td class="text-right">7 178</td>
-            <td class="text-right">3 951</td>
-            <td class="text-right">7 681</td>
-            <td class="text-right">18 810</td>
-        </tr>
-        
-        <tr>
-            <td class="text-right">ne 28. 11. 2021</td>
-            <td class="text-right">2 777</td>
-            <td class="text-right">2 189</td>
-            <td class="text-right">6 806</td>
-            <td class="text-right">11 772</td>
-        </tr>
-        
-        </tbody>
-    </table>
-</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title" id="ockovani-nejvykonnejsi" data-toggle="tooltip" data-placement="bottom"
-                    title="Dataset očkování, data se postupně doplňují.">
-                    Nejvýkonnější místa
-                    <a href="#ockovani-nejvykonnejsi" class="text-secondary"><i class="fas fa-link"></i></a>
-                </h5>
-                <div class="table-responsive">
-    <table class="table table-bordered table-striped table-sm mb-0">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col" class="text-center">Místo</th>
-            <th scope="col" class="text-center">Očkováno za 7 dní</th>
-        </tr>
-        </thead>
-        <tbody>
-        
-        <tr>
-            <td>Fakultní nemocnice Ostrava</td>
-            <td class="text-right">8 656</td>
-        </tr>
-        
-        <tr>
-            <td>Institut klinické a experimentální medicíny</td>
-            <td class="text-right">7 015</td>
-        </tr>
-        
-        <tr>
-            <td>Fakultní nemocnice U sv. Anny v Brně</td>
-            <td class="text-right">5 849</td>
-        </tr>
-        
-        <tr>
-            <td>Krajská nemocnice Liberec, a.s.</td>
-            <td class="text-right">5 167</td>
-        </tr>
-        
-        <tr>
-            <td>Fakultní Thomayerova nemocnice</td>
-            <td class="text-right">5 143</td>
-        </tr>
-        
-        <tr>
-            <td>KZ, a.s., Masarykova nem. Ústí n. L., o.z.</td>
-            <td class="text-right">5 059</td>
-        </tr>
-        
-        <tr>
-            <td>CLINICUM a.s.</td>
-            <td class="text-right">5 038</td>
-        </tr>
-        
-        <tr>
-            <td>Fakultní nemocnice Hradec Králové</td>
-            <td class="text-right">4 717</td>
-        </tr>
-        
-        <tr>
-            <td>Fakultní nemocnice Olomouc</td>
-            <td class="text-right">4 642</td>
-        </tr>
-        
-        <tr>
-            <td>Fakultní nemocnice Bulovka</td>
-            <td class="text-right">4 286</td>
-        </tr>
-        
-        </tbody>
-    </table>
-</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="row mb-3">
     <div class="col">
-        <div class="card">
-            <div class="card-header" id="cards">
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#graf-ockovani">Vývoj očkování</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#graf-nakazeni">Vývoj počtu nakažených</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#graf-umrti">Vývoj počtu úmrtí</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#graf-fronta">Vývoj fronty</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#graf-registrace">Vývoj registrací</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#graf-dodavky">Dodávky vakcín</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#graf-ockovane-davky">Očkované dávky</a>
-                    </li>
-                </ul>
-            </div>
+        <div class="card mb-3">
             <div class="card-body">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="graf-ockovani">
-                        <div id="graf-ockovani-celkem"></div>
+                <h5 class="card-title" id="graf-ockovani">
+                    Vývoj počtu očkovaných
+                    <a href="#graf-ockovani" class="text-secondary"><i class="fas fa-link"></i></a>
+                </h5>
+                <div id="plotly-ockovani-celkem"></div>
+
 <script>
     function grafOckovaniCelkem() {
         const ockovani_castecne = {
@@ -2752,7 +1493,7 @@ COVID očkování</title>
                 x: 0.5,
                 y: -0.15,
             },
-            height: 700,
+            height: 600,
         }
 
         const data = [ockovani_castecne, ockovani_plne, ockovani_3];
@@ -2762,21 +1503,25 @@ COVID očkování</title>
             displayModeBar: false,
         }
 
-        Plotly.newPlot("graf-ockovani-celkem", data, layout, config);
+        Plotly.newPlot("plotly-ockovani-celkem", data, layout, config);
     }
 
     grafOckovaniCelkem();
-
-    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-        let target = $(e.target).attr("href")
-        if(target==="#graf-ockovani") {
-            grafOckovaniCelkem();
-        }
-    });
 </script>
-                    </div>
-                    <div class="tab-pane" id="graf-nakazeni">
-                        <div id="graf-nakazeni"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title" id="graf-nakazeni">
+                    Vývoj počtu nakažených
+                    <a href="#graf-nakazeni" class="text-secondary"><i class="fas fa-link"></i></a>
+                </h5>
+                <div id="plotly-nakazeni"></div>
 
 <script>
     function grafNakazeni() {
@@ -2920,9 +1665,9 @@ COVID očkování</title>
                 orientation: "h",
                 xanchor: "center",
                 x: 0.5,
-                y: -0.4,
+                y: -0.42,
             },
-            height: 700,
+            height: 600,
         }
 
         const data = [
@@ -2935,11 +1680,11 @@ COVID očkování</title>
             displayModeBar: false,
         }
 
-        Plotly.newPlot("graf-nakazeni", data, layout, config);
+        Plotly.newPlot("plotly-nakazeni", data, layout, config);
 
         // force relayout to rescale y
         range = {'xaxis.range[0]': layout.xaxis.range[0].toISOString(), 'xaxis.range[1]': layout.xaxis.range[1].toISOString()}
-        Plotly.relayout('graf-nakazeni', range);
+        Plotly.relayout('plotly-nakazeni', range);
     }
 
     function grafNakazeniRescale(e) {
@@ -2947,8 +1692,6 @@ COVID očkování</title>
             e.target.layout.stopRescale = false;
             return;
         }
-
-        console.log(e);
 
         var rangeX = e.target.layout.xaxis.range
         var data = e.target.data
@@ -2966,30 +1709,37 @@ COVID očkování</title>
             }
         }
 
-        Plotly.relayout('graf-nakazeni', {'yaxis.range[0]': 0, 'yaxis.range[1]': maxY * 1.05, 'stopRescale': true});
+        Plotly.relayout('plotly-nakazeni', {'yaxis.range[0]': 0, 'yaxis.range[1]': maxY * 1.05, 'stopRescale': true});
     }
 
     grafNakazeni();
 
-    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-        let target = $(e.target).attr("href")
-        if(target==="#graf-nakazeni") {
-            grafNakazeni();
-        }
-    });
-
-    $('#graf-nakazeni').on("plotly_relayout", function (e) {
+    $('#plotly-nakazeni').on("plotly_relayout", function (e) {
         grafNakazeniRescale(e)
     });
 
 </script>
-                    </div>
-                    <div class="tab-pane" id="graf-umrti">
-                        <div id="graf-umrti"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title" id="graf-umrti">
+                    Vývoj počtu úmrtí
+                    <a href="#graf-umrti" class="text-secondary"><i class="fas fa-link"></i></a>
+                </h5>
+                <div id="plotly-umrti"></div>
+
 <div class="font-italic">
     <h6>Poznámky</h6>
-    Data za poslední dny nejsou úplná, úmrtí se doplňují se zpožděním, které může být až několik dní (zejména o
-    víkendech a svátcích).
+    <p class="card-text text-justify">
+        Data za poslední dny nejsou úplná, úmrtí se doplňují se zpožděním, které může být až několik dní (zejména o
+        víkendech a svátcích).
+    </p>
 </div>
 
 <script>
@@ -3134,9 +1884,9 @@ COVID očkování</title>
                 orientation: "h",
                 xanchor: "center",
                 x: 0.5,
-                y: -0.4,
+                y: -0.42,
             },
-            height: 700,
+            height: 600,
         }
 
         const data = [
@@ -3148,11 +1898,11 @@ COVID očkování</title>
             displayModeBar: false,
         }
 
-        Plotly.newPlot("graf-umrti", data, layout, config);
+        Plotly.newPlot("plotly-umrti", data, layout, config);
 
         // force relayout to rescale y
         range = {'xaxis.range[0]': layout.xaxis.range[0].toISOString(), 'xaxis.range[1]': layout.xaxis.range[1].toISOString()}
-        Plotly.relayout('graf-umrti', range);
+        Plotly.relayout('plotly-umrti', range);
     }
 
     function grafUmrtiRescale(e) {
@@ -3161,8 +1911,6 @@ COVID očkování</title>
             return;
         }
 
-        console.log(e);
-
         var rangeX = e.target.layout.xaxis.range
         var data = e.target.data
         var maxY = 0;
@@ -3179,702 +1927,15 @@ COVID očkování</title>
             }
         }
 
-        Plotly.relayout('graf-umrti', {'yaxis.range[0]': 0, 'yaxis.range[1]': maxY * 1.05, 'stopRescale': true});
+        Plotly.relayout('plotly-umrti', {'yaxis.range[0]': 0, 'yaxis.range[1]': maxY * 1.05, 'stopRescale': true});
     }
 
     grafUmrti();
 
-    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-        let target = $(e.target).attr("href")
-        if(target==="#graf-umrti") {
-            grafUmrti();
-        }
-    });
-
-    $('#graf-umrti').on("plotly_relayout", function (e) {
+    $('#plotly-umrti').on("plotly_relayout", function (e) {
         grafUmrtiRescale(e)
     });
 </script>
-                    </div>
-                    <div class="tab-pane" id="graf-fronta">
-                        <div id="graf-fronta"></div>
-<div class="font-italic">
-    <h6>Poznámky</h6>
-    <p class="text-justify">
-        V současnosti jsou k dispozici pouze data o rezervacích pro následující měsíc - počet čekajících na 1. a 2.
-        dávku nemusí být úplný!
-    </p>
-    <ul class="mb-0">
-        <li>15. 1. 2021 - otevření registrace pro starší 80 let</li>
-        <li>27. 2. 2021 - otevření registrace pro zaměstnance škol a školských zařízení</li>
-        <li>1. 3. 2021 - otevření registrace pro starší 70 let</li>
-        <li>24. 3. 2021 - otevření registrace pro chronicky nemocné či s vysokým rizikem těžkého průběhu</li>
-        <li>29. 3. 2021 - otevření registrace pro pracovníky kritické infrastruktury</li>
-        <li>7. 4. 2021 - otevření registrace pro pracovníky v sociálních službách</li>
-        <li>14. 4. 2021 - otevření registrace pro starší 65 let</li>
-        <li>23. 4. 2021 - otevření registrace pro starší 60 let</li>
-        <li>28. 4. 2021 - otevření registrace pro starší 55 let</li>
-        <li>3. 5. 2021 - otevření registrace pro akademické pracovníky</li>
-        <li>5. 5. 2021 - otevření registrace pro starší 50 let</li>
-        <li>11. 5. 2021 - otevření registrace pro starší 45 let</li>
-        <li>17. 5. 2021 - otevření registrace pro starší 40 let</li>
-        <li>24. 5. 2021 - otevření registrace pro starší 35 let</li>
-        <li>26. 5. 2021 - otevření registrace pro starší 30 let</li>
-        <li>4. 6. 2021 - otevření registrace pro starší 16 let</li>
-        <li>1. 7. 2021 - otevření registrace pro starší 12 let</li>
-        <li>18. 10. 2021 - zkrácení intervalu mezi 2. a 3. dávkou na 6 měsíců</li>
-    </ul>
-</div>
-
-<script>
-    function grafFronta() {
-        const fronta = {
-            x: ["2021-03-03 00:00:00","2021-03-04 00:00:00","2021-03-05 00:00:00","2021-03-06 00:00:00","2021-03-07 00:00:00","2021-03-08 00:00:00","2021-03-09 00:00:00","2021-03-10 00:00:00","2021-03-11 00:00:00","2021-03-12 00:00:00","2021-03-13 00:00:00","2021-03-14 00:00:00","2021-03-15 00:00:00","2021-03-16 00:00:00","2021-03-17 00:00:00","2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00","2021-04-05 00:00:00","2021-04-06 00:00:00","2021-04-07 00:00:00","2021-04-08 00:00:00","2021-04-09 00:00:00","2021-04-10 00:00:00","2021-04-11 00:00:00","2021-04-12 00:00:00","2021-04-13 00:00:00","2021-04-14 00:00:00","2021-04-15 00:00:00","2021-04-16 00:00:00","2021-04-17 00:00:00","2021-04-18 00:00:00","2021-04-19 00:00:00","2021-04-20 00:00:00","2021-04-21 00:00:00","2021-04-22 00:00:00","2021-04-23 00:00:00","2021-04-24 00:00:00","2021-04-25 00:00:00","2021-04-26 00:00:00","2021-04-27 00:00:00","2021-04-28 00:00:00","2021-04-29 00:00:00","2021-04-30 00:00:00","2021-05-01 00:00:00","2021-05-02 00:00:00","2021-05-03 00:00:00","2021-05-04 00:00:00","2021-05-05 00:00:00","2021-05-06 00:00:00","2021-05-07 00:00:00","2021-05-08 00:00:00","2021-05-09 00:00:00","2021-05-10 00:00:00","2021-05-11 00:00:00","2021-05-12 00:00:00","2021-05-13 00:00:00","2021-05-14 00:00:00","2021-05-15 00:00:00","2021-05-16 00:00:00","2021-05-17 00:00:00","2021-05-18 00:00:00","2021-05-19 00:00:00","2021-05-20 00:00:00","2021-05-21 00:00:00","2021-05-22 00:00:00","2021-05-23 00:00:00","2021-05-24 00:00:00","2021-05-25 00:00:00","2021-05-26 00:00:00","2021-05-27 00:00:00","2021-05-28 00:00:00","2021-05-29 00:00:00","2021-05-30 00:00:00","2021-05-31 00:00:00","2021-06-01 00:00:00","2021-06-02 00:00:00","2021-06-03 00:00:00","2021-06-04 00:00:00","2021-06-05 00:00:00","2021-06-06 00:00:00","2021-06-07 00:00:00","2021-06-08 00:00:00","2021-06-09 00:00:00","2021-06-10 00:00:00","2021-06-11 00:00:00","2021-06-12 00:00:00","2021-06-13 00:00:00","2021-06-14 00:00:00","2021-06-15 00:00:00","2021-06-16 00:00:00","2021-06-17 00:00:00","2021-06-18 00:00:00","2021-06-19 00:00:00","2021-06-20 00:00:00","2021-06-21 00:00:00","2021-06-22 00:00:00","2021-06-23 00:00:00","2021-06-24 00:00:00","2021-06-25 00:00:00","2021-06-26 00:00:00","2021-06-27 00:00:00","2021-06-28 00:00:00","2021-06-29 00:00:00","2021-06-30 00:00:00","2021-07-01 00:00:00","2021-07-02 00:00:00","2021-07-03 00:00:00","2021-07-04 00:00:00","2021-07-05 00:00:00","2021-07-06 00:00:00","2021-07-07 00:00:00","2021-07-08 00:00:00","2021-07-09 00:00:00","2021-07-10 00:00:00","2021-07-11 00:00:00","2021-07-12 00:00:00","2021-07-13 00:00:00","2021-07-14 00:00:00","2021-07-15 00:00:00","2021-07-16 00:00:00","2021-07-17 00:00:00","2021-07-18 00:00:00","2021-07-19 00:00:00","2021-07-20 00:00:00","2021-07-21 00:00:00","2021-07-22 00:00:00","2021-07-23 00:00:00","2021-07-24 00:00:00","2021-07-25 00:00:00","2021-07-26 00:00:00","2021-07-27 00:00:00","2021-07-28 00:00:00","2021-07-29 00:00:00","2021-07-30 00:00:00","2021-07-31 00:00:00","2021-08-01 00:00:00","2021-08-02 00:00:00","2021-08-03 00:00:00","2021-08-04 00:00:00","2021-08-05 00:00:00","2021-08-06 00:00:00","2021-08-07 00:00:00","2021-08-08 00:00:00","2021-08-09 00:00:00","2021-08-10 00:00:00","2021-08-11 00:00:00","2021-08-12 00:00:00","2021-08-13 00:00:00","2021-08-14 00:00:00","2021-08-15 00:00:00","2021-08-16 00:00:00","2021-08-17 00:00:00","2021-08-18 00:00:00","2021-08-19 00:00:00","2021-08-20 00:00:00","2021-08-21 00:00:00","2021-08-22 00:00:00","2021-08-23 00:00:00","2021-08-24 00:00:00","2021-08-25 00:00:00","2021-08-26 00:00:00","2021-08-27 00:00:00","2021-08-28 00:00:00","2021-08-29 00:00:00","2021-08-30 00:00:00","2021-08-31 00:00:00","2021-09-01 00:00:00","2021-09-02 00:00:00","2021-09-03 00:00:00","2021-09-04 00:00:00","2021-09-05 00:00:00","2021-09-06 00:00:00","2021-09-07 00:00:00","2021-09-08 00:00:00","2021-09-09 00:00:00","2021-09-10 00:00:00","2021-09-11 00:00:00","2021-09-12 00:00:00","2021-09-13 00:00:00","2021-09-14 00:00:00","2021-09-15 00:00:00","2021-09-16 00:00:00","2021-09-17 00:00:00","2021-09-18 00:00:00","2021-09-19 00:00:00","2021-09-20 00:00:00","2021-09-21 00:00:00","2021-09-22 00:00:00","2021-09-23 00:00:00","2021-09-24 00:00:00","2021-09-25 00:00:00","2021-09-26 00:00:00","2021-09-27 00:00:00","2021-09-28 00:00:00","2021-09-29 00:00:00","2021-09-30 00:00:00","2021-10-01 00:00:00","2021-10-02 00:00:00","2021-10-03 00:00:00","2021-10-04 00:00:00","2021-10-05 00:00:00","2021-10-06 00:00:00","2021-10-07 00:00:00","2021-10-08 00:00:00","2021-10-09 00:00:00","2021-10-10 00:00:00","2021-10-11 00:00:00","2021-10-12 00:00:00","2021-10-13 00:00:00","2021-10-14 00:00:00","2021-10-15 00:00:00","2021-10-16 00:00:00","2021-10-17 00:00:00","2021-10-18 00:00:00","2021-10-19 00:00:00","2021-10-20 00:00:00","2021-10-21 00:00:00","2021-10-22 00:00:00","2021-10-23 00:00:00","2021-10-24 00:00:00","2021-10-25 00:00:00","2021-10-26 00:00:00","2021-10-27 00:00:00","2021-10-28 00:00:00","2021-10-29 00:00:00","2021-10-30 00:00:00","2021-10-31 00:00:00","2021-11-01 00:00:00","2021-11-02 00:00:00","2021-11-03 00:00:00","2021-11-04 00:00:00","2021-11-05 00:00:00","2021-11-06 00:00:00","2021-11-07 00:00:00","2021-11-08 00:00:00","2021-11-09 00:00:00","2021-11-10 00:00:00","2021-11-11 00:00:00","2021-11-12 00:00:00","2021-11-13 00:00:00","2021-11-14 00:00:00","2021-11-15 00:00:00","2021-11-16 00:00:00","2021-11-17 00:00:00","2021-11-18 00:00:00","2021-11-19 00:00:00","2021-11-20 00:00:00","2021-11-21 00:00:00","2021-11-22 00:00:00","2021-11-23 00:00:00","2021-11-24 00:00:00","2021-11-25 00:00:00","2021-11-26 00:00:00","2021-11-27 00:00:00","2021-11-28 00:00:00","2021-11-29 00:00:00",],
-            y: [385540.0,403883.0,397740.0,379898.0,372664.0,369706.0,370755.0,353583.0,337470.0,322900.0,275321.0,264287.0,257960.0,251454.0,241245.0,234383.0,230223.0,223096.0,221253.0,220160.0,216025.0,217757.0,242219.0,258249.0,265843.0,265843.0,276769.0,283520.0,290274.0,292776.0,290565.0,289453.0,287953.0,285081.0,281545.0,272973.0,259909.0,241524.0,216625.0,189538.0,181989.0,170751.0,158012.0,245775.0,238505.0,215203.0,210150.0,207525.0,201386.0,179325.0,156934.0,129214.0,185120.0,179519.0,172843.0,167195.0,151284.0,207654.0,170559.0,170850.0,142454.0,143099.0,128576.0,166777.0,180155.0,149320.0,117089.0,113360.0,112715.0,185799.0,186153.0,161234.0,132056.0,116449.0,112266.0,211095.0,246411.0,214847.0,178584.0,156502.0,143374.0,141639.0,194173.0,217197.0,191943.0,292739.0,242132.0,213851.0,208697.0,213805.0,206547.0,181408.0,170472.0,242394.0,306239.0,289700.0,292507.0,286357.0,273120.0,261840.0,251200.0,244684.0,232856.0,234469.0,218755.0,196552.0,183031.0,179366.0,161644.0,157112.0,156680.0,149030.0,137020.0,125123.0,115369.0,113809.0,109848.0,109503.0,104282.0,97578.0,94468.0,118017.0,117021.0,117723.0,97315.0,100021.0,98311.0,98586.0,97455.0,92203.0,84410.0,83998.0,84115.0,84981.0,80969.0,78558.0,72397.0,66099.0,61476.0,64536.0,67540.0,64463.0,60406.0,57625.0,54243.0,50991.0,54144.0,54537.0,52825.0,50658.0,47508.0,43887.0,42883.0,43795.0,42791.0,39941.0,38007.0,36265.0,33984.0,32294.0,34339.0,34909.0,33189.0,32833.0,31900.0,30241.0,29204.0,31308.0,32930.0,33927.0,32662.0,31315.0,29917.0,29755.0,31181.0,31260.0,29986.0,28969.0,28264.0,26841.0,26403.0,27574.0,28837.0,28145.0,27427.0,26448.0,25203.0,25278.0,25709.0,25777.0,25705.0,26007.0,29898.0,29312.0,29560.0,30088.0,30182.0,29341.0,29397.0,28813.0,28303.0,28381.0,28818.0,30441.0,30875.0,30820.0,3917.0,30084.0,27737.0,27802.0,28082.0,28119.0,27977.0,27211.0,27705.0,28139.0,28226.0,28564.0,28578.0,28651.0,28325.0,28235.0,28912.0,29221.0,28703.0,27663.0,28549.0,28998.0,29561.0,31243.0,56544.0,65533.0,70927.0,74603.0,78179.0,80376.0,86750.0,96975.0,89633.0,89250.0,84266.0,81604.0,81911.0,85522.0,87548.0,86713.0,84698.0,82904.0,81704.0,78580.0,80938.0,79123.0,76358.0,73340.0,72102.0,70985.0,69722.0,71936.0,70545.0,68033.0,72597.0,74312.0,71474.0,72376.0,76828.0,77958.0,76133.0,77695.0,79699.0,78507.0,82813.0,93133.0,],
-            mode: "lines+markers",
-            type: "scatter",
-            name: "Čekající na rezervaci termínu",
-            hovertemplate: "%{y}"
-        }
-
-        const rezervace_1 = {
-            x: ["2021-03-03 00:00:00","2021-03-04 00:00:00","2021-03-05 00:00:00","2021-03-06 00:00:00","2021-03-07 00:00:00","2021-03-08 00:00:00","2021-03-09 00:00:00","2021-03-10 00:00:00","2021-03-11 00:00:00","2021-03-12 00:00:00","2021-03-13 00:00:00","2021-03-14 00:00:00","2021-03-15 00:00:00","2021-03-16 00:00:00","2021-03-17 00:00:00","2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00","2021-04-05 00:00:00","2021-04-06 00:00:00","2021-04-07 00:00:00","2021-04-08 00:00:00","2021-04-09 00:00:00","2021-04-10 00:00:00","2021-04-11 00:00:00","2021-04-12 00:00:00","2021-04-13 00:00:00","2021-04-14 00:00:00","2021-04-15 00:00:00","2021-04-16 00:00:00","2021-04-17 00:00:00","2021-04-18 00:00:00","2021-04-19 00:00:00","2021-04-20 00:00:00","2021-04-21 00:00:00","2021-04-22 00:00:00","2021-04-23 00:00:00","2021-04-24 00:00:00","2021-04-25 00:00:00","2021-04-26 00:00:00","2021-04-27 00:00:00","2021-04-28 00:00:00","2021-04-29 00:00:00","2021-04-30 00:00:00","2021-05-01 00:00:00","2021-05-02 00:00:00","2021-05-03 00:00:00","2021-05-04 00:00:00","2021-05-05 00:00:00","2021-05-06 00:00:00","2021-05-07 00:00:00","2021-05-08 00:00:00","2021-05-09 00:00:00","2021-05-10 00:00:00","2021-05-11 00:00:00","2021-05-12 00:00:00","2021-05-13 00:00:00","2021-05-14 00:00:00","2021-05-15 00:00:00","2021-05-16 00:00:00","2021-05-17 00:00:00","2021-05-18 00:00:00","2021-05-19 00:00:00","2021-05-20 00:00:00","2021-05-21 00:00:00","2021-05-22 00:00:00","2021-05-23 00:00:00","2021-05-24 00:00:00","2021-05-25 00:00:00","2021-05-26 00:00:00","2021-05-27 00:00:00","2021-05-28 00:00:00","2021-05-29 00:00:00","2021-05-30 00:00:00","2021-05-31 00:00:00","2021-06-01 00:00:00","2021-06-02 00:00:00","2021-06-03 00:00:00","2021-06-04 00:00:00","2021-06-05 00:00:00","2021-06-06 00:00:00","2021-06-07 00:00:00","2021-06-08 00:00:00","2021-06-09 00:00:00","2021-06-10 00:00:00","2021-06-11 00:00:00","2021-06-12 00:00:00","2021-06-13 00:00:00","2021-06-14 00:00:00","2021-06-15 00:00:00","2021-06-16 00:00:00","2021-06-17 00:00:00","2021-06-18 00:00:00","2021-06-19 00:00:00","2021-06-20 00:00:00","2021-06-21 00:00:00","2021-06-22 00:00:00","2021-06-23 00:00:00","2021-06-24 00:00:00","2021-06-25 00:00:00","2021-06-26 00:00:00","2021-06-27 00:00:00","2021-06-28 00:00:00","2021-06-29 00:00:00","2021-06-30 00:00:00","2021-07-01 00:00:00","2021-07-02 00:00:00","2021-07-03 00:00:00","2021-07-04 00:00:00","2021-07-05 00:00:00","2021-07-06 00:00:00","2021-07-07 00:00:00","2021-07-08 00:00:00","2021-07-09 00:00:00","2021-07-10 00:00:00","2021-07-11 00:00:00","2021-07-12 00:00:00","2021-07-13 00:00:00","2021-07-14 00:00:00","2021-07-15 00:00:00","2021-07-16 00:00:00","2021-07-17 00:00:00","2021-07-18 00:00:00","2021-07-19 00:00:00","2021-07-20 00:00:00","2021-07-21 00:00:00","2021-07-22 00:00:00","2021-07-23 00:00:00","2021-07-24 00:00:00","2021-07-25 00:00:00","2021-07-26 00:00:00","2021-07-27 00:00:00","2021-07-28 00:00:00","2021-07-29 00:00:00","2021-07-30 00:00:00","2021-07-31 00:00:00","2021-08-01 00:00:00","2021-08-02 00:00:00","2021-08-03 00:00:00","2021-08-04 00:00:00","2021-08-05 00:00:00","2021-08-06 00:00:00","2021-08-07 00:00:00","2021-08-08 00:00:00","2021-08-09 00:00:00","2021-08-10 00:00:00","2021-08-11 00:00:00","2021-08-12 00:00:00","2021-08-13 00:00:00","2021-08-14 00:00:00","2021-08-15 00:00:00","2021-08-16 00:00:00","2021-08-17 00:00:00","2021-08-18 00:00:00","2021-08-19 00:00:00","2021-08-20 00:00:00","2021-08-21 00:00:00","2021-08-22 00:00:00","2021-08-23 00:00:00","2021-08-24 00:00:00","2021-08-25 00:00:00","2021-08-26 00:00:00","2021-08-27 00:00:00","2021-08-28 00:00:00","2021-08-29 00:00:00","2021-08-30 00:00:00","2021-08-31 00:00:00","2021-09-01 00:00:00","2021-09-02 00:00:00","2021-09-03 00:00:00","2021-09-04 00:00:00","2021-09-05 00:00:00","2021-09-06 00:00:00","2021-09-07 00:00:00","2021-09-08 00:00:00","2021-09-09 00:00:00","2021-09-10 00:00:00","2021-09-11 00:00:00","2021-09-12 00:00:00","2021-09-13 00:00:00","2021-09-14 00:00:00","2021-09-15 00:00:00","2021-09-16 00:00:00","2021-09-17 00:00:00","2021-09-18 00:00:00","2021-09-19 00:00:00","2021-09-20 00:00:00","2021-09-21 00:00:00","2021-09-22 00:00:00","2021-09-23 00:00:00","2021-09-24 00:00:00","2021-09-25 00:00:00","2021-09-26 00:00:00","2021-09-27 00:00:00","2021-09-28 00:00:00","2021-09-29 00:00:00","2021-09-30 00:00:00","2021-10-01 00:00:00","2021-10-02 00:00:00","2021-10-03 00:00:00","2021-10-04 00:00:00","2021-10-05 00:00:00","2021-10-06 00:00:00","2021-10-07 00:00:00","2021-10-08 00:00:00","2021-10-09 00:00:00","2021-10-10 00:00:00","2021-10-11 00:00:00","2021-10-12 00:00:00","2021-10-13 00:00:00","2021-10-14 00:00:00","2021-10-15 00:00:00","2021-10-16 00:00:00","2021-10-17 00:00:00","2021-10-18 00:00:00","2021-10-19 00:00:00","2021-10-20 00:00:00","2021-10-21 00:00:00","2021-10-22 00:00:00","2021-10-23 00:00:00","2021-10-24 00:00:00","2021-10-25 00:00:00","2021-10-26 00:00:00","2021-10-27 00:00:00","2021-10-28 00:00:00","2021-10-29 00:00:00","2021-10-30 00:00:00","2021-10-31 00:00:00","2021-11-01 00:00:00","2021-11-02 00:00:00","2021-11-03 00:00:00","2021-11-04 00:00:00","2021-11-05 00:00:00","2021-11-06 00:00:00","2021-11-07 00:00:00","2021-11-08 00:00:00","2021-11-09 00:00:00","2021-11-10 00:00:00","2021-11-11 00:00:00","2021-11-12 00:00:00","2021-11-13 00:00:00","2021-11-14 00:00:00","2021-11-15 00:00:00","2021-11-16 00:00:00","2021-11-17 00:00:00","2021-11-18 00:00:00","2021-11-19 00:00:00","2021-11-20 00:00:00","2021-11-21 00:00:00","2021-11-22 00:00:00","2021-11-23 00:00:00","2021-11-24 00:00:00","2021-11-25 00:00:00","2021-11-26 00:00:00","2021-11-27 00:00:00","2021-11-28 00:00:00","2021-11-29 00:00:00",],
-            y: [32679.0,28961.0,20614.0,31421.0,38870.0,51430.0,43967.0,65784.0,70810.0,97690.0,99533.0,102223.0,102138.0,103311.0,96991.0,94866.0,85551.0,80386.0,76671.0,73563.0,69424.0,63325.0,63427.0,60782.0,62532.0,63178.0,65286.0,63799.0,59581.0,60327.0,59190.0,61583.0,64022.0,66545.0,70579.0,77018.0,94644.0,103153.0,115576.0,117199.0,116696.0,112592.0,114153.0,139425.0,133375.0,160869.0,163220.0,162818.0,152807.0,160451.0,163562.0,157763.0,168609.0,187663.0,201310.0,199744.0,205950.0,240875.0,189623.0,280426.0,291712.0,294823.0,284550.0,275424.0,303936.0,312630.0,316413.0,314977.0,309295.0,279881.0,313970.0,334303.0,334250.0,314209.0,303080.0,295680.0,281402.0,289352.0,258004.0,303312.0,286560.0,275283.0,267928.0,295330.0,329455.0,318253.0,360571.0,372564.0,368529.0,362668.0,345992.0,350759.0,330171.0,310268.0,332389.0,365921.0,369771.0,364564.0,356681.0,341201.0,328804.0,318773.0,305026.0,295866.0,290326.0,291172.0,282780.0,259940.0,256742.0,242748.0,232844.0,223544.0,217040.0,210782.0,203302.0,195461.0,186272.0,177554.0,167113.0,158629.0,151068.0,150477.0,158317.0,156353.0,157713.0,160621.0,162358.0,154626.0,152776.0,151110.0,151409.0,151746.0,143985.0,141950.0,138459.0,107068.0,104502.0,106093.0,105369.0,99689.0,95450.0,94414.0,92201.0,87279.0,87999.0,88885.0,85588.0,80978.0,76886.0,70795.0,64429.0,62514.0,61563.0,55082.0,51028.0,48157.0,44312.0,39383.0,38598.0,38114.0,35532.0,33545.0,31795.0,29140.0,26757.0,26584.0,26865.0,24977.0,24073.0,23120.0,22203.0,21346.0,22157.0,23162.0,22113.0,21525.0,20285.0,19304.0,16402.0,16517.0,16465.0,12560.0,9298.0,16017.0,16280.0,13451.0,13663.0,13413.0,12937.0,13891.0,13422.0,12329.0,10539.0,10889.0,11325.0,10913.0,11457.0,10980.0,9701.0,8415.0,8441.0,9090.0,9642.0,10453.0,9402.0,8272.0,6611.0,6722.0,7142.0,6717.0,7258.0,6969.0,6331.0,5809.0,5995.0,6523.0,7187.0,7247.0,7183.0,7614.0,6718.0,6779.0,6902.0,7627.0,7458.0,7255.0,7193.0,6399.0,6828.0,7506.0,9121.0,10339.0,13641.0,15814.0,16894.0,18952.0,22058.0,28415.0,35461.0,37887.0,40884.0,40481.0,41492.0,44434.0,47977.0,50864.0,51389.0,48708.0,44598.0,44299.0,45747.0,45193.0,44904.0,40902.0,40264.0,36966.0,38544.0,39648.0,40034.0,37679.0,42135.0,47345.0,46628.0,47202.0,49365.0,50596.0,49674.0,47163.0,43769.0,38508.0,36591.0,37898.0,],
-            mode: "lines+markers",
-            type: "scatter",
-            name: "Čekající na očkování 1. dávkou",
-            hovertemplate: "%{y}"
-        }
-
-        const rezervace_2 = {
-            x: ["2021-03-03 00:00:00","2021-03-04 00:00:00","2021-03-05 00:00:00","2021-03-06 00:00:00","2021-03-07 00:00:00","2021-03-08 00:00:00","2021-03-09 00:00:00","2021-03-10 00:00:00","2021-03-11 00:00:00","2021-03-12 00:00:00","2021-03-13 00:00:00","2021-03-14 00:00:00","2021-03-15 00:00:00","2021-03-16 00:00:00","2021-03-17 00:00:00","2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00","2021-04-05 00:00:00","2021-04-06 00:00:00","2021-04-07 00:00:00","2021-04-08 00:00:00","2021-04-09 00:00:00","2021-04-10 00:00:00","2021-04-11 00:00:00","2021-04-12 00:00:00","2021-04-13 00:00:00","2021-04-14 00:00:00","2021-04-15 00:00:00","2021-04-16 00:00:00","2021-04-17 00:00:00","2021-04-18 00:00:00","2021-04-19 00:00:00","2021-04-20 00:00:00","2021-04-21 00:00:00","2021-04-22 00:00:00","2021-04-23 00:00:00","2021-04-24 00:00:00","2021-04-25 00:00:00","2021-04-26 00:00:00","2021-04-27 00:00:00","2021-04-28 00:00:00","2021-04-29 00:00:00","2021-04-30 00:00:00","2021-05-01 00:00:00","2021-05-02 00:00:00","2021-05-03 00:00:00","2021-05-04 00:00:00","2021-05-05 00:00:00","2021-05-06 00:00:00","2021-05-07 00:00:00","2021-05-08 00:00:00","2021-05-09 00:00:00","2021-05-10 00:00:00","2021-05-11 00:00:00","2021-05-12 00:00:00","2021-05-13 00:00:00","2021-05-14 00:00:00","2021-05-15 00:00:00","2021-05-16 00:00:00","2021-05-17 00:00:00","2021-05-18 00:00:00","2021-05-19 00:00:00","2021-05-20 00:00:00","2021-05-21 00:00:00","2021-05-22 00:00:00","2021-05-23 00:00:00","2021-05-24 00:00:00","2021-05-25 00:00:00","2021-05-26 00:00:00","2021-05-27 00:00:00","2021-05-28 00:00:00","2021-05-29 00:00:00","2021-05-30 00:00:00","2021-05-31 00:00:00","2021-06-01 00:00:00","2021-06-02 00:00:00","2021-06-03 00:00:00","2021-06-04 00:00:00","2021-06-05 00:00:00","2021-06-06 00:00:00","2021-06-07 00:00:00","2021-06-08 00:00:00","2021-06-09 00:00:00","2021-06-10 00:00:00","2021-06-11 00:00:00","2021-06-12 00:00:00","2021-06-13 00:00:00","2021-06-14 00:00:00","2021-06-15 00:00:00","2021-06-16 00:00:00","2021-06-17 00:00:00","2021-06-18 00:00:00","2021-06-19 00:00:00","2021-06-20 00:00:00","2021-06-21 00:00:00","2021-06-22 00:00:00","2021-06-23 00:00:00","2021-06-24 00:00:00","2021-06-25 00:00:00","2021-06-26 00:00:00","2021-06-27 00:00:00","2021-06-28 00:00:00","2021-06-29 00:00:00","2021-06-30 00:00:00","2021-07-01 00:00:00","2021-07-02 00:00:00","2021-07-03 00:00:00","2021-07-04 00:00:00","2021-07-05 00:00:00","2021-07-06 00:00:00","2021-07-07 00:00:00","2021-07-08 00:00:00","2021-07-09 00:00:00","2021-07-10 00:00:00","2021-07-11 00:00:00","2021-07-12 00:00:00","2021-07-13 00:00:00","2021-07-14 00:00:00","2021-07-15 00:00:00","2021-07-16 00:00:00","2021-07-17 00:00:00","2021-07-18 00:00:00","2021-07-19 00:00:00","2021-07-20 00:00:00","2021-07-21 00:00:00","2021-07-22 00:00:00","2021-07-23 00:00:00","2021-07-24 00:00:00","2021-07-25 00:00:00","2021-07-26 00:00:00","2021-07-27 00:00:00","2021-07-28 00:00:00","2021-07-29 00:00:00","2021-07-30 00:00:00","2021-07-31 00:00:00","2021-08-01 00:00:00","2021-08-02 00:00:00","2021-08-03 00:00:00","2021-08-04 00:00:00","2021-08-05 00:00:00","2021-08-06 00:00:00","2021-08-07 00:00:00","2021-08-08 00:00:00","2021-08-09 00:00:00","2021-08-10 00:00:00","2021-08-11 00:00:00","2021-08-12 00:00:00","2021-08-13 00:00:00","2021-08-14 00:00:00","2021-08-15 00:00:00","2021-08-16 00:00:00","2021-08-17 00:00:00","2021-08-18 00:00:00","2021-08-19 00:00:00","2021-08-20 00:00:00","2021-08-21 00:00:00","2021-08-22 00:00:00","2021-08-23 00:00:00","2021-08-24 00:00:00","2021-08-25 00:00:00","2021-08-26 00:00:00","2021-08-27 00:00:00","2021-08-28 00:00:00","2021-08-29 00:00:00","2021-08-30 00:00:00","2021-08-31 00:00:00","2021-09-01 00:00:00","2021-09-02 00:00:00","2021-09-03 00:00:00","2021-09-04 00:00:00","2021-09-05 00:00:00","2021-09-06 00:00:00","2021-09-07 00:00:00","2021-09-08 00:00:00","2021-09-09 00:00:00","2021-09-10 00:00:00","2021-09-11 00:00:00","2021-09-12 00:00:00","2021-09-13 00:00:00","2021-09-14 00:00:00","2021-09-15 00:00:00","2021-09-16 00:00:00","2021-09-17 00:00:00","2021-09-18 00:00:00","2021-09-19 00:00:00","2021-09-20 00:00:00","2021-09-21 00:00:00","2021-09-22 00:00:00","2021-09-23 00:00:00","2021-09-24 00:00:00","2021-09-25 00:00:00","2021-09-26 00:00:00","2021-09-27 00:00:00","2021-09-28 00:00:00","2021-09-29 00:00:00","2021-09-30 00:00:00","2021-10-01 00:00:00","2021-10-02 00:00:00","2021-10-03 00:00:00","2021-10-04 00:00:00","2021-10-05 00:00:00","2021-10-06 00:00:00","2021-10-07 00:00:00","2021-10-08 00:00:00","2021-10-09 00:00:00","2021-10-10 00:00:00","2021-10-11 00:00:00","2021-10-12 00:00:00","2021-10-13 00:00:00","2021-10-14 00:00:00","2021-10-15 00:00:00","2021-10-16 00:00:00","2021-10-17 00:00:00","2021-10-18 00:00:00","2021-10-19 00:00:00","2021-10-20 00:00:00","2021-10-21 00:00:00","2021-10-22 00:00:00","2021-10-23 00:00:00","2021-10-24 00:00:00","2021-10-25 00:00:00","2021-10-26 00:00:00","2021-10-27 00:00:00","2021-10-28 00:00:00","2021-10-29 00:00:00","2021-10-30 00:00:00","2021-10-31 00:00:00","2021-11-01 00:00:00","2021-11-02 00:00:00","2021-11-03 00:00:00","2021-11-04 00:00:00","2021-11-05 00:00:00","2021-11-06 00:00:00","2021-11-07 00:00:00","2021-11-08 00:00:00","2021-11-09 00:00:00","2021-11-10 00:00:00","2021-11-11 00:00:00","2021-11-12 00:00:00","2021-11-13 00:00:00","2021-11-14 00:00:00","2021-11-15 00:00:00","2021-11-16 00:00:00","2021-11-17 00:00:00","2021-11-18 00:00:00","2021-11-19 00:00:00","2021-11-20 00:00:00","2021-11-21 00:00:00","2021-11-22 00:00:00","2021-11-23 00:00:00","2021-11-24 00:00:00","2021-11-25 00:00:00","2021-11-26 00:00:00","2021-11-27 00:00:00","2021-11-28 00:00:00","2021-11-29 00:00:00",],
-            y: [119969.0,122029.0,119775.0,131945.0,147376.0,163514.0,165193.0,196752.0,209186.0,242017.0,284342.0,302034.0,320544.0,332154.0,346018.0,360751.0,371398.0,373852.0,388115.0,396099.0,395063.0,396371.0,394364.0,391246.0,389338.0,396285.0,400377.0,393092.0,386503.0,374150.0,356532.0,350933.0,345297.0,341564.0,338304.0,321493.0,309179.0,284516.0,262094.0,249939.0,241886.0,222502.0,202632.0,181315.0,162032.0,143959.0,139454.0,140348.0,137269.0,142054.0,151950.0,147866.0,148249.0,163591.0,184763.0,207891.0,231361.0,252963.0,244052.0,272614.0,302709.0,335648.0,370861.0,408534.0,443450.0,459666.0,474877.0,509676.0,548001.0,595133.0,652583.0,699596.0,721628.0,745020.0,798268.0,855711.0,915674.0,974061.0,1017681.0,1044309.0,1053697.0,1103148.0,1161130.0,1207038.0,1254442.0,1290140.0,1317228.0,1349452.0,1400819.0,1457004.0,1485277.0,1512612.0,1507004.0,1459101.0,1448464.0,1465750.0,1511006.0,1546026.0,1558997.0,1539656.0,1509192.0,1508903.0,1538338.0,1572605.0,1560962.0,1555195.0,1524769.0,1484584.0,1472937.0,1498409.0,1522256.0,1501268.0,1476414.0,1437114.0,1388023.0,1351092.0,1354410.0,1361649.0,1325474.0,1291695.0,1242581.0,1192899.0,1184397.0,1153861.0,1157931.0,1156367.0,1153238.0,1107171.0,1067544.0,1040455.0,1039001.0,1043507.0,1016928.0,1001114.0,965615.0,879228.0,853150.0,842953.0,850564.0,837466.0,821535.0,789050.0,769471.0,760848.0,763253.0,783324.0,771863.0,765386.0,742509.0,717254.0,706937.0,701247.0,695085.0,678097.0,659906.0,639498.0,614081.0,584161.0,565398.0,556701.0,526907.0,500404.0,468720.0,441260.0,413086.0,405943.0,397998.0,375885.0,357517.0,327731.0,299505.0,270368.0,261858.0,254694.0,227163.0,204417.0,184992.0,168023.0,152121.0,148332.0,145973.0,129649.0,116554.0,131619.0,124420.0,116001.0,115138.0,114655.0,108225.0,103340.0,98999.0,94618.0,88984.0,89182.0,89543.0,85397.0,83250.0,79535.0,75273.0,71002.0,70747.0,71245.0,68319.0,66055.0,63485.0,61287.0,56419.0,56449.0,56153.0,53933.0,54068.0,51206.0,48089.0,44719.0,44818.0,45443.0,44542.0,43118.0,41778.0,40475.0,38190.0,38119.0,38673.0,39026.0,37987.0,37209.0,36229.0,34672.0,34879.0,35739.0,37364.0,39351.0,41903.0,44098.0,46502.0,49106.0,52425.0,61015.0,68464.0,72634.0,77032.0,80292.0,83187.0,86969.0,96182.0,102712.0,107765.0,111558.0,115328.0,117175.0,120707.0,127100.0,130388.0,130882.0,133888.0,134447.0,138175.0,140877.0,144779.0,144698.0,147976.0,157208.0,160095.0,163884.0,168364.0,171057.0,171617.0,168927.0,167018.0,162451.0,163100.0,164868.0,],
-            mode: "lines+markers",
-            type: "scatter",
-            name: "Čekající na očkování 2. dávkou",
-            hovertemplate: "%{y}"
-        }
-
-        const rezervace_3 = {
-            x: ["2021-03-03 00:00:00","2021-03-04 00:00:00","2021-03-05 00:00:00","2021-03-06 00:00:00","2021-03-07 00:00:00","2021-03-08 00:00:00","2021-03-09 00:00:00","2021-03-10 00:00:00","2021-03-11 00:00:00","2021-03-12 00:00:00","2021-03-13 00:00:00","2021-03-14 00:00:00","2021-03-15 00:00:00","2021-03-16 00:00:00","2021-03-17 00:00:00","2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00","2021-04-05 00:00:00","2021-04-06 00:00:00","2021-04-07 00:00:00","2021-04-08 00:00:00","2021-04-09 00:00:00","2021-04-10 00:00:00","2021-04-11 00:00:00","2021-04-12 00:00:00","2021-04-13 00:00:00","2021-04-14 00:00:00","2021-04-15 00:00:00","2021-04-16 00:00:00","2021-04-17 00:00:00","2021-04-18 00:00:00","2021-04-19 00:00:00","2021-04-20 00:00:00","2021-04-21 00:00:00","2021-04-22 00:00:00","2021-04-23 00:00:00","2021-04-24 00:00:00","2021-04-25 00:00:00","2021-04-26 00:00:00","2021-04-27 00:00:00","2021-04-28 00:00:00","2021-04-29 00:00:00","2021-04-30 00:00:00","2021-05-01 00:00:00","2021-05-02 00:00:00","2021-05-03 00:00:00","2021-05-04 00:00:00","2021-05-05 00:00:00","2021-05-06 00:00:00","2021-05-07 00:00:00","2021-05-08 00:00:00","2021-05-09 00:00:00","2021-05-10 00:00:00","2021-05-11 00:00:00","2021-05-12 00:00:00","2021-05-13 00:00:00","2021-05-14 00:00:00","2021-05-15 00:00:00","2021-05-16 00:00:00","2021-05-17 00:00:00","2021-05-18 00:00:00","2021-05-19 00:00:00","2021-05-20 00:00:00","2021-05-21 00:00:00","2021-05-22 00:00:00","2021-05-23 00:00:00","2021-05-24 00:00:00","2021-05-25 00:00:00","2021-05-26 00:00:00","2021-05-27 00:00:00","2021-05-28 00:00:00","2021-05-29 00:00:00","2021-05-30 00:00:00","2021-05-31 00:00:00","2021-06-01 00:00:00","2021-06-02 00:00:00","2021-06-03 00:00:00","2021-06-04 00:00:00","2021-06-05 00:00:00","2021-06-06 00:00:00","2021-06-07 00:00:00","2021-06-08 00:00:00","2021-06-09 00:00:00","2021-06-10 00:00:00","2021-06-11 00:00:00","2021-06-12 00:00:00","2021-06-13 00:00:00","2021-06-14 00:00:00","2021-06-15 00:00:00","2021-06-16 00:00:00","2021-06-17 00:00:00","2021-06-18 00:00:00","2021-06-19 00:00:00","2021-06-20 00:00:00","2021-06-21 00:00:00","2021-06-22 00:00:00","2021-06-23 00:00:00","2021-06-24 00:00:00","2021-06-25 00:00:00","2021-06-26 00:00:00","2021-06-27 00:00:00","2021-06-28 00:00:00","2021-06-29 00:00:00","2021-06-30 00:00:00","2021-07-01 00:00:00","2021-07-02 00:00:00","2021-07-03 00:00:00","2021-07-04 00:00:00","2021-07-05 00:00:00","2021-07-06 00:00:00","2021-07-07 00:00:00","2021-07-08 00:00:00","2021-07-09 00:00:00","2021-07-10 00:00:00","2021-07-11 00:00:00","2021-07-12 00:00:00","2021-07-13 00:00:00","2021-07-14 00:00:00","2021-07-15 00:00:00","2021-07-16 00:00:00","2021-07-17 00:00:00","2021-07-18 00:00:00","2021-07-19 00:00:00","2021-07-20 00:00:00","2021-07-21 00:00:00","2021-07-22 00:00:00","2021-07-23 00:00:00","2021-07-24 00:00:00","2021-07-25 00:00:00","2021-07-26 00:00:00","2021-07-27 00:00:00","2021-07-28 00:00:00","2021-07-29 00:00:00","2021-07-30 00:00:00","2021-07-31 00:00:00","2021-08-01 00:00:00","2021-08-02 00:00:00","2021-08-03 00:00:00","2021-08-04 00:00:00","2021-08-05 00:00:00","2021-08-06 00:00:00","2021-08-07 00:00:00","2021-08-08 00:00:00","2021-08-09 00:00:00","2021-08-10 00:00:00","2021-08-11 00:00:00","2021-08-12 00:00:00","2021-08-13 00:00:00","2021-08-14 00:00:00","2021-08-15 00:00:00","2021-08-16 00:00:00","2021-08-17 00:00:00","2021-08-18 00:00:00","2021-08-19 00:00:00","2021-08-20 00:00:00","2021-08-21 00:00:00","2021-08-22 00:00:00","2021-08-23 00:00:00","2021-08-24 00:00:00","2021-08-25 00:00:00","2021-08-26 00:00:00","2021-08-27 00:00:00","2021-08-28 00:00:00","2021-08-29 00:00:00","2021-08-30 00:00:00","2021-08-31 00:00:00","2021-09-01 00:00:00","2021-09-02 00:00:00","2021-09-03 00:00:00","2021-09-04 00:00:00","2021-09-05 00:00:00","2021-09-06 00:00:00","2021-09-07 00:00:00","2021-09-08 00:00:00","2021-09-09 00:00:00","2021-09-10 00:00:00","2021-09-11 00:00:00","2021-09-12 00:00:00","2021-09-13 00:00:00","2021-09-14 00:00:00","2021-09-15 00:00:00","2021-09-16 00:00:00","2021-09-17 00:00:00","2021-09-18 00:00:00","2021-09-19 00:00:00","2021-09-20 00:00:00","2021-09-21 00:00:00","2021-09-22 00:00:00","2021-09-23 00:00:00","2021-09-24 00:00:00","2021-09-25 00:00:00","2021-09-26 00:00:00","2021-09-27 00:00:00","2021-09-28 00:00:00","2021-09-29 00:00:00","2021-09-30 00:00:00","2021-10-01 00:00:00","2021-10-02 00:00:00","2021-10-03 00:00:00","2021-10-04 00:00:00","2021-10-05 00:00:00","2021-10-06 00:00:00","2021-10-07 00:00:00","2021-10-08 00:00:00","2021-10-09 00:00:00","2021-10-10 00:00:00","2021-10-11 00:00:00","2021-10-12 00:00:00","2021-10-13 00:00:00","2021-10-14 00:00:00","2021-10-15 00:00:00","2021-10-16 00:00:00","2021-10-17 00:00:00","2021-10-18 00:00:00","2021-10-19 00:00:00","2021-10-20 00:00:00","2021-10-21 00:00:00","2021-10-22 00:00:00","2021-10-23 00:00:00","2021-10-24 00:00:00","2021-10-25 00:00:00","2021-10-26 00:00:00","2021-10-27 00:00:00","2021-10-28 00:00:00","2021-10-29 00:00:00","2021-10-30 00:00:00","2021-10-31 00:00:00","2021-11-01 00:00:00","2021-11-02 00:00:00","2021-11-03 00:00:00","2021-11-04 00:00:00","2021-11-05 00:00:00","2021-11-06 00:00:00","2021-11-07 00:00:00","2021-11-08 00:00:00","2021-11-09 00:00:00","2021-11-10 00:00:00","2021-11-11 00:00:00","2021-11-12 00:00:00","2021-11-13 00:00:00","2021-11-14 00:00:00","2021-11-15 00:00:00","2021-11-16 00:00:00","2021-11-17 00:00:00","2021-11-18 00:00:00","2021-11-19 00:00:00","2021-11-20 00:00:00","2021-11-21 00:00:00","2021-11-22 00:00:00","2021-11-23 00:00:00","2021-11-24 00:00:00","2021-11-25 00:00:00","2021-11-26 00:00:00","2021-11-27 00:00:00","2021-11-28 00:00:00","2021-11-29 00:00:00",],
-            y: [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,978.0,1057.0,1216.0,1157.0,1304.0,1329.0,1385.0,1446.0,1867.0,2058.0,2425.0,2534.0,2517.0,2684.0,3200.0,4251.0,4850.0,5045.0,5219.0,4914.0,5130.0,5532.0,7941.0,7871.0,8231.0,8013.0,7848.0,8298.0,9497.0,30025.0,49820.0,66907.0,72596.0,77821.0,84389.0,90350.0,95595.0,105471.0,102754.0,109644.0,107790.0,108833.0,111214.0,111691.0,113424.0,112277.0,106175.0,99459.0,98954.0,99823.0,97347.0,95235.0,87071.0,83041.0,75676.0,75480.0,75192.0,72036.0,65830.0,67162.0,66092.0,62761.0,63552.0,69053.0,73781.0,73235.0,75694.0,78596.0,79776.0,83294.0,93627.0,],
-            mode: "lines+markers",
-            type: "scatter",
-            name: "Čekající na očkování 3. dávkou",
-            hovertemplate: "%{y}"
-        }
-
-        const layout = {
-            title: "Počet čekajících ve frontě a s rezervací",
-            autosize: true,
-            xaxis: {
-                title: "Datum [den]",
-                type: "date",
-                tickformat: "%-d.%-m.%Y",
-                range: [new Date(new Date().setMonth(new Date().getMonth()-1)), new Date()],
-                rangeslider: true,
-                rangeselector: {
-                    buttons: [
-                        {
-                            count: 7,
-                            label: "1 týden",
-                            step: "day",
-                            stepmode: "backward"
-                        },
-                        {
-                            count: 14,
-                            label: "2 týdny",
-                            step: "day",
-                            stepmode: "backward"
-                        },
-                        {
-                            count: 1,
-                            label: "1 měsíc",
-                            step: "month",
-                            stepmode: "backward",
-                        },
-                        {
-                            label: "všechna data",
-                            step: "all"
-                        }
-                    ],
-                    xanchor: "center",
-                    x: 0.5,
-                }
-            },
-            yaxis: {
-                title: "Počet osob",
-                automargin: true,
-                tickformat: '.f',
-            },
-            hovermode: "x unified",
-            showlegend: true,
-            legend: {
-                orientation: "h",
-                xanchor: "center",
-                x: 0.5,
-                y: -0.4,
-            },
-            height: 700,
-        }
-
-        const data = [fronta, rezervace_1, rezervace_2, rezervace_3];
-
-        const config = {
-            responsive: true,
-            displayModeBar: false,
-        }
-
-        Plotly.newPlot("graf-fronta", data, layout, config);
-
-        // force relayout to rescale y
-        range = {'xaxis.range[0]': layout.xaxis.range[0].toISOString(), 'xaxis.range[1]': layout.xaxis.range[1].toISOString()}
-        Plotly.relayout('graf-fronta', range);
-    }
-
-    function grafFrontaRescale(e) {
-        if (e.target.layout.stopRescale === true) {
-            e.target.layout.stopRescale = false;
-            return;
-        }
-
-        console.log(e);
-
-        var rangeX = e.target.layout.xaxis.range
-        var data = e.target.data
-        var maxY = 0;
-
-        for (var i = 0; i < data.length; i++) {
-            var dataX = data[i].x
-            for (var j = 0; j < dataX.length; j++) {
-                if (dataX[j] >= rangeX[0] && dataX[j] <= rangeX[1]) {
-                    var dataY = data[i].y
-                    if (dataY[j] > maxY) {
-                        maxY = dataY[j];
-                    }
-                }
-            }
-        }
-
-        Plotly.relayout('graf-fronta', {'yaxis.range[0]': 0, 'yaxis.range[1]': maxY * 1.05, 'stopRescale': true});
-    }
-
-    grafFronta()
-
-    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-        let target = $(e.target).attr("href")
-        if(target==="#graf-fronta") {
-            grafFronta()
-        }
-    });
-
-    $('#graf-fronta').on("plotly_relayout", function (e) {
-        grafFrontaRescale(e)
-    });
-
-</script>
-                    </div>
-                    <div class="tab-pane" id="graf-registrace">
-                        <div id="graf-registrace"></div>
-<div class="font-italic">
-    <h6>Poznámky</h6>
-    <ul class="mb-0">
-        <li>15. 1. 2021 - otevření registrace pro starší 80 let</li>
-        <li>27. 2. 2021 - otevření registrace pro zaměstnance škol a školských zařízení</li>
-        <li>1. 3. 2021 - otevření registrace pro starší 70 let</li>
-        <li>24. 3. 2021 - otevření registrace pro chronicky nemocné či s vysokým rizikem těžkého průběhu</li>
-        <li>29. 3. 2021 - otevření registrace pro pracovníky kritické infrastruktury</li>
-        <li>7. 4. 2021 - otevření registrace pro pracovníky v sociálních službách</li>
-        <li>14. 4. 2021 - otevření registrace pro starší 65 let</li>
-        <li>23. 4. 2021 - otevření registrace pro starší 60 let</li>
-        <li>28. 4. 2021 - otevření registrace pro starší 55 let</li>
-        <li>3. 5. 2021 - otevření registrace pro akademické pracovníky</li>
-        <li>5. 5. 2021 - otevření registrace pro starší 50 let</li>
-        <li>11. 5. 2021 - otevření registrace pro starší 45 let</li>
-        <li>17. 5. 2021 - otevření registrace pro starší 40 let</li>
-        <li>24. 5. 2021 - otevření registrace pro starší 35 let</li>
-        <li>26. 5. 2021 - otevření registrace pro starší 30 let</li>
-        <li>4. 6. 2021 - otevření registrace pro starší 16 let</li>
-        <li>1. 7. 2021 - otevření registrace pro starší 12 let</li>
-        <li>18. 10. 2021 - zkrácení intervalu mezi 2. a 3. dávkou na 6 měsíců</li>
-    </ul>
-</div>
-
-<script>
-    function grafRegistrace() {
-        const registrace = {
-            x: ["2021-01-15 00:00:00","2021-01-16 00:00:00","2021-01-17 00:00:00","2021-01-18 00:00:00","2021-01-19 00:00:00","2021-01-20 00:00:00","2021-01-21 00:00:00","2021-01-22 00:00:00","2021-01-23 00:00:00","2021-01-24 00:00:00","2021-01-25 00:00:00","2021-01-26 00:00:00","2021-01-27 00:00:00","2021-01-28 00:00:00","2021-01-29 00:00:00","2021-01-30 00:00:00","2021-01-31 00:00:00","2021-02-01 00:00:00","2021-02-02 00:00:00","2021-02-03 00:00:00","2021-02-04 00:00:00","2021-02-05 00:00:00","2021-02-06 00:00:00","2021-02-07 00:00:00","2021-02-08 00:00:00","2021-02-09 00:00:00","2021-02-10 00:00:00","2021-02-11 00:00:00","2021-02-12 00:00:00","2021-02-13 00:00:00","2021-02-14 00:00:00","2021-02-15 00:00:00","2021-02-16 00:00:00","2021-02-17 00:00:00","2021-02-18 00:00:00","2021-02-19 00:00:00","2021-02-20 00:00:00","2021-02-21 00:00:00","2021-02-22 00:00:00","2021-02-23 00:00:00","2021-02-24 00:00:00","2021-02-25 00:00:00","2021-02-26 00:00:00","2021-02-27 00:00:00","2021-02-28 00:00:00","2021-03-01 00:00:00","2021-03-02 00:00:00","2021-03-03 00:00:00","2021-03-04 00:00:00","2021-03-05 00:00:00","2021-03-06 00:00:00","2021-03-07 00:00:00","2021-03-08 00:00:00","2021-03-09 00:00:00","2021-03-10 00:00:00","2021-03-11 00:00:00","2021-03-12 00:00:00","2021-03-13 00:00:00","2021-03-14 00:00:00","2021-03-15 00:00:00","2021-03-16 00:00:00","2021-03-17 00:00:00","2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00","2021-04-05 00:00:00","2021-04-06 00:00:00","2021-04-07 00:00:00","2021-04-08 00:00:00","2021-04-09 00:00:00","2021-04-10 00:00:00","2021-04-11 00:00:00","2021-04-12 00:00:00","2021-04-13 00:00:00","2021-04-14 00:00:00","2021-04-15 00:00:00","2021-04-16 00:00:00","2021-04-17 00:00:00","2021-04-18 00:00:00","2021-04-19 00:00:00","2021-04-20 00:00:00","2021-04-21 00:00:00","2021-04-22 00:00:00","2021-04-23 00:00:00","2021-04-24 00:00:00","2021-04-25 00:00:00","2021-04-26 00:00:00","2021-04-27 00:00:00","2021-04-28 00:00:00","2021-04-29 00:00:00","2021-04-30 00:00:00","2021-05-01 00:00:00","2021-05-02 00:00:00","2021-05-03 00:00:00","2021-05-04 00:00:00","2021-05-05 00:00:00","2021-05-06 00:00:00","2021-05-07 00:00:00","2021-05-08 00:00:00","2021-05-09 00:00:00","2021-05-10 00:00:00","2021-05-11 00:00:00","2021-05-12 00:00:00","2021-05-13 00:00:00","2021-05-14 00:00:00","2021-05-15 00:00:00","2021-05-16 00:00:00","2021-05-17 00:00:00","2021-05-18 00:00:00","2021-05-19 00:00:00","2021-05-20 00:00:00","2021-05-21 00:00:00","2021-05-22 00:00:00","2021-05-23 00:00:00","2021-05-24 00:00:00","2021-05-25 00:00:00","2021-05-26 00:00:00","2021-05-27 00:00:00","2021-05-28 00:00:00","2021-05-29 00:00:00","2021-05-30 00:00:00","2021-05-31 00:00:00","2021-06-01 00:00:00","2021-06-02 00:00:00","2021-06-03 00:00:00","2021-06-04 00:00:00","2021-06-05 00:00:00","2021-06-06 00:00:00","2021-06-07 00:00:00","2021-06-08 00:00:00","2021-06-09 00:00:00","2021-06-10 00:00:00","2021-06-11 00:00:00","2021-06-12 00:00:00","2021-06-13 00:00:00","2021-06-14 00:00:00","2021-06-15 00:00:00","2021-06-16 00:00:00","2021-06-17 00:00:00","2021-06-18 00:00:00","2021-06-19 00:00:00","2021-06-20 00:00:00","2021-06-21 00:00:00","2021-06-22 00:00:00","2021-06-23 00:00:00","2021-06-24 00:00:00","2021-06-25 00:00:00","2021-06-26 00:00:00","2021-06-27 00:00:00","2021-06-28 00:00:00","2021-06-29 00:00:00","2021-06-30 00:00:00","2021-07-01 00:00:00","2021-07-02 00:00:00","2021-07-03 00:00:00","2021-07-04 00:00:00","2021-07-05 00:00:00","2021-07-06 00:00:00","2021-07-07 00:00:00","2021-07-08 00:00:00","2021-07-09 00:00:00","2021-07-10 00:00:00","2021-07-11 00:00:00","2021-07-12 00:00:00","2021-07-13 00:00:00","2021-07-14 00:00:00","2021-07-15 00:00:00","2021-07-16 00:00:00","2021-07-17 00:00:00","2021-07-18 00:00:00","2021-07-19 00:00:00","2021-07-20 00:00:00","2021-07-21 00:00:00","2021-07-22 00:00:00","2021-07-23 00:00:00","2021-07-24 00:00:00","2021-07-25 00:00:00","2021-07-26 00:00:00","2021-07-27 00:00:00","2021-07-28 00:00:00","2021-07-29 00:00:00","2021-07-30 00:00:00","2021-07-31 00:00:00","2021-08-01 00:00:00","2021-08-02 00:00:00","2021-08-03 00:00:00","2021-08-04 00:00:00","2021-08-05 00:00:00","2021-08-06 00:00:00","2021-08-07 00:00:00","2021-08-08 00:00:00","2021-08-09 00:00:00","2021-08-10 00:00:00","2021-08-11 00:00:00","2021-08-12 00:00:00","2021-08-13 00:00:00","2021-08-14 00:00:00","2021-08-15 00:00:00","2021-08-16 00:00:00","2021-08-17 00:00:00","2021-08-18 00:00:00","2021-08-19 00:00:00","2021-08-20 00:00:00","2021-08-21 00:00:00","2021-08-22 00:00:00","2021-08-23 00:00:00","2021-08-24 00:00:00","2021-08-25 00:00:00","2021-08-26 00:00:00","2021-08-27 00:00:00","2021-08-28 00:00:00","2021-08-29 00:00:00","2021-08-30 00:00:00","2021-08-31 00:00:00","2021-09-01 00:00:00","2021-09-02 00:00:00","2021-09-03 00:00:00","2021-09-04 00:00:00","2021-09-05 00:00:00","2021-09-06 00:00:00","2021-09-07 00:00:00","2021-09-08 00:00:00","2021-09-09 00:00:00","2021-09-10 00:00:00","2021-09-11 00:00:00","2021-09-12 00:00:00","2021-09-13 00:00:00","2021-09-14 00:00:00","2021-09-15 00:00:00","2021-09-16 00:00:00","2021-09-17 00:00:00","2021-09-18 00:00:00","2021-09-19 00:00:00","2021-09-20 00:00:00","2021-09-21 00:00:00","2021-09-22 00:00:00","2021-09-23 00:00:00","2021-09-24 00:00:00","2021-09-25 00:00:00","2021-09-26 00:00:00","2021-09-27 00:00:00","2021-09-28 00:00:00","2021-09-29 00:00:00","2021-09-30 00:00:00","2021-10-01 00:00:00","2021-10-02 00:00:00","2021-10-03 00:00:00","2021-10-04 00:00:00","2021-10-05 00:00:00","2021-10-06 00:00:00","2021-10-07 00:00:00","2021-10-08 00:00:00","2021-10-09 00:00:00","2021-10-10 00:00:00","2021-10-11 00:00:00","2021-10-12 00:00:00","2021-10-13 00:00:00","2021-10-14 00:00:00","2021-10-15 00:00:00","2021-10-16 00:00:00","2021-10-17 00:00:00","2021-10-18 00:00:00","2021-10-19 00:00:00","2021-10-20 00:00:00","2021-10-21 00:00:00","2021-10-22 00:00:00","2021-10-23 00:00:00","2021-10-24 00:00:00","2021-10-25 00:00:00","2021-10-26 00:00:00","2021-10-27 00:00:00","2021-10-28 00:00:00","2021-10-29 00:00:00","2021-10-30 00:00:00","2021-10-31 00:00:00","2021-11-01 00:00:00","2021-11-02 00:00:00","2021-11-03 00:00:00","2021-11-04 00:00:00","2021-11-05 00:00:00","2021-11-06 00:00:00","2021-11-07 00:00:00","2021-11-08 00:00:00","2021-11-09 00:00:00","2021-11-10 00:00:00","2021-11-11 00:00:00","2021-11-12 00:00:00","2021-11-13 00:00:00","2021-11-14 00:00:00","2021-11-15 00:00:00","2021-11-16 00:00:00","2021-11-17 00:00:00","2021-11-18 00:00:00","2021-11-19 00:00:00","2021-11-20 00:00:00","2021-11-21 00:00:00","2021-11-22 00:00:00","2021-11-23 00:00:00","2021-11-24 00:00:00","2021-11-25 00:00:00","2021-11-26 00:00:00","2021-11-27 00:00:00","2021-11-28 00:00:00",],
-            y: [33444,7436,5864,7681,4920,3410,2440,2335,1202,1300,2074,3487,2483,1364,924,429,449,1022,912,831,727,643,383,378,816,735,655,595,562,276,276,876,1046,1039,1144,1063,469,568,1551,1841,1740,1727,1737,41359,8379,77109,22145,14452,12139,9879,4228,4366,10432,9147,9237,8243,6737,3503,3862,8986,8112,8124,7103,6223,2948,2847,7001,8871,25049,19902,17793,8284,8363,13181,11148,9820,7910,3520,2681,2366,2652,9546,11581,9775,8156,3283,3338,10789,11054,122543,31208,19759,9908,9319,19000,18074,15838,13908,102253,20085,20313,35125,33186,132047,46420,31955,15936,21267,42675,30464,152136,44760,30514,14274,17463,38485,188747,54201,40478,25271,12670,24958,190730,45463,33057,26486,23174,13825,30757,135461,45609,118493,37533,27022,14914,21938,29783,23265,18730,45451,168031,28522,29054,37966,27628,23274,18374,19005,9788,14693,18198,14931,13693,11449,8554,5507,9224,13087,11403,9776,10148,8020,5070,7628,11634,10944,14247,28632,15980,8380,8239,8142,9599,13890,13823,12519,6534,8688,14554,13153,12428,11760,7532,5074,6766,11478,10152,9423,7408,6839,3923,5800,10097,7516,6683,5236,4053,2728,4602,6284,4796,4075,3585,2679,1602,2695,4232,3568,3363,2716,2090,1316,1943,3875,3644,3124,2757,2246,1269,2144,3562,2772,2195,1985,1564,917,1500,2687,2287,2017,1528,1084,651,1431,1890,1639,1968,1631,1214,680,1011,1727,1365,1278,1143,831,468,914,1759,1326,1223,1020,795,510,722,1154,985,1590,1218,1400,791,1371,2439,2223,2143,1737,1528,991,1575,3042,2954,2584,2752,2999,2307,3227,41888,28527,25342,23284,18162,13573,14745,24837,21063,16861,9603,10999,7061,11235,19541,18353,17304,13850,9689,6541,9217,12823,9838,10943,11323,9154,5626,8058,11753,8387,15150,18561,14499,11428,16686,23916,16562,22357,20187,18919,17226,27567,],
-            mode: "lines+markers",
-            type: "scatter",
-            name: "Nové registrace",
-            hovertemplate: "%{y}"
-        }
-
-        const rezervace = {
-            x: ["2021-01-15 00:00:00","2021-01-16 00:00:00","2021-01-17 00:00:00","2021-01-18 00:00:00","2021-01-19 00:00:00","2021-01-20 00:00:00","2021-01-21 00:00:00","2021-01-22 00:00:00","2021-01-23 00:00:00","2021-01-24 00:00:00","2021-01-25 00:00:00","2021-01-26 00:00:00","2021-01-27 00:00:00","2021-01-28 00:00:00","2021-01-29 00:00:00","2021-01-30 00:00:00","2021-01-31 00:00:00","2021-02-01 00:00:00","2021-02-02 00:00:00","2021-02-03 00:00:00","2021-02-04 00:00:00","2021-02-05 00:00:00","2021-02-06 00:00:00","2021-02-07 00:00:00","2021-02-08 00:00:00","2021-02-09 00:00:00","2021-02-10 00:00:00","2021-02-11 00:00:00","2021-02-12 00:00:00","2021-02-13 00:00:00","2021-02-14 00:00:00","2021-02-15 00:00:00","2021-02-16 00:00:00","2021-02-17 00:00:00","2021-02-18 00:00:00","2021-02-19 00:00:00","2021-02-20 00:00:00","2021-02-21 00:00:00","2021-02-22 00:00:00","2021-02-23 00:00:00","2021-02-24 00:00:00","2021-02-25 00:00:00","2021-02-26 00:00:00","2021-02-27 00:00:00","2021-02-28 00:00:00","2021-03-01 00:00:00","2021-03-02 00:00:00","2021-03-03 00:00:00","2021-03-04 00:00:00","2021-03-05 00:00:00","2021-03-06 00:00:00","2021-03-07 00:00:00","2021-03-08 00:00:00","2021-03-09 00:00:00","2021-03-10 00:00:00","2021-03-11 00:00:00","2021-03-12 00:00:00","2021-03-13 00:00:00","2021-03-14 00:00:00","2021-03-15 00:00:00","2021-03-16 00:00:00","2021-03-17 00:00:00","2021-03-18 00:00:00","2021-03-19 00:00:00","2021-03-20 00:00:00","2021-03-21 00:00:00","2021-03-22 00:00:00","2021-03-23 00:00:00","2021-03-24 00:00:00","2021-03-25 00:00:00","2021-03-26 00:00:00","2021-03-27 00:00:00","2021-03-28 00:00:00","2021-03-29 00:00:00","2021-03-30 00:00:00","2021-03-31 00:00:00","2021-04-01 00:00:00","2021-04-02 00:00:00","2021-04-03 00:00:00","2021-04-04 00:00:00","2021-04-05 00:00:00","2021-04-06 00:00:00","2021-04-07 00:00:00","2021-04-08 00:00:00","2021-04-09 00:00:00","2021-04-10 00:00:00","2021-04-11 00:00:00","2021-04-12 00:00:00","2021-04-13 00:00:00","2021-04-14 00:00:00","2021-04-15 00:00:00","2021-04-16 00:00:00","2021-04-17 00:00:00","2021-04-18 00:00:00","2021-04-19 00:00:00","2021-04-20 00:00:00","2021-04-21 00:00:00","2021-04-22 00:00:00","2021-04-23 00:00:00","2021-04-24 00:00:00","2021-04-25 00:00:00","2021-04-26 00:00:00","2021-04-27 00:00:00","2021-04-28 00:00:00","2021-04-29 00:00:00","2021-04-30 00:00:00","2021-05-01 00:00:00","2021-05-02 00:00:00","2021-05-03 00:00:00","2021-05-04 00:00:00","2021-05-05 00:00:00","2021-05-06 00:00:00","2021-05-07 00:00:00","2021-05-08 00:00:00","2021-05-09 00:00:00","2021-05-10 00:00:00","2021-05-11 00:00:00","2021-05-12 00:00:00","2021-05-13 00:00:00","2021-05-14 00:00:00","2021-05-15 00:00:00","2021-05-16 00:00:00","2021-05-17 00:00:00","2021-05-18 00:00:00","2021-05-19 00:00:00","2021-05-20 00:00:00","2021-05-21 00:00:00","2021-05-22 00:00:00","2021-05-23 00:00:00","2021-05-24 00:00:00","2021-05-25 00:00:00","2021-05-26 00:00:00","2021-05-27 00:00:00","2021-05-28 00:00:00","2021-05-29 00:00:00","2021-05-30 00:00:00","2021-05-31 00:00:00","2021-06-01 00:00:00","2021-06-02 00:00:00","2021-06-03 00:00:00","2021-06-04 00:00:00","2021-06-05 00:00:00","2021-06-06 00:00:00","2021-06-07 00:00:00","2021-06-08 00:00:00","2021-06-09 00:00:00","2021-06-10 00:00:00","2021-06-11 00:00:00","2021-06-12 00:00:00","2021-06-13 00:00:00","2021-06-14 00:00:00","2021-06-15 00:00:00","2021-06-16 00:00:00","2021-06-17 00:00:00","2021-06-18 00:00:00","2021-06-19 00:00:00","2021-06-20 00:00:00","2021-06-21 00:00:00","2021-06-22 00:00:00","2021-06-23 00:00:00","2021-06-24 00:00:00","2021-06-25 00:00:00","2021-06-26 00:00:00","2021-06-27 00:00:00","2021-06-28 00:00:00","2021-06-29 00:00:00","2021-06-30 00:00:00","2021-07-01 00:00:00","2021-07-02 00:00:00","2021-07-03 00:00:00","2021-07-04 00:00:00","2021-07-05 00:00:00","2021-07-06 00:00:00","2021-07-07 00:00:00","2021-07-08 00:00:00","2021-07-09 00:00:00","2021-07-10 00:00:00","2021-07-11 00:00:00","2021-07-12 00:00:00","2021-07-13 00:00:00","2021-07-14 00:00:00","2021-07-15 00:00:00","2021-07-16 00:00:00","2021-07-17 00:00:00","2021-07-18 00:00:00","2021-07-19 00:00:00","2021-07-20 00:00:00","2021-07-21 00:00:00","2021-07-22 00:00:00","2021-07-23 00:00:00","2021-07-24 00:00:00","2021-07-25 00:00:00","2021-07-26 00:00:00","2021-07-27 00:00:00","2021-07-28 00:00:00","2021-07-29 00:00:00","2021-07-30 00:00:00","2021-07-31 00:00:00","2021-08-01 00:00:00","2021-08-02 00:00:00","2021-08-03 00:00:00","2021-08-04 00:00:00","2021-08-05 00:00:00","2021-08-06 00:00:00","2021-08-07 00:00:00","2021-08-08 00:00:00","2021-08-09 00:00:00","2021-08-10 00:00:00","2021-08-11 00:00:00","2021-08-12 00:00:00","2021-08-13 00:00:00","2021-08-14 00:00:00","2021-08-15 00:00:00","2021-08-16 00:00:00","2021-08-17 00:00:00","2021-08-18 00:00:00","2021-08-19 00:00:00","2021-08-20 00:00:00","2021-08-21 00:00:00","2021-08-22 00:00:00","2021-08-23 00:00:00","2021-08-24 00:00:00","2021-08-25 00:00:00","2021-08-26 00:00:00","2021-08-27 00:00:00","2021-08-28 00:00:00","2021-08-29 00:00:00","2021-08-30 00:00:00","2021-08-31 00:00:00","2021-09-01 00:00:00","2021-09-02 00:00:00","2021-09-03 00:00:00","2021-09-04 00:00:00","2021-09-05 00:00:00","2021-09-06 00:00:00","2021-09-07 00:00:00","2021-09-08 00:00:00","2021-09-09 00:00:00","2021-09-10 00:00:00","2021-09-11 00:00:00","2021-09-12 00:00:00","2021-09-13 00:00:00","2021-09-14 00:00:00","2021-09-15 00:00:00","2021-09-16 00:00:00","2021-09-17 00:00:00","2021-09-18 00:00:00","2021-09-19 00:00:00","2021-09-20 00:00:00","2021-09-21 00:00:00","2021-09-22 00:00:00","2021-09-23 00:00:00","2021-09-24 00:00:00","2021-09-25 00:00:00","2021-09-26 00:00:00","2021-09-27 00:00:00","2021-09-28 00:00:00","2021-09-29 00:00:00","2021-09-30 00:00:00","2021-10-01 00:00:00","2021-10-02 00:00:00","2021-10-03 00:00:00","2021-10-04 00:00:00","2021-10-05 00:00:00","2021-10-06 00:00:00","2021-10-07 00:00:00","2021-10-08 00:00:00","2021-10-09 00:00:00","2021-10-10 00:00:00","2021-10-11 00:00:00","2021-10-12 00:00:00","2021-10-13 00:00:00","2021-10-14 00:00:00","2021-10-15 00:00:00","2021-10-16 00:00:00","2021-10-17 00:00:00","2021-10-18 00:00:00","2021-10-19 00:00:00","2021-10-20 00:00:00","2021-10-21 00:00:00","2021-10-22 00:00:00","2021-10-23 00:00:00","2021-10-24 00:00:00","2021-10-25 00:00:00","2021-10-26 00:00:00","2021-10-27 00:00:00","2021-10-28 00:00:00","2021-10-29 00:00:00","2021-10-30 00:00:00","2021-10-31 00:00:00","2021-11-01 00:00:00","2021-11-02 00:00:00","2021-11-03 00:00:00","2021-11-04 00:00:00","2021-11-05 00:00:00","2021-11-06 00:00:00","2021-11-07 00:00:00","2021-11-08 00:00:00","2021-11-09 00:00:00","2021-11-10 00:00:00","2021-11-11 00:00:00","2021-11-12 00:00:00","2021-11-13 00:00:00","2021-11-14 00:00:00","2021-11-15 00:00:00","2021-11-16 00:00:00","2021-11-17 00:00:00","2021-11-18 00:00:00","2021-11-19 00:00:00","2021-11-20 00:00:00","2021-11-21 00:00:00","2021-11-22 00:00:00","2021-11-23 00:00:00","2021-11-24 00:00:00","2021-11-25 00:00:00","2021-11-26 00:00:00","2021-11-27 00:00:00","2021-11-28 00:00:00",],
-            y: [3498,8075,4521,4426,3809,3531,1312,311,453,888,1183,504,534,340,649,326,186,681,619,1015,619,823,250,185,729,1526,1453,818,1874,668,535,1651,2887,2988,2902,3905,1338,1437,4088,4184,3445,4095,3334,6277,5894,11591,10207,8440,10686,16010,5521,4018,7158,11717,12404,12577,12502,5049,5812,8822,10239,8891,6845,7454,3147,2294,5991,3980,6889,6542,9067,2388,2935,6812,5032,5594,6123,2755,2918,2722,3370,12008,15789,19026,21464,7875,6367,15526,18584,42908,41664,35482,12615,10708,23525,38460,35934,36739,48793,28261,23945,39287,48444,77271,71556,60664,21582,21704,51077,46174,90289,72937,61030,16623,16671,44841,113148,80673,62506,40791,13579,20006,71215,71245,66871,45532,36534,14205,16918,83415,58328,49297,84600,51776,16888,16985,36998,45861,27437,29716,81900,42465,27699,43054,39850,31339,27025,25764,17134,12796,31919,32528,22065,18447,15838,6258,8389,18967,22061,18826,15988,17457,5695,5514,16124,16170,13529,16233,19932,5593,9886,7510,6951,17120,16828,18430,6404,6904,16578,15427,14045,17260,12353,5087,4680,12445,11035,11746,11049,36440,3082,4437,12284,8828,9009,7394,6028,2839,2954,7057,6401,5952,6346,3892,1355,1707,4601,4270,3885,3051,2617,867,1497,3447,3525,3234,3161,3662,1131,1530,3834,3738,3054,3211,2033,790,696,2638,3024,2590,2298,1676,697,703,2154,1815,1933,1846,1569,535,579,1857,1467,1754,1145,1299,404,597,1741,1517,1438,1079,871,542,448,1246,603,1651,1487,1423,546,857,2715,2093,1970,1845,1801,651,914,3165,3029,2787,2532,2803,1491,1657,21666,24783,22455,21497,17860,10225,8753,20849,31269,18060,12784,14032,5435,6986,20472,20949,19185,15310,11958,6699,6170,16086,12748,11550,13418,9771,4066,6161,13991,10654,8793,19624,16038,7614,11704,23957,18872,20332,19691,18095,10629,14275,],
-            mode: "lines+markers",
-            type: "scatter",
-            name: "Nové rezervace",
-            hovertemplate: "%{y}"
-        }
-
-        const layout = {
-            title: "Počet nových registrací a rezervací",
-            autosize: true,
-            xaxis: {
-                title: "Datum [den]",
-                type: "date",
-                tickformat: "%-d.%-m.%Y",
-                range: [new Date(new Date().setMonth(new Date().getMonth()-1)), new Date()],
-                rangeslider: true,
-                rangeselector: {
-                    buttons: [
-                        {
-                            count: 7,
-                            label: "1 týden",
-                            step: "day",
-                            stepmode: "backward"
-                        },
-                        {
-                            count: 14,
-                            label: "2 týdny",
-                            step: "day",
-                            stepmode: "backward"
-                        },
-                        {
-                            count: 1,
-                            label: "1 měsíc",
-                            step: "month",
-                            stepmode: "backward",
-                        },
-                        {
-                            label: "všechna data",
-                            step: "all"
-                        }
-                    ],
-                    xanchor: "center",
-                    x: 0.5,
-                }
-            },
-            yaxis: {
-                title: "Počet osob",
-                automargin: true,
-                tickformat: '.f',
-            },
-            hovermode: "x unified",
-            showlegend: true,
-            legend: {
-                orientation: "h",
-                xanchor: "center",
-                x: 0.5,
-                y: -0.4,
-            },
-            height: 700,
-        }
-
-        const data = [registrace, rezervace];
-
-        const config = {
-            responsive: true,
-            displayModeBar: false,
-        }
-
-        Plotly.newPlot("graf-registrace", data, layout, config);
-
-        // force relayout to rescale y
-        range = {'xaxis.range[0]': layout.xaxis.range[0].toISOString(), 'xaxis.range[1]': layout.xaxis.range[1].toISOString()}
-        Plotly.relayout('graf-registrace', range);
-    }
-
-    function grafRegistraceRescale(e) {
-        if (e.target.layout.stopRescale === true) {
-            e.target.layout.stopRescale = false;
-            return;
-        }
-
-        console.log(e);
-
-        var rangeX = e.target.layout.xaxis.range
-        var data = e.target.data
-        var maxY = 0;
-
-        for (var i = 0; i < data.length; i++) {
-            var dataX = data[i].x
-            for (var j = 0; j < dataX.length; j++) {
-                if (dataX[j] >= rangeX[0] && dataX[j] <= rangeX[1]) {
-                    var dataY = data[i].y
-                    if (dataY[j] > maxY) {
-                        maxY = dataY[j];
-                    }
-                }
-            }
-        }
-
-        Plotly.relayout('graf-registrace', {'yaxis.range[0]': 0, 'yaxis.range[1]': maxY * 1.05, 'stopRescale': true});
-    }
-
-    grafRegistrace();
-
-    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-        let target = $(e.target).attr("href")
-        if(target==="#graf-registrace") {
-            grafRegistrace();
-        }
-    });
-
-    $('#graf-registrace').on("plotly_relayout", function (e) {
-        grafRegistraceRescale(e)
-    });
-
-</script>
-                    </div>
-                    <div class="tab-pane" id="graf-dodavky">
-                        <div id="graf-prijato"></div>
-<div class="font-italic">
-    <h6>Poznámky</h6>
-    <p class="text-justify mb-0">
-        Data neobsahují vakcíny distribuované přímo praktickým lékařům.
-    </p>
-</div>
-
-<script>
-    function grafPrijatychDavek() {
-        const traces = [
-            
-                {
-                    x: ["2021-02-08","2021-02-12","2021-02-15","2021-02-16","2021-02-18","2021-02-19","2021-02-22","2021-02-23","2021-02-26","2021-03-02","2021-03-03","2021-03-05","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-29","2021-04-01","2021-04-06","2021-04-08","2021-04-09","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-20","2021-04-26","2021-04-27","2021-04-29","2021-04-30","2021-05-03","2021-05-04","2021-05-05","2021-05-10","2021-05-13","2021-05-18","2021-05-21","2021-05-26","2021-05-28","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-08","2021-06-17","2021-06-18","2021-06-23","2021-06-24","2021-08-16","2021-09-07","2021-09-09","2021-09-29",],
-                    y: [19200, 20600, 1000, 320, 200, 11700, 14500, 9800, 33900, 18400, 100, 21900, 600, 2700, 600, 360, 4610, 330, 1100, 3400, 1520, 7000, 1260, 1460, 110, 2600, 6300, 100, 20900, 5300, 10400, 5900, 700, 3800, 1600, 100, 8600, 4300, 1500, 1100, 36200, 30500, 11020, 13500, 8000, 17400, 100, 18200, 3300, 15720, 65000, 70, 300, 500, 20390, 1700, 900, 700, 500, 200, 300, 300, 100, 100, ],
-                    name: "AstraZeneca",
-                    type: "bar",
-                    marker: {
-                        color: palette[0]
-                    }
-                },
-            
-                {
-                    x: ["2021-06-01","2021-06-14","2021-07-09","2021-07-13","2021-07-14","2021-07-16","2021-07-19","2021-07-20","2021-07-21","2021-07-23","2021-07-26","2021-07-27","2021-07-28","2021-08-02","2021-08-03","2021-08-04","2021-08-06","2021-08-09","2021-08-10","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-23","2021-08-24","2021-08-27","2021-08-30","2021-08-31","2021-09-06","2021-09-08","2021-09-09","2021-09-15","2021-10-06","2021-10-13","2021-10-14","2021-10-25","2021-10-26","2021-10-27","2021-10-29","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-15","2021-11-16","2021-11-18","2021-11-19","2021-11-22","2021-11-23","2021-11-24","2021-11-25",],
-                    y: [50, 50, 700, 1000, 1000, 2000, 15100, 11150, 7150, 19500, 2000, 3500, 1650, 7750, 7000, 2500, 2300, 25, 5550, 6100, 4000, 1000, 3700, 730, 10500, 150, 14100, 175, 7650, 300, 300, 3400, 3000, 100, 325, 600, 4600, 400, 300, 7100, 11650, 350, 2800, 4200, 8050, 6300, 5300, 400, 7300, 4650, 2400, 7950, 15700, 1300, 1250, 100, ],
-                    name: "Janssen",
-                    type: "bar",
-                    marker: {
-                        color: palette[1]
-                    }
-                },
-            
-                {
-                    x: ["2021-01-13","2021-02-01","2021-02-02","2021-02-03","2021-02-04","2021-02-05","2021-02-08","2021-02-09","2021-02-10","2021-02-11","2021-02-26","2021-02-27","2021-03-01","2021-03-02","2021-03-03","2021-03-05","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-22","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-04-02","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-03","2021-05-04","2021-05-06","2021-05-07","2021-05-10","2021-05-11","2021-05-13","2021-05-14","2021-05-17","2021-05-18","2021-05-21","2021-05-24","2021-05-25","2021-05-28","2021-05-31","2021-06-01","2021-06-03","2021-06-04","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-15","2021-06-16","2021-06-21","2021-06-22","2021-06-24","2021-06-28","2021-06-29","2021-07-02","2021-07-07","2021-07-08","2021-07-12","2021-07-13","2021-07-14","2021-07-16","2021-07-19","2021-07-20","2021-07-23","2021-07-26","2021-07-28","2021-08-02","2021-08-03","2021-08-09","2021-08-16","2021-08-17","2021-08-20","2021-08-23","2021-08-25","2021-08-30","2021-09-01","2021-09-09","2021-09-21","2021-09-27","2021-09-29","2021-10-07","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-25","2021-10-26","2021-10-27","2021-10-29","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-15","2021-11-16","2021-11-18","2021-11-22","2021-11-23","2021-11-25","2021-11-26",],
-                    y: [8400, 3900, 4200, 2700, 600, 1300, 7430, 4000, 8700, 2770, 17040, 16700, 7160, 2040, 1000, 400, 25000, 10700, 7700, 15460, 100, 100, 47900, 27600, 5200, 7800, 200, 39600, 23300, 400, 11000, 9700, 22300, 7100, 2700, 15000, 20400, 12400, 500, 22700, 38000, 10600, 100, 22400, 40710, 6800, 24400, 4600, 3700, 400, 18800, 2560, 890, 100, 24900, 4200, 90, 370, 600, 27800, 2100, 29150, 3700, 100, 16610, 3400, 3000, 10500, 14700, 4300, 1570, 6300, 2500, 7500, 3000, 7900, 700, 30, 3900, 1000, 6130, 400, 800, 30, 1400, 20, 1100, 50, 100, 300, 800, 510, 50, 500, 1000, 30, 150, 100, 200, 6300, 300, 1700, 3400, 4800, 600, 290, 3500, 1900, 550, 250, 1800, 1100, 300, 1700, 1000, 400, 250, ],
-                    name: "Moderna",
-                    type: "bar",
-                    marker: {
-                        color: palette[2]
-                    }
-                },
-            
-                {
-                    x: ["2020-12-26","2020-12-29","2020-12-30","2021-01-05","2021-01-06","2021-01-07","2021-01-11","2021-01-12","2021-01-13","2021-01-14","2021-01-15","2021-01-20","2021-01-21","2021-01-25","2021-01-26","2021-01-27","2021-01-28","2021-02-01","2021-02-02","2021-02-03","2021-02-04","2021-02-08","2021-02-09","2021-02-12","2021-02-16","2021-02-17","2021-02-19","2021-02-22","2021-02-23","2021-02-26","2021-03-02","2021-03-03","2021-03-05","2021-03-09","2021-03-10","2021-03-12","2021-03-16","2021-03-17","2021-03-23","2021-03-24","2021-03-30","2021-03-31","2021-04-06","2021-04-07","2021-04-08","2021-04-13","2021-04-14","2021-04-20","2021-04-21","2021-04-27","2021-04-28","2021-05-04","2021-05-05","2021-05-11","2021-05-12","2021-05-18","2021-05-19","2021-05-25","2021-05-26","2021-05-31","2021-06-01","2021-06-02","2021-06-04","2021-06-08","2021-06-09","2021-06-15","2021-06-16","2021-06-18","2021-06-22","2021-06-23","2021-06-24","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-07","2021-07-08","2021-07-13","2021-07-16","2021-07-20","2021-07-21","2021-07-27","2021-08-03","2021-08-04","2021-08-10","2021-08-11","2021-08-16","2021-08-23","2021-08-31","2021-09-01","2021-09-07","2021-09-14","2021-09-16","2021-09-17","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-29","2021-09-30","2021-10-01","2021-10-06","2021-10-14","2021-10-20","2021-10-21","2021-10-22","2021-10-25","2021-10-26","2021-10-29","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-15","2021-11-16","2021-11-18","2021-11-19","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26",],
-                    y: [5850, 1170, 16710, 46800, 5850, 180, 822, 49434, 7932, 25998, 10596, 84240, 12870, 11700, 51480, 3510, 1170, 120, 72540, 40620, 1170, 84, 71370, 5850, 66690, 17550, 7020, 90, 85410, 8190, 100620, 8322, 4548, 200190, 11700, 11700, 111150, 12870, 147420, 16380, 147420, 16380, 2340, 257400, 25740, 190710, 96180, 262080, 24570, 365040, 39780, 384930, 45630, 386100, 45630, 387270, 46110, 384930, 47970, 100620, 552810, 69030, 41142, 490230, 59670, 490884, 59670, 2880, 658710, 34278, 570, 10530, 686790, 7350, 100620, 321042, 37440, 359190, 207930, 324090, 35100, 359190, 373230, 18720, 367380, 25098, 30, 120, 263250, 47970, 326430, 10530, 157950, 38610, 173160, 35100, 9360, 10530, 635670, 73710, 17550, 211770, 211770, 300, 12, 60, 450, 1470, 870, 360, 1230, 300, 2124, 210, 540, 600, 2040, 300, 2010, 7020, 7020, 600, 2400, 390, 6900, 1890, ],
-                    name: "Pfizer",
-                    type: "bar",
-                    marker: {
-                        color: palette[3]
-                    }
-                },
-            
-        ];
-
-        const layout = {
-            title: "Dodané dávky",
-            barmode: "stack",
-            autosize: true,
-            xaxis: {
-                title: "Datum [den]",
-                type: "date",
-
-                // Tune ticks
-                tickformat: "%-d.%-m.%Y",
-                tickangle: -90,
-                nticks: 15,
-
-                // Set range to one month by default
-                range: [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()],
-                rangeslider: {},
-                rangeselector: {
-                    buttons: [
-                        {
-                            count: 7,
-                            label: "1 týden",
-                            step: "day",
-                            stepmode: "backward"
-                        },
-                        {
-                            count: 14,
-                            label: "2 týdny",
-                            step: "day",
-                            stepmode: "backward"
-                        },
-                        {
-                            count: 1,
-                            label: "1 měsíc",
-                            step: "month",
-                            stepmode: "backward",
-                        },
-                        {
-                            label: "všechna data",
-                            step: "all"
-                        }
-                    ],
-                    xanchor: "center",
-                    x: 0.5,
-                }
-            },
-            yaxis: {
-                title: "Počet dodaných dávek",
-                automargin: true,
-                tickformat: ".f",
-            },
-            hovermode: "x unified",
-            showlegend: true,
-            legend: {
-                orientation: "h",
-                xanchor: "center",
-                x: 0.5,
-                yanchor: "bottom",
-                y: -0.8,
-            },
-            height: 700,
-        };
-
-        const config = {
-            responsive: true,
-            displayModeBar: false,
-        };
-
-        Plotly.newPlot("graf-prijato", traces, layout, config);
-
-        // force relayout to rescale y
-        range = {'xaxis.range[0]': layout.xaxis.range[0].toISOString(), 'xaxis.range[1]': layout.xaxis.range[1].toISOString()}
-        Plotly.relayout('graf-prijato', range);
-    }
-
-    function grafPrijatychDavekRescale(e) {
-        if (e.target.layout.stopRescale === true) {
-            e.target.layout.stopRescale = false;
-            return;
-        }
-
-        console.log(e);
-
-        var rangeX = e.target.layout.xaxis.range
-        var data = e.target.data
-        var maxY = 0;
-
-        for (var i = 0; i < data.length; i++) {
-            var dataX = data[i].x
-            for (var j = 0; j < dataX.length; j++) {
-                if (dataX[j] >= rangeX[0] && dataX[j] <= rangeX[1]) {
-                    var dataY = data[i].y
-                    if (dataY[j] > maxY) {
-                        maxY = dataY[j];
-                    }
-                }
-            }
-        }
-
-        Plotly.relayout('graf-prijato', {'yaxis.range[0]': 0, 'yaxis.range[1]': maxY * 1.05, 'stopRescale': true});
-    }
-
-    // Initially show the chart
-    grafPrijatychDavek();
-
-    // Reset chart when tab is shown
-    $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
-        let target = $(e.target).attr("href")
-
-        if (target==="#graf-dodavky") {
-            grafPrijatychDavek();
-        }
-    });
-
-    $('#graf-prijato').on("plotly_relayout", function (e) {
-        grafPrijatychDavekRescale(e)
-    });
-
-</script>
-                    </div>
-                    <div class="tab-pane" id="graf-ockovane-davky">
-                        <div id="graf-ockovano"></div>
-
-<script>
-    function grafOckovanychDavek() {
-        const traces = [
-            
-                {
-                    x: ["2021-02-06","2021-02-08","2021-02-09","2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-17","2021-04-18","2021-04-19","2021-04-20","2021-04-21","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-27","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-25","2021-10-26","2021-10-27","2021-10-29","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27",],
-                    y: [2, 3, 2, 2, 234, 407, 441, 203, 753, 1175, 2053, 2006, 1740, 681, 265, 1611, 2741, 2939, 4359, 3354, 623, 472, 4059, 9407, 9776, 9397, 8403, 4505, 4168, 7922, 11254, 10956, 11814, 12278, 3008, 920, 8052, 8749, 9006, 9363, 8821, 2446, 479, 6882, 7643, 7782, 7519, 5752, 886, 127, 3776, 5382, 4977, 4576, 578, 215, 11, 76, 2996, 8125, 11442, 11426, 3504, 506, 8942, 9525, 10091, 9124, 6743, 621, 150, 5615, 6782, 7493, 8143, 6219, 686, 182, 5640, 6713, 6706, 6548, 3907, 235, 121, 3220, 4320, 6250, 7383, 5789, 281, 411, 5999, 7595, 7436, 7001, 5885, 1954, 798, 4637, 6041, 6549, 6771, 5801, 1883, 1469, 6371, 11183, 10987, 9582, 9312, 2464, 2597, 8347, 11796, 11557, 11938, 10524, 2046, 927, 8818, 10531, 10566, 10875, 8625, 1391, 186, 7503, 8839, 8540, 8107, 5780, 616, 106, 6444, 8591, 8427, 8175, 6034, 1626, 144, 6933, 9589, 9057, 9482, 7099, 641, 55, 48, 208, 6173, 6842, 5292, 324, 422, 5432, 6957, 6863, 7091, 5105, 137, 13, 4073, 5491, 5263, 4562, 2851, 109, 25, 3075, 4218, 4210, 4065, 2736, 193, 16, 2162, 2926, 2516, 2248, 1609, 135, 12, 1109, 1696, 1461, 1255, 860, 41, 15, 666, 905, 732, 700, 550, 87, 3, 405, 295, 392, 344, 289, 5, 1, 378, 306, 166, 172, 83, 24, 5, 58, 105, 104, 90, 46, 2, 6, 50, 62, 66, 46, 35, 4, 2, 47, 65, 87, 52, 21, 2, 38, 34, 32, 26, 1, 16, 18, 28, 33, 20, 1, 1, 36, 38, 19, 6, 1, 1, 24, 22, 29, 18, 11, 26, 44, 46, 45, 1, 18, 12, 6, 15, 14, 1, 1, 11, 13, 8, 15, 9, 1, 1, 12, 12, 8, 10, 17, 2, 5, 15, 21, 39, 53, 24, 3, ],
-                    name: "AstraZeneca",
-                    mode: "lines+markers",
-                    type: "scatter",
-                    marker: {
-                        // In case index is greater than length of colors list - start from index 0
-                        color: palette[0]
-                    }
-                },
-            
-                {
-                    x: ["2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-11","2021-03-12","2021-03-13","2021-03-16","2021-03-18","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-26","2021-03-27","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-20","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-26","2021-09-27","2021-09-28","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-03","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-17","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-23","2021-10-24","2021-10-25","2021-10-26","2021-10-27","2021-10-28","2021-10-29","2021-10-30","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27","2021-11-28",],
-                    y: [1, 5, 2, 1, 1, 1, 1, 1, 2, 5, 5, 2, 2, 3, 2, 1, 2, 3, 3, 7, 7, 12, 2, 2, 6, 11, 8, 13, 9, 19, 8, 7, 1, 29, 221, 13, 16, 534, 927, 1450, 1604, 1461, 104, 30, 1121, 1557, 1971, 1969, 1885, 150, 10, 1684, 1820, 1591, 1512, 1103, 68, 10, 880, 1001, 1229, 1624, 1424, 176, 9, 1275, 1782, 1905, 2104, 2100, 141, 8, 1850, 2281, 2460, 2807, 3246, 123, 71, 3129, 3054, 3635, 3126, 3135, 98, 53, 2396, 2173, 2538, 2187, 2041, 22, 38, 1437, 1614, 1804, 1826, 1715, 33, 11, 1260, 1452, 1355, 1774, 1717, 15, 9, 14, 22, 982, 1319, 1422, 18, 31, 1314, 1847, 1993, 2350, 2472, 496, 544, 1472, 1911, 2837, 3042, 3100, 1181, 1147, 2649, 3298, 3750, 3309, 3317, 1556, 1329, 2449, 3222, 2981, 3041, 3091, 1413, 1086, 2218, 2201, 2229, 2488, 2199, 1057, 626, 1898, 1972, 2129, 2462, 2625, 907, 793, 2518, 2248, 2171, 1808, 2210, 716, 725, 1689, 1764, 1339, 1857, 1966, 624, 528, 1417, 1498, 1257, 1572, 1545, 618, 445, 1485, 1426, 1314, 1562, 1776, 555, 397, 1085, 1135, 1109, 1380, 1593, 533, 298, 1065, 181, 1057, 1139, 1100, 337, 298, 832, 978, 953, 957, 1249, 379, 255, 714, 717, 911, 1141, 1364, 485, 548, 1099, 1010, 1425, 2258, 2821, 1355, 1259, 3167, 4112, 4260, 1211, 4137, 2011, 1654, 4677, 4816, 4194, 5076, 6804, 2050, 1635, 4512, 4703, 3971, 4367, 5677, 1869, 1600, 4317, 4520, 1233, 4988, 6034, 2334, 1779, 4228, 3648, 3575, 3378, 3713, 1338, 509, ],
-                    name: "Janssen",
-                    mode: "lines+markers",
-                    type: "scatter",
-                    marker: {
-                        // In case index is greater than length of colors list - start from index 0
-                        color: palette[1]
-                    }
-                },
-            
-                {
-                    x: ["2021-01-01","2021-01-04","2021-01-05","2021-01-06","2021-01-07","2021-01-08","2021-01-09","2021-01-12","2021-01-14","2021-01-15","2021-01-16","2021-01-17","2021-01-18","2021-01-19","2021-01-20","2021-01-21","2021-01-22","2021-01-23","2021-01-24","2021-01-25","2021-01-26","2021-01-27","2021-01-28","2021-01-29","2021-01-30","2021-01-31","2021-02-01","2021-02-02","2021-02-03","2021-02-04","2021-02-05","2021-02-06","2021-02-07","2021-02-08","2021-02-09","2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-17","2021-04-18","2021-04-19","2021-04-20","2021-04-21","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-26","2021-09-27","2021-09-28","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-03","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-17","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-23","2021-10-24","2021-10-25","2021-10-26","2021-10-27","2021-10-28","2021-10-29","2021-10-30","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27","2021-11-28",],
-                    y: [1, 7, 1, 1, 1, 1, 2, 1, 1226, 767, 326, 91, 179, 780, 1586, 964, 201, 41, 124, 199, 275, 305, 124, 152, 4, 3, 261, 329, 740, 1142, 1196, 262, 264, 914, 1663, 1759, 3385, 2258, 498, 250, 1421, 2481, 2751, 2358, 1405, 6, 102, 1002, 790, 1341, 1184, 849, 173, 194, 1604, 1881, 3733, 4799, 3648, 1404, 1399, 3104, 5349, 5055, 4307, 5460, 1314, 1140, 6832, 9244, 7754, 7185, 6107, 1151, 326, 4328, 3864, 4162, 4063, 2569, 1249, 1546, 6007, 8876, 11037, 10742, 2560, 1706, 1314, 1412, 8489, 8422, 6266, 7612, 1571, 1145, 8634, 10615, 10456, 9525, 10070, 2386, 900, 6973, 6898, 5446, 5924, 3894, 835, 1463, 4333, 6339, 8436, 7865, 3811, 1204, 499, 3011, 7129, 5667, 5425, 4899, 1105, 1069, 5660, 6325, 8390, 7419, 5502, 737, 706, 4987, 7853, 10379, 10598, 7984, 1867, 911, 8675, 8803, 9964, 10091, 9918, 2615, 995, 8329, 10421, 9340, 9584, 9291, 885, 534, 7820, 8225, 9439, 10187, 8974, 945, 397, 8234, 10551, 9450, 7973, 7986, 1199, 1295, 9261, 9484, 10976, 9896, 9065, 1499, 1095, 8833, 10959, 12315, 10970, 11039, 1283, 509, 259, 703, 8573, 8803, 8102, 990, 434, 10230, 9161, 8419, 7588, 8252, 481, 560, 6766, 6423, 6168, 5746, 4857, 458, 402, 3284, 3563, 3147, 2784, 2295, 298, 424, 1972, 1415, 2179, 2059, 1723, 128, 82, 1494, 1343, 1699, 1696, 2046, 338, 110, 1742, 1419, 1616, 1482, 1918, 315, 316, 1485, 1250, 1594, 1478, 1442, 243, 305, 1817, 1126, 1268, 1838, 1477, 84, 79, 1124, 1142, 948, 1005, 986, 147, 68, 806, 917, 1025, 915, 976, 110, 43, 699, 718, 890, 819, 875, 91, 36, 720, 47, 1028, 1286, 905, 55, 4, 887, 775, 837, 1025, 934, 60, 20, 808, 981, 865, 877, 958, 45, 66, 916, 1337, 1687, 2413, 1956, 278, 58, 2381, 2642, 4019, 339, 2447, 150, 49, 3490, 3917, 5225, 5993, 5555, 602, 211, 4151, 5375, 5348, 5300, 4468, 508, 134, 4173, 5861, 767, 5730, 5568, 742, 513, 4667, 7160, 6908, 7507, 7242, 1208, 728, ],
-                    name: "Moderna",
-                    mode: "lines+markers",
-                    type: "scatter",
-                    marker: {
-                        // In case index is greater than length of colors list - start from index 0
-                        color: palette[2]
-                    }
-                },
-            
-                {
-                    x: ["2020-12-27","2020-12-28","2020-12-29","2020-12-30","2020-12-31","2021-01-01","2021-01-02","2021-01-03","2021-01-04","2021-01-05","2021-01-06","2021-01-07","2021-01-08","2021-01-09","2021-01-10","2021-01-11","2021-01-12","2021-01-13","2021-01-14","2021-01-15","2021-01-16","2021-01-17","2021-01-18","2021-01-19","2021-01-20","2021-01-21","2021-01-22","2021-01-23","2021-01-24","2021-01-25","2021-01-26","2021-01-27","2021-01-28","2021-01-29","2021-01-30","2021-01-31","2021-02-01","2021-02-02","2021-02-03","2021-02-04","2021-02-05","2021-02-06","2021-02-07","2021-02-08","2021-02-09","2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-17","2021-04-18","2021-04-19","2021-04-20","2021-04-21","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-26","2021-09-27","2021-09-28","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-03","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-17","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-23","2021-10-24","2021-10-25","2021-10-26","2021-10-27","2021-10-28","2021-10-29","2021-10-30","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27","2021-11-28",],
-                    y: [1279, 2307, 3466, 3515, 1305, 268, 1277, 922, 3600, 4514, 5840, 7990, 10048, 2024, 1768, 9856, 13443, 13536, 14002, 13237, 3070, 3160, 14128, 14541, 14745, 16423, 15714, 4156, 2998, 12414, 14248, 13259, 13098, 13965, 1819, 1891, 11673, 14034, 14680, 16735, 14931, 2946, 3084, 14588, 15332, 16984, 18911, 18828, 3654, 1932, 13578, 14135, 13194, 16022, 16060, 2485, 1783, 13529, 16381, 15619, 17968, 17302, 2767, 2225, 17354, 19466, 21858, 23753, 22164, 7075, 6799, 23530, 26114, 32230, 37040, 29492, 14049, 11192, 22257, 31407, 31190, 33806, 33135, 13544, 8156, 25806, 28459, 30618, 32564, 33959, 11131, 8001, 30044, 32586, 34106, 42299, 16535, 12600, 10091, 8070, 33850, 29058, 51952, 50636, 25653, 18131, 45764, 42121, 45591, 54825, 53441, 22699, 16910, 46855, 44703, 49113, 57718, 51432, 21514, 16995, 46066, 46258, 54671, 63773, 61516, 21097, 20490, 63794, 60219, 66658, 74314, 72801, 29481, 23872, 64906, 67310, 69904, 75692, 73578, 31248, 25475, 67804, 69030, 73158, 81782, 79817, 39403, 28946, 63138, 64042, 80460, 84761, 84750, 40875, 33144, 82865, 81026, 90976, 91238, 94091, 49732, 40400, 96365, 94031, 96340, 97632, 97898, 50201, 41681, 96853, 93172, 97810, 101906, 104950, 49109, 39656, 92414, 93833, 93780, 98060, 98579, 47415, 39274, 95226, 92197, 94273, 89920, 90882, 36583, 28734, 32343, 32033, 87959, 78550, 80853, 36567, 30451, 78257, 76160, 78444, 75729, 82226, 38540, 32737, 76514, 72609, 69725, 64505, 63941, 31989, 25971, 60457, 54901, 52271, 49707, 54073, 24805, 19754, 47071, 44873, 42087, 46019, 50479, 20628, 17809, 50588, 43902, 46810, 40552, 43683, 11519, 11553, 37594, 30378, 41587, 40864, 43805, 13231, 12381, 42828, 37030, 30862, 29101, 30070, 8066, 7256, 24785, 20752, 15750, 15451, 19732, 4249, 3725, 14694, 11202, 11913, 12462, 15693, 2945, 1769, 11876, 10532, 9971, 9501, 12190, 2849, 1664, 9696, 9129, 6924, 8732, 11756, 2396, 1808, 8201, 603, 9047, 9735, 10930, 1945, 1047, 7779, 7576, 8515, 7934, 11859, 2527, 1474, 7696, 7886, 9365, 10202, 12720, 2954, 1768, 12191, 13168, 19731, 23907, 28092, 6538, 4375, 27329, 29902, 35666, 6488, 30603, 7106, 6551, 31814, 34578, 40940, 41275, 45604, 11605, 7619, 35727, 35166, 38302, 37936, 43913, 10673, 7152, 35024, 41189, 8893, 40487, 48773, 13585, 9400, 41227, 45693, 48634, 51657, 57777, 16261, 10535, ],
-                    name: "Pfizer",
-                    mode: "lines+markers",
-                    type: "scatter",
-                    marker: {
-                        // In case index is greater than length of colors list - start from index 0
-                        color: palette[3]
-                    }
-                },
-            
-        ]
-
-        const layout = {
-            title: "Očkované dávky",
-            autosize: true,
-            xaxis: {
-                title: "Datum [den]",
-                type: "date",
-                tickformat: "%-d.%-m.%Y",
-
-                // Set range to one month by default
-                range: [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()],
-                rangeslider: {},
-                rangeselector: {
-                    buttons: [
-                        {
-                            count: 7,
-                            label: "1 týden",
-                            step: "day",
-                            stepmode: "backward"
-                        },
-                        {
-                            count: 14,
-                            label: "2 týdny",
-                            step: "day",
-                            stepmode: "backward"
-                        },
-                        {
-                            count: 1,
-                            label: "1 měsíc",
-                            step: "month",
-                            stepmode: "backward",
-                        },
-                        {
-                            label: "všechna data",
-                            step: "all"
-                        }
-                    ],
-                    xanchor: "center",
-                    x: 0.5,
-                }
-            },
-            yaxis: {
-                title: "Počet očkovaných dávek",
-                automargin: true,
-                tickformat: ".f",
-            },
-            hovermode: "x unified",
-            showlegend: true,
-            legend: {
-                orientation: "h",
-                xanchor: "center",
-                x: 0.5,
-                yanchor: "bottom",
-                y: -0.5,
-            },
-            height: 700,
-        }
-
-        const config = {
-            responsive: true,
-            displayModeBar: false,
-        }
-
-        // Render original chart
-        Plotly.newPlot("graf-ockovano", traces, layout, config);
-
-        // force relayout to rescale y
-        range = {'xaxis.range[0]': layout.xaxis.range[0].toISOString(), 'xaxis.range[1]': layout.xaxis.range[1].toISOString()}
-        Plotly.relayout('graf-ockovano', range);
-    }
-
-    function grafOckovanychDavekRescale(e) {
-        if (e.target.layout.stopRescale === true) {
-            e.target.layout.stopRescale = false;
-            return;
-        }
-
-        console.log(e);
-
-        var rangeX = e.target.layout.xaxis.range
-        var data = e.target.data
-        var maxY = 0;
-
-        for (var i = 0; i < data.length; i++) {
-            var dataX = data[i].x
-            for (var j = 0; j < dataX.length; j++) {
-                if (dataX[j] >= rangeX[0] && dataX[j] <= rangeX[1]) {
-                    var dataY = data[i].y
-                    if (dataY[j] > maxY) {
-                        maxY = dataY[j];
-                    }
-                }
-            }
-        }
-
-        Plotly.relayout('graf-ockovano', {'yaxis.range[0]': 0, 'yaxis.range[1]': maxY * 1.05, 'stopRescale': true});
-    }
-
-    grafOckovanychDavek();
-
-    // Fix autosizing when tab turns to be active
-    $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
-        let target = $(e.target).attr("href") // activated tab
-        if(target==="#graf-ockovane-davky") {
-            grafOckovanychDavek();
-        }
-    });
-
-    $('#graf-ockovano').on("plotly_relayout", function (e) {
-        grafOckovanychDavekRescale(e)
-    });
-
-</script>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -3888,8 +1949,8 @@ COVID očkování</title>
             <p class="mb-1">
                 Vznik: 16. 01. 2021, <a href="https://opendatalab.cz/" target="_blank">OpenDataLab</a>.
                 Data na tomto webu pochází z <a href="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19"
-                                                target="_blank">opendat
-                 Ministerstva zdravotnictví ČR</a> a od Centrálního řídícího týmu COVID-19 (CŘT).
+                                                target="_blank">opendat Ministerstva zdravotnictví ČR</a>
+                a od Centrálního řídícího týmu COVID-19 (CŘT).
             </p>
             <p class="mb-1">
                 Vydavatel: ČVUT, Fakulta informačních technologií, Praha ve spolupráci s firmou Profinit EU, s.r.o., Praha, 2021.<br />
