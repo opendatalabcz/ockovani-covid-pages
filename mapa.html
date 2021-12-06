@@ -102,8 +102,8 @@ COVID očkování</title>
         <div class="col">
             <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Zdrojová data aktualizována: <strong>po 06. 12. 07:38</strong>.
-                    Web byl aktualizován: <strong>po 06. 12. 07:45</strong>.
+                    Zdrojová data aktualizována: <strong>po 06. 12. 08:38</strong>.
+                    Web byl aktualizován: <strong>po 06. 12. 08:45</strong>.
                 </p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -9288,6 +9288,48 @@ COVID očkování</title>
         markers.push(marker);
         
     
+        
+        var c = SMap.Coords.fromWGS84(15.68091, 50.076065);
+
+        var icon = JAK.mel("div");
+        
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-yellow.png"}, {filter:"grayscale(1)"});
+        
+
+        // var icon = JAK.mel("div");
+        // var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Léčebné lázně Bohdaneč a.s. -  Lázně Bohdaneč",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null)
+        card.getHeader().innerHTML = "<strong>Léčebné lázně Bohdaneč a.s. -  Lázně Bohdaneč</strong>";
+        card.getBody().innerHTML = "<strong>Adresa:</strong> Masarykovo nám. 6, 533 41 Lázně Bohdaneč<br>" +
+            "<strong>Bezbariérový přístup:</strong> Ano<br>" +
+            "<strong>Čekání na rezervaci za poslední týden:</strong> bez dat  <br>" +
+            // "<strong>Průměrná doba čekajících ve frontě:</strong> bez dat  <br>" +
+            // "<strong>Zatížení místa:</strong> bez dat  <br>" +
+            '<a href="./misto/77ea5bbd-3ac9-48bb-a4a7-942dbffb7ae7" class="btn btn-primary mt-2">Detail místa</a>';
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccines: '["Pfizer"]',
+            age: '[]',
+            selfpaid: false,
+            walkin: false,
+            thirddoses: true,
+            barrierfree: true
+        }
+
+        coords.push(c);
+        markers.push(marker);
         
     
         
