@@ -102,7 +102,7 @@ COVID očkování</title>
         <div class="col">
             <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Čas poslední aktualizace: <strong>čt 09. 12. 07:38</strong>.
+                    Čas poslední aktualizace: <strong>čt 09. 12. 08:38</strong>.
                     <a class="alert-link" href="/napoveda#aktualizace">
                         Jak často jsou data aktualizována?
                     </a>
@@ -16903,6 +16903,50 @@ COVID očkování</title>
         
     
         
+        var c = SMap.Coords.fromWGS84(13.1704092, 50.3784881);
+
+        var icon = JAK.mel("div");
+        
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-yellow.png"}, {filter:"hue-rotate(80deg)"});
+        
+
+        // var icon = JAK.mel("div");
+        // var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "ARC-MED s.r.o. Klášterec, Kyselka 104",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null)
+        card.getHeader().innerHTML = "<strong>ARC-MED s.r.o. Klášterec, Kyselka 104</strong>";
+        card.getBody().innerHTML = "<strong>Adresa:</strong> Kyselka 104<br>" +
+            "<strong>Bezbariérový přístup:</strong> Ano<br>" +
+            "<strong>Čekání na rezervaci za poslední týden:</strong> 0,1 týdne <br>" +
+            // "<strong>Průměrná doba čekajících ve frontě:</strong> 1,0 týdne <br>" +
+            // "<strong>Zatížení místa:</strong> 0,8  <br>" +
+            '<a href="./misto/c254b811-40e4-4604-8066-feac3dc58c41" class="btn btn-primary mt-2">Detail místa</a>';
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccines: '["Pfizer"]',
+            age: '["16-17", "18+"]',
+            selfpaid: false,
+            walkin: false,
+            thirddoses: true,
+            barrierfree: true
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
         var c = SMap.Coords.fromWGS84(13.4099056, 50.4556889);
 
         var icon = JAK.mel("div");
@@ -16982,50 +17026,6 @@ COVID očkování</title>
             age: '["5-15", "16-17", "18+"]',
             selfpaid: false,
             walkin: true,
-            thirddoses: true,
-            barrierfree: true
-        }
-
-        coords.push(c);
-        markers.push(marker);
-        
-    
-        
-        var c = SMap.Coords.fromWGS84(13.1704092, 50.3784881);
-
-        var icon = JAK.mel("div");
-        
-        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-yellow.png"}, {filter:"hue-rotate(80deg)"});
-        
-
-        // var icon = JAK.mel("div");
-        // var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
-        icon.appendChild(image);
-
-        var options = {
-            title: "Josef Kolařík",
-            url: icon
-        }
-        var marker = new SMap.Marker(c, null, options);
-
-        var card = new SMap.Card();
-        card.setSize(450, null)
-        card.getHeader().innerHTML = "<strong>Josef Kolařík</strong>";
-        card.getBody().innerHTML = "<strong>Adresa:</strong> Golovinova 1559<br>" +
-            "<strong>Bezbariérový přístup:</strong> Ano<br>" +
-            "<strong>Čekání na rezervaci za poslední týden:</strong> 0,1 týdne <br>" +
-            // "<strong>Průměrná doba čekajících ve frontě:</strong> 1,0 týdne <br>" +
-            // "<strong>Zatížení místa:</strong> 0,8  <br>" +
-            '<a href="./misto/c254b811-40e4-4604-8066-feac3dc58c41" class="btn btn-primary mt-2">Detail místa</a>';
-        card.getFooter().style = "display: none";
-        card.getContainer().style.padding = "0";
-        marker.decorate(SMap.Marker.Feature.Card, card);
-
-        marker.filter_data = {
-            vaccines: '["Pfizer"]',
-            age: '["16-17", "18+"]',
-            selfpaid: false,
-            walkin: false,
             thirddoses: true,
             barrierfree: true
         }
