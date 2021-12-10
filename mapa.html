@@ -102,7 +102,7 @@ COVID očkování</title>
         <div class="col">
             <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Čas poslední aktualizace: <strong>pá 10. 12. 19:38</strong>.
+                    Čas poslední aktualizace: <strong>pá 10. 12. 20:38</strong>.
                     <a class="alert-link" href="/napoveda#aktualizace">
                         Jak často jsou data aktualizována?
                     </a>
@@ -7126,6 +7126,48 @@ COVID očkování</title>
         markers.push(marker);
         
     
+        
+        var c = SMap.Coords.fromWGS84(18.2586058, 49.7860108);
+
+        var icon = JAK.mel("div");
+        
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-yellow.png"}, {filter:"hue-rotate(80deg)"});
+        
+
+        // var icon = JAK.mel("div");
+        // var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Avenier a.s. Centrum očkování a cestovní medicíny - Poliklinika Hrabůvka",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null)
+        card.getHeader().innerHTML = "<strong>Avenier a.s. Centrum očkování a cestovní medicíny - Poliklinika Hrabůvka</strong>";
+        card.getBody().innerHTML = "<strong>Adresa:</strong> Dr. Martínka 1491/7, 70030 Ostrava - Hrabůvka<br>" +
+            "<strong>Bezbariérový přístup:</strong> Ne<br>" +
+            "<strong>Čekání na rezervaci za poslední týden:</strong> 0,0 týdne <br>" +
+            // "<strong>Průměrná doba čekajících ve frontě:</strong> 0,9 týdne <br>" +
+            // "<strong>Zatížení místa:</strong> 1,1  <br>" +
+            '<a href="./misto/a1015ca8-ff92-4189-89b0-04efb8901e0e" class="btn btn-primary mt-2">Detail místa</a>';
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccines: '["Pfizer", "Moderna"]',
+            age: '["16-17", "18+"]',
+            selfpaid: false,
+            walkin: false,
+            thirddoses: true,
+            barrierfree: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
         
     
         
