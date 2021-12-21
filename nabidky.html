@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+    <link rel="shortcut icon" href="/static/favicon.ico">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>
+Nabídky očkování |
+COVID očkování</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/static/js/main.js"></script>
+
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+    <script src="https://api.mapy.cz/loader.js"></script>
+    <script>Loader.load()</script>
+
+    
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/">COVID očkování</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/mista">Očkovací místa
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/praktici">Praktici
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active"
+                   href="/nabidky">Nabídky očkování
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle "
+                   href="#" id="menu-dropdown-stats" data-toggle="dropdown">Statistiky
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/statistiky">Souhrnné statistiky</a>
+                    <a class="dropdown-item" href="/statistiky_ockovani">Statistiky očkování</a>
+                    <a class="dropdown-item" href="/statistiky_srovnani">Srovnání očkovaní &times; neočkovaní</a>
+                    <a class="dropdown-item" href="/statistiky_nemocnice">Kapacita nemocnic</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/odkazy">Odkazy
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/napoveda">Nápověda
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+                <a class="nav-link" href="https://twitter.com/ocko_bot" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    Twitter
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/msusicky/ockovani-covid" target="_blank">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <p class="mb-0">
+                    Čas poslední aktualizace: <strong>út 21. 12. 21:38</strong>.
+                    <a class="alert-link" href="/napoveda#aktualizace">
+                        Jak často jsou data aktualizována?
+                    </a>
+                </p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+<div class="row">
+    <div class="col-auto">
+        <h3>Nabídky očkování praktickými lékaři</h3>
+    </div>
+    <div class="col-auto ml-auto">
+        <a class="btn btn-primary" href="/nabidky_mapa">
+            Zobrazit na mapě
+        </a>
+    </div>
+</div>
+
+
+<div class="alert alert-info text-justify alert-dismissible fade show" role="alert">
+    <p>
+        V této tabulce jsou zveřejňovány nabídky očkování s uvedeným typem očkovací látky a kapacitou. Údaje se
+        pravidelně aktualizují.
+        Některé ordinace praktických lékařů pro dospělé nabízejí očkování i dětem od 14 let a naopak některé ordinace
+        praktických lékařů pro děti a dorost nabízejí očkování i dospělým.
+    </p>
+    <p class="mb-0">
+        Pokud máte o očkování zájem, kontaktujte vybranou ordinaci, dodržujte při tom pokyny v poznámce.
+    </p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+
+<div class="form-row mb-1">
+    <div class="col-12 col-lg-6 mb-2">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
+            </div>
+            <input id="free-vaccines-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    
+    <div class="col-6 col-sm mb-2">
+        <select id="free-vaccines-kraj" class="custom-select">
+            <option value="">Všechny kraje</option>
+            
+            <option value="Hlavní město Praha">Hlavní město Praha</option>
+            
+            <option value="Jihočeský kraj">Jihočeský kraj</option>
+            
+            <option value="Jihomoravský kraj">Jihomoravský kraj</option>
+            
+            <option value="Karlovarský kraj">Karlovarský kraj</option>
+            
+            <option value="Kraj Vysočina">Kraj Vysočina</option>
+            
+            <option value="Královéhradecký kraj">Královéhradecký kraj</option>
+            
+            <option value="Liberecký kraj">Liberecký kraj</option>
+            
+            <option value="Moravskoslezský kraj">Moravskoslezský kraj</option>
+            
+            <option value="Olomoucký kraj">Olomoucký kraj</option>
+            
+            <option value="Pardubický kraj">Pardubický kraj</option>
+            
+            <option value="Plzeňský kraj">Plzeňský kraj</option>
+            
+            <option value="Středočeský kraj">Středočeský kraj</option>
+            
+            <option value="Ústecký kraj">Ústecký kraj</option>
+            
+            <option value="Zlínský kraj">Zlínský kraj</option>
+            
+        </select>
+    </div>
+    
+    <div class="col-6 col-sm mb-2">
+        <select id="free-vaccines-vaccine" class="custom-select">
+            <option value="">Všechny vakcíny</option>
+            
+            <option value="AstraZeneca">AstraZeneca</option>
+            
+            <option value="Janssen">Janssen</option>
+            
+            <option value="Moderna">Moderna</option>
+            
+            <option value="Pfizer">Pfizer</option>
+            
+        </select>
+    </div>
+    <div class="col-12 col-sm-auto text-center mb-2">
+        <div class="custom-control custom-switch mr-2" style="display: inline-block">
+            <input id="free-vaccines-adults" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="free-vaccines-adults">dospělí</label>
+        </div>
+        <div class="custom-control custom-switch" style="display: inline-block">
+            <input id="free-vaccines-children" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="free-vaccines-children">děti</label>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-responsive">
+    <table id="free-vaccines-table" class="table table-bordered table-striped table-sm mb-0">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="text-center">Aktualizace</th>
+            <th scope="col" class="text-center col-sortable">Dávek</th>
+            <th scope="col" class="text-center col-sortable">Vakcína</th>
+            
+            <th scope="col" class="text-center col-sortable">Město</th>
+            <th scope="col" class="text-center">Název zařízení</th>
+            
+            
+            <th scope="col" class="text-center col-sortable">Expirace</th>
+            <th scope="col" class="text-center">Poznámka</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                čt 16. 12. 17:05
+            </td>
+            <td class="text-right" data-value="90">
+                90
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Praha">
+                Praha
+            </td>
+            <td>
+                
+                <a href="/praktik/08895465000">
+                    K-VitaMed, s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2022-01-31">
+                31. 01. 2022
+            </td>
+            <td>
+                očkujeme každé úterý odpoledne a pátek dopoledne i neregistrované pacienty. Napište prosím nejdříve mail s uvedením jména a telefonního kontaktu a taky den, kdy se k nám chystáte přijít. Očkujeme jak booster dávky, tak základní schema. Pouze dospělé pacienty 18+. je možné si rovnou vybrat termín na www.sestraemmy.cz
+            </td>
+        </tr>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                čt 16. 12. 21:54
+            </td>
+            <td class="text-right" data-value="80">
+                80
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Praha">
+                Praha
+            </td>
+            <td>
+                
+                <a href="/praktik/07316101000">
+                    Safimed s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                st 15. 12. 13:31
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Praha">
+                Praha
+            </td>
+            <td>
+                
+                <a href="/praktik/08974616000">
+                    Všeobecný lékař Praha s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Očkujeme i neregistrované. Nejbližší termín 22.12. 8-9 hod. Hlaste se prosím mailem s uvedením telefonického kontaktu. Uznávání mezinárodních certifikátů po dohodě lze také, cena dle časové náročnosti od 200  Kč.
+            </td>
+        </tr>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                st 15. 12. 13:31
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Praha">
+                Praha
+            </td>
+            <td>
+                
+                <a href="/praktik/08974616000">
+                    Všeobecný lékař Praha s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Očkujeme i neregistrované. Nejbližší termín 17.12. 8-12hod  A 22.12. 11-13 hod.  V lednu pak 7.1. V dopolednich hodinach. Po dohode eventuelne dalsi terminy . Hlaste se prosím mailem s uvedením telefonického kontaktu.
+            </td>
+        </tr>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                ne 19. 09. 14:32
+            </td>
+            <td class="text-right" data-value="35">
+                35
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Praha 12">
+                Praha 12
+            </td>
+            <td>
+                
+                <a href="/praktik/04261534000">
+                    Ordinace Lhotka s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Očkujeme i neregistrované od 15 let, pracujícím jsme schopni vyjít vstříc s časem očkování
+            </td>
+        </tr>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                po 20. 12. 17:05
+            </td>
+            <td class="text-right" data-value="6">
+                6
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Praha 14">
+                Praha 14
+            </td>
+            <td>
+                
+                <a href="/praktik/02808501011">
+                    EUC PLS s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2021-12-25">
+                25. 12. 2021
+            </td>
+            <td>
+                Očkujeme vždy středa a čtvrtek dopoledne. Nutno předem telefonické objednání. Tel: 604295952
+            </td>
+        </tr>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                pá 02. 07. 11:01
+            </td>
+            <td class="text-right" data-value="20">
+                20
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Praha 4">
+                Praha 4
+            </td>
+            <td>
+                
+                <a href="/praktik/03150241000">
+                    Praktický lékař Spořilov s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                kontaktujte nás přes www.sestraemmy.cz
+            </td>
+        </tr>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                ne 19. 12. 22:26
+            </td>
+            <td class="text-right" data-value="50">
+                50
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Praha 8">
+                Praha 8
+            </td>
+            <td>
+                
+                <a href="/praktik/45250022000">
+                    Gerontologické centrum
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2022-05-03">
+                03. 05. 2022
+            </td>
+            <td>
+                Po domluvě očkujeme i bez registrace, první dávky i přeočkování, prosím o termín volejte na uvedené telefonní číslo nebo pište na e-mail
+            </td>
+        </tr>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                ne 19. 12. 22:26
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Praha 8">
+                Praha 8
+            </td>
+            <td>
+                
+                <a href="/praktik/45250022000">
+                    Gerontologické centrum
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2022-01-13">
+                13. 01. 2022
+            </td>
+            <td>
+                Po domluvě očkujeme i bez registrace, první dávky i přeočkování, prosím o termín volejte na uvedené telefonní číslo nebo pište na e-mail
+            </td>
+        </tr>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                so 30. 10. 23:14
+            </td>
+            <td class="text-right" data-value="50">
+                50
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Praha 9">
+                Praha 9
+            </td>
+            <td>
+                
+                <a href="/praktik/06322468000">
+                    MUDr. Škoda, s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                 Očkujeme vakcínou Pfizer, Moderna i Johnson/Janssen. Nabízíme očkování pro ještě neočkované i přeočkování  3. dávkou. Všichni zájemci, i neregistrovaní, se mohou hlásit na lince 266006304 pro rezervaci termínu, nebo mohou napsat na mail sestramudrskodasro@email.cz.  www.mudrskoda.cz
+            </td>
+        </tr>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                so 30. 10. 23:14
+            </td>
+            <td class="text-right" data-value="50">
+                50
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Praha 9">
+                Praha 9
+            </td>
+            <td>
+                
+                <a href="/praktik/06322468000">
+                    MUDr. Škoda, s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                 Očkujeme vakcínou Pfizer, Moderna i Johnson/Janssen. Nabízíme očkování pro ještě neočkované i přeočkování  3. dávkou. Všichni zájemci, i neregistrovaní, se mohou hlásit na lince 266006304 pro rezervaci termínu, nebo mohou napsat na mail sestramudrskodasro@email.cz.  www.mudrskoda.cz
+            </td>
+        </tr>
+        
+        <tr data-kraj="Hlavní město Praha" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                so 30. 10. 23:14
+            </td>
+            <td class="text-right" data-value="50">
+                50
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Praha 9">
+                Praha 9
+            </td>
+            <td>
+                
+                <a href="/praktik/06322468000">
+                    MUDr. Škoda, s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                 Očkujeme vakcínou Pfizer, Moderna i Johnson/Janssen. Nabízíme očkování pro ještě neočkované i přeočkování  3. dávkou. Všichni zájemci, i neregistrovaní, se mohou hlásit na lince 266006304 pro rezervaci termínu, nebo mohou napsat na mail sestramudrskodasro@email.cz.  www.mudrskoda.cz
+            </td>
+        </tr>
+        
+        <tr data-kraj="Jihočeský kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                po 01. 11. 08:32
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Malšice">
+                Malšice
+            </td>
+            <td>
+                
+                <a href="/praktik/06350216000">
+                    MUDr. Hana Šedivá s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Jihočeský kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                po 01. 11. 08:32
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Malšice">
+                Malšice
+            </td>
+            <td>
+                
+                <a href="/praktik/06350216000">
+                    MUDr. Hana Šedivá s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Jihočeský kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                pá 01. 10. 09:28
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Vodňany">
+                Vodňany
+            </td>
+            <td>
+                
+                <a href="/praktik/03798968000">
+                    MUDr. Stiebler s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Jihomoravský kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                po 15. 11. 16:13
+            </td>
+            <td class="text-right" data-value="50">
+                50
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Vracov">
+                Vracov
+            </td>
+            <td>
+                
+                <a href="/praktik/05915783000">
+                    PL Vracov s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Kraj Vysočina" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                po 13. 12. 16:11
+            </td>
+            <td class="text-right" data-value="90">
+                90
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Bystřice nad Pernštejnem">
+                Bystřice nad Pernštejnem
+            </td>
+            <td>
+                
+                <a href="/praktik/29269512000">
+                    Ordinace Prudkých s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                očkujeme denně, je třeba se přihlásit o termín e-mailem nebo telefonicky
+            </td>
+        </tr>
+        
+        <tr data-kraj="Kraj Vysočina" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                ne 19. 12. 19:08
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Habry">
+                Habry
+            </td>
+            <td>
+                
+                <a href="/praktik/01990420000">
+                    habrypraktik s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2022-02-05">
+                05. 02. 2022
+            </td>
+            <td>
+                dle zájmu vytvoření termínů 
+            </td>
+        </tr>
+        
+        <tr data-kraj="Kraj Vysočina" data-vaccine="Moderna" data-adults="True"
+            data-children="True">
+            <td class="text-right">
+                ne 19. 12. 19:08
+            </td>
+            <td class="text-right" data-value="40">
+                40
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Habry">
+                Habry
+            </td>
+            <td>
+                
+                <a href="/praktik/01990420000">
+                    habrypraktik s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2022-01-06">
+                06. 01. 2022
+            </td>
+            <td>
+                21.12.2021 Okrouhlice 14-17 hod 30.12. Havlíčkův Brod 8-12 
+            </td>
+        </tr>
+        
+        <tr data-kraj="Kraj Vysočina" data-vaccine="Pfizer" data-adults="True"
+            data-children="True">
+            <td class="text-right">
+                ne 19. 12. 19:08
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Habry">
+                Habry
+            </td>
+            <td>
+                
+                <a href="/praktik/01990420000">
+                    habrypraktik s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2022-01-06">
+                06. 01. 2022
+            </td>
+            <td>
+                21.12. Okrouhlice od14-17 , 30.12. Havlíčkův Brod od 8-11 hod
+            </td>
+        </tr>
+        
+        <tr data-kraj="Kraj Vysočina" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                po 13. 12. 12:03
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Havlíčkův Brod">
+                Havlíčkův Brod
+            </td>
+            <td>
+                
+                <a href="/praktik/09587471000">
+                    MUDr. Dočkalová HB s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                nové očkování +  3.dávky ,očkujeme i neregistrované
+            </td>
+        </tr>
+        
+        <tr data-kraj="Kraj Vysočina" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                ne 24. 10. 13:45
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Osová Bítýška">
+                Osová Bítýška
+            </td>
+            <td>
+                
+                <a href="/praktik/06173713000">
+                    MUDr. Anna Švehlová s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Očkujeme po předchozí telefonické domluvě od 4.11.2021 
+            </td>
+        </tr>
+        
+        <tr data-kraj="Kraj Vysočina" data-vaccine="Pfizer" data-adults="True"
+            data-children="True">
+            <td class="text-right">
+                út 14. 12. 21:17
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Počátky">
+                Počátky
+            </td>
+            <td>
+                
+                <a href="/praktik/03612902000">
+                    Pediatr Počátky s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                www.pediatrpocatky.cz
+            </td>
+        </tr>
+        
+        <tr data-kraj="Kraj Vysočina" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                út 19. 10. 20:53
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Žďár nad Sázavou">
+                Žďár nad Sázavou
+            </td>
+            <td>
+                
+                <a href="/praktik/05558387000">
+                    MUDr. Zuzana Zlochová s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Očkujeme i neregistrované pacienty. Termíny listopad - únor. Rezervujte si na tel.č. 566690263 nebo na emailu jelinkova@poliklinikazr.cz 
+            </td>
+        </tr>
+        
+        <tr data-kraj="Kraj Vysočina" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                po 13. 12. 07:48
+            </td>
+            <td class="text-right" data-value="90">
+                90
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Žďár nad Sázavou">
+                Žďár nad Sázavou
+            </td>
+            <td>
+                
+                <a href="/praktik/01683209000">
+                    VAMEDIC s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Očkování Pfizer - všechny možné typy dávek. Zájemci (registrovaní, neregistrovaní) nechť se ozvou na náš vakcinační telefon 736 699 361 pro rezervaci termínu.
+            </td>
+        </tr>
+        
+        <tr data-kraj="Královéhradecký kraj" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                po 23. 08. 20:46
+            </td>
+            <td class="text-right" data-value="35">
+                35
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Smiřice">
+                Smiřice
+            </td>
+            <td>
+                
+                <a href="/praktik/08189919000">
+                    PRAKTIK Smiřice s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                očkujeme i neregistrované pacienty, jednodávková vakcína, objednáváme e-mailem nebo telefonicky
+            </td>
+        </tr>
+        
+        <tr data-kraj="Moravskoslezský kraj" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                ne 19. 12. 09:11
+            </td>
+            <td class="text-right" data-value="20">
+                20
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Orlová">
+                Orlová
+            </td>
+            <td>
+                
+                <a href="/praktik/06522556000">
+                    AK Medipraktik, s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2022-02-28">
+                28. 02. 2022
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Moravskoslezský kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                ne 19. 12. 09:11
+            </td>
+            <td class="text-right" data-value="50">
+                50
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Orlová">
+                Orlová
+            </td>
+            <td>
+                
+                <a href="/praktik/06522556000">
+                    AK Medipraktik, s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2022-01-30">
+                30. 01. 2022
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Moravskoslezský kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                ne 19. 12. 09:11
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Orlová">
+                Orlová
+            </td>
+            <td>
+                
+                <a href="/praktik/06522556000">
+                    AK Medipraktik, s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2022-03-25">
+                25. 03. 2022
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Moravskoslezský kraj" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                so 20. 11. 20:41
+            </td>
+            <td class="text-right" data-value="25">
+                25
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Ostrava">
+                Ostrava
+            </td>
+            <td>
+                
+                <a href="/praktik/04479491000">
+                    MUDr. Milena Baldermanová s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2022-03-18">
+                18. 03. 2022
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Moravskoslezský kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                so 20. 11. 20:41
+            </td>
+            <td class="text-right" data-value="20">
+                20
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Ostrava">
+                Ostrava
+            </td>
+            <td>
+                
+                <a href="/praktik/04479491000">
+                    MUDr. Milena Baldermanová s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Moravskoslezský kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                so 20. 11. 20:41
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Ostrava">
+                Ostrava
+            </td>
+            <td>
+                
+                <a href="/praktik/04479491000">
+                    MUDr. Milena Baldermanová s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Moravskoslezský kraj" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                st 04. 08. 22:42
+            </td>
+            <td class="text-right" data-value="13">
+                13
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Ostrava">
+                Ostrava
+            </td>
+            <td>
+                
+                <a href="/praktik/29382301000">
+                    MZ Medica s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Moravskoslezský kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                út 23. 11. 14:38
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Třinec">
+                Třinec
+            </td>
+            <td>
+                
+                <a href="/praktik/29457432000">
+                    MUDr. Michal Bielesz s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Olomoucký kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                čt 25. 11. 09:02
+            </td>
+            <td class="text-right" data-value="200">
+                200
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Přemyslovice">
+                Přemyslovice
+            </td>
+            <td>
+                
+                <a href="/praktik/47920432000">
+                    MUDr. Anna Kopečná
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                očkujeme každý pracovní den od 12,00
+            </td>
+        </tr>
+        
+        <tr data-kraj="Olomoucký kraj" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                po 18. 10. 11:46
+            </td>
+            <td class="text-right" data-value="35">
+                35
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Přerov">
+                Přerov
+            </td>
+            <td>
+                
+                <a href="/praktik/03666981000">
+                    STAVMED s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Očkujeme i NEREGISTROVANÉ pacienty s platným zdravotním pojištěním
+            </td>
+        </tr>
+        
+        <tr data-kraj="Olomoucký kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="True">
+            <td class="text-right">
+                st 24. 11. 19:59
+            </td>
+            <td class="text-right" data-value="10">
+                10
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Určice">
+                Určice
+            </td>
+            <td>
+                
+                <a href="/praktik/06385702000">
+                    Ursamedica Praktik s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Jednotlivé termíny budou v prosinci stanovené dle zájmu pacientů. Druhá dávka pro prozatím neočkované pacienty zde bude možná. Očkujeme i NEREGISTROVANÉ pacienty s platným zdravotním pojištěním.
+            </td>
+        </tr>
+        
+        <tr data-kraj="Pardubický kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                út 23. 11. 23:12
+            </td>
+            <td class="text-right" data-value="10">
+                10
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Pardubice">
+                Pardubice
+            </td>
+            <td>
+                
+                <a href="/praktik/05989469000">
+                    PraktikRosice s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                tel.objednání
+            </td>
+        </tr>
+        
+        <tr data-kraj="Pardubický kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                út 23. 11. 23:12
+            </td>
+            <td class="text-right" data-value="10">
+                10
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Pardubice">
+                Pardubice
+            </td>
+            <td>
+                
+                <a href="/praktik/05989469000">
+                    PraktikRosice s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                tel.objednání
+            </td>
+        </tr>
+        
+        <tr data-kraj="Pardubický kraj" data-vaccine="AstraZeneca" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                út 17. 08. 23:28
+            </td>
+            <td class="text-right" data-value="70">
+                70
+            </td>
+            <td data-value="AstraZeneca">
+                AstraZeneca
+            </td>
+            
+            <td data-value="Ústí nad Orlicí">
+                Ústí nad Orlicí
+            </td>
+            <td>
+                
+                <a href="/praktik/04182308000">
+                    KARMED s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Pardubický kraj" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                st 10. 11. 00:25
+            </td>
+            <td class="text-right" data-value="50">
+                50
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Vysoké Mýto">
+                Vysoké Mýto
+            </td>
+            <td>
+                
+                <a href="/praktik/71213376000">
+                    MUDr. Lenka Dejdarová
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                info na www.mudrlenkadejdarova.cz
+            </td>
+        </tr>
+        
+        <tr data-kraj="Pardubický kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                st 10. 11. 00:25
+            </td>
+            <td class="text-right" data-value="50">
+                50
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Vysoké Mýto">
+                Vysoké Mýto
+            </td>
+            <td>
+                
+                <a href="/praktik/71213376000">
+                    MUDr. Lenka Dejdarová
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                info na www.mudrlenkadejdarova.cz
+            </td>
+        </tr>
+        
+        <tr data-kraj="Plzeňský kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                st 11. 08. 10:35
+            </td>
+            <td class="text-right" data-value="20">
+                20
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Bor">
+                Bor
+            </td>
+            <td>
+                
+                <a href="/praktik/69977721000">
+                    MUDr. Hana Bultasová
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Plzeňský kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="True">
+            <td class="text-right">
+                po 06. 12. 17:06
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Plzeň">
+                Plzeň
+            </td>
+            <td>
+                
+                <a href="/praktik/29119880000">
+                    MitroCare s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2021-12-29">
+                29. 12. 2021
+            </td>
+            <td>
+                i pro neregistrované a děti od 15 let
+            </td>
+        </tr>
+        
+        <tr data-kraj="Plzeňský kraj" data-vaccine="AstraZeneca" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                čt 05. 08. 08:24
+            </td>
+            <td class="text-right" data-value="20">
+                20
+            </td>
+            <td data-value="AstraZeneca">
+                AstraZeneca
+            </td>
+            
+            <td data-value="Plzeň">
+                Plzeň
+            </td>
+            <td>
+                
+                <a href="/praktik/29125294000">
+                    Praktik Plzeň s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Plzeňský kraj" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                čt 05. 08. 08:24
+            </td>
+            <td class="text-right" data-value="40">
+                40
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Plzeň">
+                Plzeň
+            </td>
+            <td>
+                
+                <a href="/praktik/29125294000">
+                    Praktik Plzeň s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                dovolená 9.-20.8.
+            </td>
+        </tr>
+        
+        <tr data-kraj="Středočeský kraj" data-vaccine="AstraZeneca" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                pá 06. 08. 14:16
+            </td>
+            <td class="text-right" data-value="20">
+                20
+            </td>
+            <td data-value="AstraZeneca">
+                AstraZeneca
+            </td>
+            
+            <td data-value="Lety">
+                Lety
+            </td>
+            <td>
+                
+                <a href="/praktik/07597819000">
+                    MihuMed s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                20 min. od Prahy
+            </td>
+        </tr>
+        
+        <tr data-kraj="Středočeský kraj" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                čt 04. 11. 22:57
+            </td>
+            <td class="text-right" data-value="80">
+                80
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Milovice">
+                Milovice
+            </td>
+            <td>
+                
+                <a href="/praktik/69774943000">
+                    MUDr. Zdeňka Macháčková
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                očkujeme i neregistrované pacienty, objednávat na medevio.cz/doktorkamachackova/
+            </td>
+        </tr>
+        
+        <tr data-kraj="Středočeský kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                čt 04. 11. 22:57
+            </td>
+            <td class="text-right" data-value="25">
+                25
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Milovice">
+                Milovice
+            </td>
+            <td>
+                
+                <a href="/praktik/69774943000">
+                    MUDr. Zdeňka Macháčková
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                očkujeme i neregistrované 
+            </td>
+        </tr>
+        
+        <tr data-kraj="Středočeský kraj" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                st 27. 10. 15:02
+            </td>
+            <td class="text-right" data-value="30">
+                30
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Nymburk">
+                Nymburk
+            </td>
+            <td>
+                
+                <a href="/praktik/01562801000">
+                    MediSeb s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                kontakt optimálně přes email. další info na www.mediseb.cz
+            </td>
+        </tr>
+        
+        <tr data-kraj="Středočeský kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                st 27. 10. 15:02
+            </td>
+            <td class="text-right" data-value="20">
+                20
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Nymburk">
+                Nymburk
+            </td>
+            <td>
+                
+                <a href="/praktik/01562801000">
+                    MediSeb s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                kontakt optimálně přes email. další info na www.mediseb.cz
+            </td>
+        </tr>
+        
+        <tr data-kraj="Středočeský kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                st 27. 10. 15:02
+            </td>
+            <td class="text-right" data-value="10">
+                10
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Nymburk">
+                Nymburk
+            </td>
+            <td>
+                
+                <a href="/praktik/01562801000">
+                    MediSeb s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                kontakt optimálně přes email. další info na www.mediseb.cz
+            </td>
+        </tr>
+        
+        <tr data-kraj="Středočeský kraj" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                ne 07. 11. 20:51
+            </td>
+            <td class="text-right" data-value="50">
+                50
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Nymburk">
+                Nymburk
+            </td>
+            <td>
+                
+                <a href="/praktik/24225452000">
+                    MUDr. Tomáš Doležel s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Nabízíme očkování i pro neregistrované pacienty 3. dávkou, ale i pro doposud neočkované.  Všichni zájemci se mohou hlásit pro rezervaci termínu na e-mail doktordolezel@seznam.cz nebo na tel. 327 340 153. Napište jméno, r.č., pojišťovnu, číslo telefonu a o kterou vakcínu máte zájem. U vakcíny Janssen se podává jen jedna dávka.
+            </td>
+        </tr>
+        
+        <tr data-kraj="Středočeský kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                ne 07. 11. 20:51
+            </td>
+            <td class="text-right" data-value="60">
+                60
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Nymburk">
+                Nymburk
+            </td>
+            <td>
+                
+                <a href="/praktik/24225452000">
+                    MUDr. Tomáš Doležel s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Nabízíme očkování i pro neregistrované pacienty 3. dávkou, ale i pro doposud neočkované.  Všichni zájemci se mohou hlásit pro rezervaci termínu na e-mail doktordolezel@seznam.cz nebo na tel. 327 340 153. Napište jméno, r.č., pojišťovnu, číslo telefonu a o kterou vakcínu máte zájem.  Přeočkování po 1. dávce za 25-35 dnů.
+            </td>
+        </tr>
+        
+        <tr data-kraj="Středočeský kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                ne 07. 11. 20:51
+            </td>
+            <td class="text-right" data-value="60">
+                60
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Nymburk">
+                Nymburk
+            </td>
+            <td>
+                
+                <a href="/praktik/24225452000">
+                    MUDr. Tomáš Doležel s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Nabízíme očkování i pro neregistrované pacienty 3. dávkou, ale i pro doposud neočkované.  Všichni zájemci se mohou hlásit pro rezervaci termínu na e-mail doktordolezel@seznam.cz nebo na tel. 327 340 153. Napište jméno, r.č., pojišťovnu, číslo telefonu a o kterou vakcínu máte zájem. Přeočková ní po 1. dávce za 21-23 dnů
+            </td>
+        </tr>
+        
+        <tr data-kraj="Ústecký kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                pá 12. 11. 12:46
+            </td>
+            <td class="text-right" data-value="20">
+                20
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Hrob">
+                Hrob
+            </td>
+            <td>
+                
+                <a href="/praktik/24733415000">
+                    MUDr. Vlasta Sedláková s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Očkujeme i neregistrované, nutné se předem objednat.
+            </td>
+        </tr>
+        
+        <tr data-kraj="Ústecký kraj" data-vaccine="Janssen" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                st 04. 08. 19:45
+            </td>
+            <td class="text-right" data-value="10">
+                10
+            </td>
+            <td data-value="Janssen">
+                Janssen
+            </td>
+            
+            <td data-value="Litvínov">
+                Litvínov
+            </td>
+            <td>
+                
+                <a href="/praktik/06688560000">
+                    Convamed s. r. o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Ústecký kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                so 02. 10. 16:38
+            </td>
+            <td class="text-right" data-value="50">
+                50
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Ústí nad Labem">
+                Ústí nad Labem
+            </td>
+            <td>
+                
+                <a href="/praktik/28746945000">
+                    Medest s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        
+        <tr data-kraj="Zlínský kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                po 06. 12. 16:50
+            </td>
+            <td class="text-right" data-value="5">
+                5
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Zlín">
+                Zlín
+            </td>
+            <td>
+                
+                <a href="/praktik/08152659000">
+                    MUDr. HANA BŘEZINOVÁ
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="2022-01-01">
+                01. 01. 2022
+            </td>
+            <td>
+                očkujeme 16.12. 11-12,30 h
+            </td>
+        </tr>
+        
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function offersFilterChanged() {
+        const stripAccents = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        const searchValue = stripAccents($("#free-vaccines-searchbox").val().toLowerCase());
+        const krajValue = $("#free-vaccines-kraj").val();
+        const vaccineValue = $("#free-vaccines-vaccine").val();
+        const adultsValue = $("#free-vaccines-adults")[0].checked;
+        const childrenValue = $("#free-vaccines-children")[0].checked;
+
+        $("#free-vaccines-table tbody tr").filter(function () {
+            const normalized = stripAccents($(this).text().toLowerCase());
+            const kraj = $(this)[0].dataset.kraj;
+            const vaccine = $(this)[0].dataset.vaccine;
+            const adults = $(this)[0].dataset.adults;
+            const children = $(this)[0].dataset.children;
+
+            $(this).toggle(
+                normalized.indexOf(searchValue) > -1
+                && (!krajValue || kraj === krajValue)
+                && (!vaccineValue || vaccine === vaccineValue)
+                && ((adultsValue && adults === 'True') || (childrenValue && children === 'True'))
+            )
+        });
+
+        $("#free-vaccines-table tbody tr:visible").each(function (index) {
+            $(this).css("background-color", !!(index & 1) ? "rgba(0,0,0,0)"  : "rgba(0,0,0,.05)");
+        });
+    }
+
+    $(document).ready(function () {
+        $("#free-vaccines-searchbox").keyup(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-kraj").change(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-vaccine").change(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-adults").change(function () {
+            if (!$("#free-vaccines-adults")[0].checked) {
+                $("#free-vaccines-children")[0].checked = true;
+            }
+            offersFilterChanged();
+        });
+        $("#free-vaccines-children").change(function () {
+            if (!$("#free-vaccines-children")[0].checked) {
+                $("#free-vaccines-adults")[0].checked = true;
+            }
+            offersFilterChanged();
+        });
+        offersFilterChanged();
+    });
+</script>
+
+
+</div>
+
+<div class="footer p-3 bg-light mt-4">
+    <div class="row align-items-center">
+        <div class="col text-center text-lg-left">
+            <p class="mb-1">
+                Vznik: 16. 01. 2021, <a href="https://opendatalab.cz/" target="_blank">OpenDataLab</a>.
+                Data na tomto webu pochází z <a href="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19"
+                                                target="_blank">opendat Ministerstva zdravotnictví ČR</a>
+                a od Centrálního řídícího týmu COVID-19 (CŘT).
+            </p>
+            <p class="mb-1">
+                Vydavatel: ČVUT, Fakulta informačních technologií, Praha ve spolupráci s firmou Profinit EU, s.r.o., Praha, 2021.<br />
+                Citace: Sušický M., Staněk J. <i>COVID-19 očkování</i> [online]. Praha: ČVUT, Fakulta informačních technologií, 2021 [cit. 2021-12-21]. ISSN 2787-9925. Dostupné z https://ockovani.opendatalab.cz
+            </p>
+            <p class="mb-0 font-italic">
+                Provozovatel neodpovídá za správnost a úplnost zpracovaných dat a informací, ani tato neověřuje a zříká
+                se
+                zodpovědnosti za veškeré škody a újmy, které by použitím těchto dat mohly vzniknout.
+                Pro informace o očkování COVID-19 navštivte web: <a
+                    href="https://koronavirus.mzcr.cz/ockovani-proti-covid-19/" target="_blank">Ministerstva
+                zdravotnictví
+                ČR</a>.
+            </p>
+        </div>
+        <div class="col-lg-auto text-center mt-3 mt-lg-0">
+            <a href="https://fit.cvut.cz/" target="_blank">
+                <img src="/static/img/FIT_logo.png">
+            </a>
+            &nbsp;
+            <a href="https://profinit.eu/" target="_blank">
+                <img src="/static/img/PROFINIT_logo.png">
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="d-none">
+    <a href="/404">Error 404</a>
+</div>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TXSRVP25Y2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-TXSRVP25Y2');
+
+</script>
+
+<!-- Hotjar Tracking Code for ockovani.opendatalab.cz -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:2355869,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+</body>
+</html>

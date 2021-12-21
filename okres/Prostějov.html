@@ -49,12 +49,12 @@ COVID očkování</title>
             </li>
             <li class="nav-item">
                 <a class="nav-link "
-                   href="/mapa">Mapa
+                   href="/praktici">Praktici
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link "
-                   href="/praktici">Praktici
+                   href="/nabidky">Nabídky očkování
                 </a>
             </li>
             <li class="nav-item dropdown">
@@ -130,6 +130,12 @@ COVID očkování</title>
                         <a class="nav-link active" data-toggle="tab" href="#ockovaci-mista">Očkovací místa</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#praktici">Praktici</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#nabidky-ockovani">Nabídky očkování</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#statistiky">Statistiky</a>
                     </li>
                     <li class="nav-item">
@@ -141,8 +147,8 @@ COVID očkování</title>
             <div class="card-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="ockovaci-mista">
-                        <div class="row">
-    <div class="col-12 col-md-8 col-md-auto mb-2">
+                        <div class="form-row">
+    <div class="col-12 col-lg-6 col-md-auto mb-2">
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
@@ -150,8 +156,9 @@ COVID očkování</title>
             <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
         </div>
     </div>
-    <div class="col-12 col-md-4 mb-2">
-        <select id="centers-vaccines" class="custom-select">
+    
+    <div class="col mb-2">
+        <select id="centers-vaccine" class="custom-select">
             <option value="">Všechny vakcíny</option>
             
             <option value="AstraZeneca">AstraZeneca</option>
@@ -165,7 +172,7 @@ COVID očkování</title>
         </select>
     </div>
 </div>
-<div class="row mb-2">
+<div class="form-row mb-2">
     <div class="col-12 col-md-6 col-lg-auto text-center mb-1 mr-auto">
         <div class="custom-control custom-switch mr-2" style="display: inline-block">
             <input id="centers-5" type="checkbox" class="custom-control-input">
@@ -214,8 +221,10 @@ COVID očkování</title>
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col" class="text-center col-sortable">Název</th>
-                    <th scope="col" class="text-center col-sortable">Okres</th>
+                    
+                    
                     <th scope="col" class="text-center col-sortable">Kraj</th>
+                    
                     <th scope="col" class="text-center col-sortable">
                         Ve frontě
                         <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
@@ -240,6 +249,7 @@ COVID očkování</title>
                 <tbody>
                 
                 <tr class=""
+                    data-kraj="CZ071"
                     data-vaccines='["Pfizer"]'
                     data-age='["16-17", "18+"]'
                     data-walkin="False"
@@ -250,20 +260,14 @@ COVID očkování</title>
                     <td data-value="AGEL Středomoravská nemocniční a.s., Nemocnice AGEL Prostějov">
                         <a href="/misto/29b4659f-2463-4125-bbf6-2be99d607807">AGEL Středomoravská nemocniční a.s., Nemocnice AGEL Prostějov</a>
                     </td>
-                    <td data-value="Prostějov">
-                        
-                            
-                            Prostějov
-                            
-                        
-                    </td>
+                    
+                    
                     <td data-value="Olomoucký">
                         
-                            
                             <a href="/kraj/Olomouck%C3%BD">Olomoucký</a>
-                            
                         
                     </td>
+                    
                     <td class="text-right" data-value="1370">
                         1 370
                     </td>
@@ -288,6 +292,7 @@ COVID očkování</title>
                 </tr>
                 
                 <tr class=""
+                    data-kraj="CZ071"
                     data-vaccines='["Pfizer"]'
                     data-age='["5-15"]'
                     data-walkin="False"
@@ -298,20 +303,14 @@ COVID očkování</title>
                     <td data-value="(skupina 12-15) AGEL Středomoravská nemocniční a.s., Nemocnice AGEL Prostějov">
                         <a href="/misto/acc52235-d636-49fc-a379-a2fa29b70caf">(skupina 12-15) AGEL Středomoravská nemocniční a.s., Nemocnice AGEL Prostějov</a>
                     </td>
-                    <td data-value="Prostějov">
-                        
-                            
-                            Prostějov
-                            
-                        
-                    </td>
+                    
+                    
                     <td data-value="Olomoucký">
                         
-                            
                             <a href="/kraj/Olomouck%C3%BD">Olomoucký</a>
-                            
                         
                     </td>
+                    
                     <td class="text-right" data-value="9">
                         9
                     </td>
@@ -347,11 +346,12 @@ COVID očkování</title>
 </div>
 
 <script>
-    function filterChanged() {
+    function centersFilterChanged() {
         const stripAccents = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
         const searchValue = stripAccents($("#centers-searchbox").val().toLowerCase());
-        const vaccinesValue = $("#centers-vaccines").val()
+        const krajValue = $("#centers-kraj").val();
+        const vaccineValue = $("#centers-vaccine").val();
         const age5Value = $("#centers-5")[0].checked;
         const age16Value = $("#centers-16")[0].checked;
         const age18Value = $("#centers-18")[0].checked;
@@ -363,6 +363,7 @@ COVID očkování</title>
 
         $("#centers-table tbody tr").filter(function () {
             const normalized = stripAccents($(this).text().toLowerCase());
+            const kraj = $(this)[0].dataset.kraj;
             const vaccines = JSON.parse($(this)[0].dataset.vaccines);
             const age = JSON.parse($(this)[0].dataset.age);
             const age5 = age.includes('5-15');
@@ -376,7 +377,8 @@ COVID očkování</title>
 
             $(this).toggle(
                 normalized.indexOf(searchValue) > -1
-                && (!vaccinesValue || vaccines.includes(vaccinesValue))
+                && (!krajValue || kraj === krajValue)
+                && (!vaccineValue || vaccines.includes(vaccineValue))
                 && ((age5Value && age5) || (age16Value && age16) || (age18Value && age18))
                 && ((walkinValue && walkin === 'True') || (!walkinValue && walkin === 'False'))
                 && ((selfpaidValue && selfpaid === 'True') || (!selfpaidValue && selfpaid === 'False'))
@@ -393,36 +395,1416 @@ COVID očkování</title>
 
     $(document).ready(function () {
         $("#centers-searchbox").keyup(function () {
-            filterChanged();
+            centersFilterChanged();
         });
-        $("#centers-vaccines").change(function () {
-            filterChanged();
+        $("#centers-kraj").change(function () {
+            centersFilterChanged();
+        });
+        $("#centers-vaccine").change(function () {
+            centersFilterChanged();
         });
         $("#centers-5").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-16").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-18").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-walkin").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-selfpaid").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-thirddoses").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-active").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-barrierfree").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
-        filterChanged();
+        centersFilterChanged();
+    });
+</script>
+                    </div>
+                    <div class="tab-pane" id="praktici">
+                        <div class="form-row mb-1">
+    <div class="col-12 col-lg-6 mb-2">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
+            </div>
+            <input id="doctors-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    
+    <div class="col mb-2">
+        <select id="doctors-vaccine" class="custom-select">
+            <option value="">Všechny vakcíny</option>
+            
+            <option value="AstraZeneca">AstraZeneca</option>
+            
+            <option value="Janssen">Janssen</option>
+            
+            <option value="Moderna">Moderna</option>
+            
+            <option value="Pfizer">Pfizer</option>
+            
+            <option value="Pfizer 5-11">Pfizer 5-11</option>
+            
+        </select>
+    </div>
+    <div class="col-auto mb-2">
+        <div class="custom-control custom-switch" style="display: inline-block">
+            <input id="doctors-children" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="doctors-children">pediatři</label>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table id="doctors-table" class="table table-bordered table-striped table-sm" style="table-layout: fixed">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="text-center col-sortable w-25">Název zařízení</th>
+            
+            
+            <th scope="col" class="text-center col-sortable w-15">Kraj</th>
+            
+            <th scope="col" class="text-center col-sortable w-10">
+                Pediatr
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Praktický lékař pro děti a dorost podle Národního registru poskytovatelů zdravotních služeb.">
+                </i>
+            </th>
+            <th scope="col" class="text-center w-15">
+                Vakcíny
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Vakcíny očkované za posledních 7 dní.">
+                </i>
+            </th>
+            <th scope="col" class="text-center col-sortable w-10">
+                Očkováno
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet podaných dávek vakcíny.">
+                </i>
+            </th>
+            <th scope="col" class="text-center col-sortable w-10">
+                Očkováno za<br>7 dní
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet podaných dávek vakcíny za posledních 7 dní.">
+                </i>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="True">
+            <td class="ellipsis" data-value="BAMEDILA s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="BAMEDILA s.r.o.">
+                
+                BAMEDILA s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="True">Ano</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="119.0">119</td>
+            <td class="text-right" data-value="4.0">4</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="ČelMed s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="ČelMed s.r.o.">
+                
+                ČelMed s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="973.0">973</td>
+            <td class="text-right" data-value="71.0">71</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="Drnovský s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Drnovský s.r.o.">
+                
+                Drnovský s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="184.0">184</td>
+            <td class="text-right" data-value="18.0">18</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="JAMED s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="JAMED s.r.o.">
+                
+                JAMED s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="1320.0">1 320</td>
+            <td class="text-right" data-value="74.0">74</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="LÉKAŘ PRAKTIK s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="LÉKAŘ PRAKTIK s.r.o.">
+                
+                LÉKAŘ PRAKTIK s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="819.0">819</td>
+            <td class="text-right" data-value="60.0">60</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="Lenka Gabrlíková - LEGA, s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Lenka Gabrlíková - LEGA, s.r.o.">
+                
+                Lenka Gabrlíková - LEGA, s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="983.0">983</td>
+            <td class="text-right" data-value="68.0">68</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna, Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MARMED s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MARMED s.r.o.">
+                
+                MARMED s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna, Pfizer</td>
+            <td class="text-right" data-value="516.0">516</td>
+            <td class="text-right" data-value="42.0">42</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MEDIBENE s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MEDIBENE s.r.o.">
+                
+                MEDIBENE s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="286.0">286</td>
+            <td class="text-right" data-value="31.0">31</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MEDIPAS s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MEDIPAS s.r.o.">
+                
+                MEDIPAS s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="225.0">225</td>
+            <td class="text-right" data-value="24.0">24</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="Medklen s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Medklen s.r.o.">
+                
+                Medklen s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="326.0">326</td>
+            <td class="text-right" data-value="64.0">64</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna, Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MH PRAXE MUDr. Všetičková s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MH PRAXE MUDr. Všetičková s.r.o.">
+                
+                MH PRAXE MUDr. Všetičková s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna, Pfizer</td>
+            <td class="text-right" data-value="354.0">354</td>
+            <td class="text-right" data-value="60.0">60</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Anna Kopečná" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Anna Kopečná">
+                
+                <a href="/praktik/47920432000">
+                    MUDr. Anna Kopečná
+                </a>
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna</td>
+            <td class="text-right" data-value="1332.0">1 332</td>
+            <td class="text-right" data-value="142.0">142</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="True">
+            <td class="ellipsis" data-value="MUDr. Dana Krychtálková" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Dana Krychtálková">
+                
+                MUDr. Dana Krychtálková
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="True">Ano</td>
+            <td></td>
+            <td class="text-right" data-value="18.0">18</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. František Zarivnij" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. František Zarivnij">
+                
+                MUDr. František Zarivnij
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="45.0">45</td>
+            <td class="text-right" data-value="31.0">31</td>
+        </tr>
+        
+        <tr class="table-warning" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Helena Volná" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Helena Volná">
+                
+                MUDr. Helena Volná
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="632.0">632</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Ilona Korandová s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Ilona Korandová s.r.o.">
+                
+                MUDr. Ilona Korandová s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="449.0">449</td>
+            <td class="text-right" data-value="61.0">61</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Jana Faltýnková" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Jana Faltýnková">
+                
+                MUDr. Jana Faltýnková
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="62.0">62</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Jana Freislebenová" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Jana Freislebenová">
+                
+                MUDr. Jana Freislebenová
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="228.0">228</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Jaroslav Chytil" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Jaroslav Chytil">
+                
+                MUDr. Jaroslav Chytil
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna</td>
+            <td class="text-right" data-value="857.0">857</td>
+            <td class="text-right" data-value="40.0">40</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Karel Praskač" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Karel Praskač">
+                
+                MUDr. Karel Praskač
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="112.0">112</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Kateřina Dostálová a spol." data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Kateřina Dostálová a spol.">
+                
+                MUDr. Kateřina Dostálová a spol.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna</td>
+            <td class="text-right" data-value="455.0">455</td>
+            <td class="text-right" data-value="23.0">23</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Kateřina Dychusová" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Kateřina Dychusová">
+                
+                MUDr. Kateřina Dychusová
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="0.0">0</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Ludmila Nadymáčková" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Ludmila Nadymáčková">
+                
+                MUDr. Ludmila Nadymáčková
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="100.0">100</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Janssen, Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Marcela Labounková s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Marcela Labounková s.r.o.">
+                
+                MUDr. Marcela Labounková s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Janssen, Pfizer</td>
+            <td class="text-right" data-value="719.0">719</td>
+            <td class="text-right" data-value="69.0">69</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Marie Fritzová" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Marie Fritzová">
+                
+                MUDr. Marie Fritzová
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="734.0">734</td>
+            <td class="text-right" data-value="48.0">48</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Martina Anderová" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Martina Anderová">
+                
+                MUDr. Martina Anderová
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna</td>
+            <td class="text-right" data-value="964.0">964</td>
+            <td class="text-right" data-value="71.0">71</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Michaela Bendová s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Michaela Bendová s.r.o.">
+                
+                MUDr. Michaela Bendová s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="503.0">503</td>
+            <td class="text-right" data-value="29.0">29</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna, Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Michaela Seidlerová" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Michaela Seidlerová">
+                
+                MUDr. Michaela Seidlerová
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna, Pfizer</td>
+            <td class="text-right" data-value="980.0">980</td>
+            <td class="text-right" data-value="137.0">137</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Miroslav Veselý s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Miroslav Veselý s.r.o.">
+                
+                MUDr. Miroslav Veselý s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="228.0">228</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Olga Začalová" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Olga Začalová">
+                
+                MUDr. Olga Začalová
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="2.0">2</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Oskar Kravák" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Oskar Kravák">
+                
+                MUDr. Oskar Kravák
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="118.0">118</td>
+            <td class="text-right" data-value="24.0">24</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Petr Korbélyi" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Petr Korbélyi">
+                
+                MUDr. Petr Korbélyi
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="609.0">609</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Petr Marák" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Petr Marák">
+                
+                MUDr. Petr Marák
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="488.0">488</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Petr Stavěl" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Petr Stavěl">
+                
+                MUDr. Petr Stavěl
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="1030.0">1 030</td>
+            <td class="text-right" data-value="63.0">63</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Šmejkal Petr" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Šmejkal Petr">
+                
+                MUDr. Šmejkal Petr
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna</td>
+            <td class="text-right" data-value="2165.0">2 165</td>
+            <td class="text-right" data-value="217.0">217</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Stanislava Suchánková" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Stanislava Suchánková">
+                
+                MUDr. Stanislava Suchánková
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="42.0">42</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="AstraZeneca, Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Stanislav Krupa" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Stanislav Krupa">
+                
+                MUDr. Stanislav Krupa
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>AstraZeneca, Pfizer</td>
+            <td class="text-right" data-value="309.0">309</td>
+            <td class="text-right" data-value="34.0">34</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Tomáš Blechta" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Tomáš Blechta">
+                
+                MUDr. Tomáš Blechta
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna</td>
+            <td class="text-right" data-value="1419.0">1 419</td>
+            <td class="text-right" data-value="76.0">76</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Tomáš Navrátil" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Tomáš Navrátil">
+                
+                MUDr. Tomáš Navrátil
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna</td>
+            <td class="text-right" data-value="1083.0">1 083</td>
+            <td class="text-right" data-value="57.0">57</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Václav Hnilo s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Václav Hnilo s.r.o.">
+                
+                MUDr. Václav Hnilo s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna</td>
+            <td class="text-right" data-value="251.0">251</td>
+            <td class="text-right" data-value="38.0">38</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Vlastimil Vysloužil" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Vlastimil Vysloužil">
+                
+                MUDr. Vlastimil Vysloužil
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="30.0">30</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Zdeněk Kolmaš" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Zdeněk Kolmaš">
+                
+                MUDr. Zdeněk Kolmaš
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna</td>
+            <td class="text-right" data-value="58.0">58</td>
+            <td class="text-right" data-value="25.0">25</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="Ordinace prak. lékaře MUDr. Irena Pachtová, s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Ordinace prak. lékaře MUDr. Irena Pachtová, s.r.o.">
+                
+                Ordinace prak. lékaře MUDr. Irena Pachtová, s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="270.0">270</td>
+            <td class="text-right" data-value="36.0">36</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="Ordinace Spamedica s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Ordinace Spamedica s.r.o.">
+                
+                Ordinace Spamedica s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="48.0">48</td>
+            <td class="text-right" data-value="24.0">24</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna" data-children="False">
+            <td class="ellipsis" data-value="PRAXILEKO s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="PRAXILEKO s.r.o.">
+                
+                PRAXILEKO s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna</td>
+            <td class="text-right" data-value="794.0">794</td>
+            <td class="text-right" data-value="19.0">19</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Moderna" data-children="False">
+            <td class="ellipsis" data-value="Praxmedpro s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Praxmedpro s.r.o.">
+                
+                Praxmedpro s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna</td>
+            <td class="text-right" data-value="268.0">268</td>
+            <td class="text-right" data-value="11.0">11</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="Prostějovská preventivní s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Prostějovská preventivní s.r.o.">
+                
+                Prostějovská preventivní s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="586.0">586</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="Ursamedica Praktik s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Ursamedica Praktik s.r.o.">
+                
+                <a href="/praktik/06385702000">
+                    Ursamedica Praktik s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="987.0">987</td>
+            <td class="text-right" data-value="36.0">36</td>
+        </tr>
+        
+        <tr class="table-warning" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="Všeobecný lékař Brno s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Všeobecný lékař Brno s.r.o.">
+                
+                Všeobecný lékař Brno s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="44.0">44</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="table-warning" data-kraj="CZ071"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="Všeobecný lékař Brno s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Všeobecný lékař Brno s.r.o.">
+                
+                Všeobecný lékař Brno s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="0.0">0</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="Všeobecný lékař Olomoucko s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Všeobecný lékař Olomoucko s.r.o.">
+                
+                Všeobecný lékař Olomoucko s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="37.0">37</td>
+            <td class="text-right" data-value="1.0">1</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ071"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="Všeobecný lékař Olomoucko s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Všeobecný lékař Olomoucko s.r.o.">
+                
+                Všeobecný lékař Olomoucko s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Prostějov" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Olomouck%C3%BD#praktici">Olomoucký</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="169.0">169</td>
+            <td class="text-right" data-value="43.0">43</td>
+        </tr>
+        
+        </tbody>
+        <tfoot class="font-weight-bold">
+        <tr>
+            <td colspan="4">Celkem</td>
+            <td class="text-right">
+                25 330
+            </td>
+            <td class="text-right">
+                1 871
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+<p class="card-text font-italic text-justify mb-0">
+    Oranžově jsou vyznačena zdravotnická zařízení, která ukončila očkování.
+</p>
+
+<script>
+    function doctorsFilterChanged() {
+        const stripAccents = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        const searchValue = stripAccents($("#doctors-searchbox").val().toLowerCase());
+        const krajValue = $("#doctors-kraj").val();
+        const vaccineValue = $("#doctors-vaccine").val();
+        const childrenValue = $("#doctors-children")[0].checked;
+
+        $("#doctors-table tbody tr").filter(function() {
+            const normalized = stripAccents($(this).text().toLowerCase());
+            const kraj = $(this)[0].dataset.kraj;
+            const vaccines = $(this)[0].dataset.vaccines;
+            const children = $(this)[0].dataset.children;
+
+            $(this).toggle(
+                normalized.indexOf(searchValue) > -1
+                && (!krajValue || kraj === krajValue)
+                && (!vaccineValue || vaccines.indexOf(vaccineValue) > -1)
+                && (!childrenValue || children === 'True')
+            )
+        });
+
+        $("#doctors-table tbody tr:visible").each(function (index) {
+            $(this).css("background-color", !!(index & 1) ? "rgba(0,0,0,0)"  : "rgba(0,0,0,.05)");
+        });
+    }
+
+    $(document).ready(function(){
+        $("#doctors-searchbox").on("keyup", function() {
+            doctorsFilterChanged();
+        });
+        $("#doctors-kraj").change(function () {
+            doctorsFilterChanged();
+        });
+        $("#doctors-vaccine").change(function () {
+            doctorsFilterChanged();
+        });
+        $("#doctors-children").change(function () {
+            doctorsFilterChanged();
+        });
+    });
+</script>
+                    </div>
+                    <div class="tab-pane" id="nabidky-ockovani">
+                        
+<div class="alert alert-info text-justify alert-dismissible fade show" role="alert">
+    <p>
+        V této tabulce jsou zveřejňovány nabídky očkování s uvedeným typem očkovací látky a kapacitou. Údaje se
+        pravidelně aktualizují.
+        Některé ordinace praktických lékařů pro dospělé nabízejí očkování i dětem od 14 let a naopak některé ordinace
+        praktických lékařů pro děti a dorost nabízejí očkování i dospělým.
+    </p>
+    <p class="mb-0">
+        Pokud máte o očkování zájem, kontaktujte vybranou ordinaci, dodržujte při tom pokyny v poznámce.
+    </p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+
+<div class="form-row mb-1">
+    <div class="col-12 col-lg-6 mb-2">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
+            </div>
+            <input id="free-vaccines-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    
+    <div class="col-6 col-sm mb-2">
+        <select id="free-vaccines-vaccine" class="custom-select">
+            <option value="">Všechny vakcíny</option>
+            
+            <option value="AstraZeneca">AstraZeneca</option>
+            
+            <option value="Janssen">Janssen</option>
+            
+            <option value="Moderna">Moderna</option>
+            
+            <option value="Pfizer">Pfizer</option>
+            
+        </select>
+    </div>
+    <div class="col-12 col-sm-auto text-center mb-2">
+        <div class="custom-control custom-switch mr-2" style="display: inline-block">
+            <input id="free-vaccines-adults" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="free-vaccines-adults">dospělí</label>
+        </div>
+        <div class="custom-control custom-switch" style="display: inline-block">
+            <input id="free-vaccines-children" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="free-vaccines-children">děti</label>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-responsive">
+    <table id="free-vaccines-table" class="table table-bordered table-striped table-sm mb-0">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="text-center">Aktualizace</th>
+            <th scope="col" class="text-center col-sortable">Dávek</th>
+            <th scope="col" class="text-center col-sortable">Vakcína</th>
+            
+            <th scope="col" class="text-center col-sortable">Město</th>
+            <th scope="col" class="text-center">Název zařízení</th>
+            
+            
+            <th scope="col" class="text-center col-sortable">Expirace</th>
+            <th scope="col" class="text-center">Poznámka</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        <tr data-kraj="Olomoucký kraj" data-vaccine="Moderna" data-adults="True"
+            data-children="False">
+            <td class="text-right">
+                čt 25. 11. 09:02
+            </td>
+            <td class="text-right" data-value="200">
+                200
+            </td>
+            <td data-value="Moderna">
+                Moderna
+            </td>
+            
+            <td data-value="Přemyslovice">
+                Přemyslovice
+            </td>
+            <td>
+                
+                <a href="/praktik/47920432000">
+                    MUDr. Anna Kopečná
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                očkujeme každý pracovní den od 12,00
+            </td>
+        </tr>
+        
+        <tr data-kraj="Olomoucký kraj" data-vaccine="Pfizer" data-adults="True"
+            data-children="True">
+            <td class="text-right">
+                st 24. 11. 19:59
+            </td>
+            <td class="text-right" data-value="10">
+                10
+            </td>
+            <td data-value="Pfizer">
+                Pfizer
+            </td>
+            
+            <td data-value="Určice">
+                Určice
+            </td>
+            <td>
+                
+                <a href="/praktik/06385702000">
+                    Ursamedica Praktik s.r.o.
+                </a>
+                
+            </td>
+            
+            
+            <td class="text-right" data-value="None">
+                
+            </td>
+            <td>
+                Jednotlivé termíny budou v prosinci stanovené dle zájmu pacientů. Druhá dávka pro prozatím neočkované pacienty zde bude možná. Očkujeme i NEREGISTROVANÉ pacienty s platným zdravotním pojištěním.
+            </td>
+        </tr>
+        
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function offersFilterChanged() {
+        const stripAccents = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        const searchValue = stripAccents($("#free-vaccines-searchbox").val().toLowerCase());
+        const krajValue = $("#free-vaccines-kraj").val();
+        const vaccineValue = $("#free-vaccines-vaccine").val();
+        const adultsValue = $("#free-vaccines-adults")[0].checked;
+        const childrenValue = $("#free-vaccines-children")[0].checked;
+
+        $("#free-vaccines-table tbody tr").filter(function () {
+            const normalized = stripAccents($(this).text().toLowerCase());
+            const kraj = $(this)[0].dataset.kraj;
+            const vaccine = $(this)[0].dataset.vaccine;
+            const adults = $(this)[0].dataset.adults;
+            const children = $(this)[0].dataset.children;
+
+            $(this).toggle(
+                normalized.indexOf(searchValue) > -1
+                && (!krajValue || kraj === krajValue)
+                && (!vaccineValue || vaccine === vaccineValue)
+                && ((adultsValue && adults === 'True') || (childrenValue && children === 'True'))
+            )
+        });
+
+        $("#free-vaccines-table tbody tr:visible").each(function (index) {
+            $(this).css("background-color", !!(index & 1) ? "rgba(0,0,0,0)"  : "rgba(0,0,0,.05)");
+        });
+    }
+
+    $(document).ready(function () {
+        $("#free-vaccines-searchbox").keyup(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-kraj").change(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-vaccine").change(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-adults").change(function () {
+            if (!$("#free-vaccines-adults")[0].checked) {
+                $("#free-vaccines-children")[0].checked = true;
+            }
+            offersFilterChanged();
+        });
+        $("#free-vaccines-children").change(function () {
+            if (!$("#free-vaccines-children")[0].checked) {
+                $("#free-vaccines-adults")[0].checked = true;
+            }
+            offersFilterChanged();
+        });
+        offersFilterChanged();
     });
 </script>
                     </div>
@@ -5888,6 +7270,10 @@ COVID očkování</title>
             </a>
         </div>
     </div>
+</div>
+
+<div class="d-none">
+    <a href="/404">Error 404</a>
 </div>
 
 

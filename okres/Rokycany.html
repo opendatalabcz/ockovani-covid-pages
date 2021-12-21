@@ -49,12 +49,12 @@ COVID očkování</title>
             </li>
             <li class="nav-item">
                 <a class="nav-link "
-                   href="/mapa">Mapa
+                   href="/praktici">Praktici
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link "
-                   href="/praktici">Praktici
+                   href="/nabidky">Nabídky očkování
                 </a>
             </li>
             <li class="nav-item dropdown">
@@ -130,6 +130,12 @@ COVID očkování</title>
                         <a class="nav-link active" data-toggle="tab" href="#ockovaci-mista">Očkovací místa</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#praktici">Praktici</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#nabidky-ockovani">Nabídky očkování</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#statistiky">Statistiky</a>
                     </li>
                     <li class="nav-item">
@@ -141,8 +147,8 @@ COVID očkování</title>
             <div class="card-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="ockovaci-mista">
-                        <div class="row">
-    <div class="col-12 col-md-8 col-md-auto mb-2">
+                        <div class="form-row">
+    <div class="col-12 col-lg-6 col-md-auto mb-2">
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
@@ -150,8 +156,9 @@ COVID očkování</title>
             <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
         </div>
     </div>
-    <div class="col-12 col-md-4 mb-2">
-        <select id="centers-vaccines" class="custom-select">
+    
+    <div class="col mb-2">
+        <select id="centers-vaccine" class="custom-select">
             <option value="">Všechny vakcíny</option>
             
             <option value="AstraZeneca">AstraZeneca</option>
@@ -165,7 +172,7 @@ COVID očkování</title>
         </select>
     </div>
 </div>
-<div class="row mb-2">
+<div class="form-row mb-2">
     <div class="col-12 col-md-6 col-lg-auto text-center mb-1 mr-auto">
         <div class="custom-control custom-switch mr-2" style="display: inline-block">
             <input id="centers-5" type="checkbox" class="custom-control-input">
@@ -214,8 +221,10 @@ COVID očkování</title>
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col" class="text-center col-sortable">Název</th>
-                    <th scope="col" class="text-center col-sortable">Okres</th>
+                    
+                    
                     <th scope="col" class="text-center col-sortable">Kraj</th>
+                    
                     <th scope="col" class="text-center col-sortable">
                         Ve frontě
                         <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
@@ -240,6 +249,7 @@ COVID očkování</title>
                 <tbody>
                 
                 <tr class=""
+                    data-kraj="CZ032"
                     data-vaccines='["Pfizer"]'
                     data-age='[]'
                     data-walkin="False"
@@ -250,20 +260,14 @@ COVID očkování</title>
                     <td data-value="Rokycanská nemocnice, a. s.">
                         <a href="/misto/333a11ee-363d-499f-90cb-9d61f62543cc">Rokycanská nemocnice, a. s.</a>
                     </td>
-                    <td data-value="Rokycany">
-                        
-                            
-                            Rokycany
-                            
-                        
-                    </td>
+                    
+                    
                     <td data-value="Plzeňský">
                         
-                            
                             <a href="/kraj/Plze%C5%88sk%C3%BD">Plzeňský</a>
-                            
                         
                     </td>
+                    
                     <td class="text-right" data-value="520">
                         520
                     </td>
@@ -288,6 +292,7 @@ COVID očkování</title>
                 </tr>
                 
                 <tr class=""
+                    data-kraj="CZ032"
                     data-vaccines='["Pfizer"]'
                     data-age='["5-15"]'
                     data-walkin="False"
@@ -298,20 +303,14 @@ COVID očkování</title>
                     <td data-value="(skupina 5-15) Rokycanská nemocnice, a. s.">
                         <a href="/misto/907e8bc1-bf44-4aa5-b643-26ca1a89249e">(skupina 5-15) Rokycanská nemocnice, a. s.</a>
                     </td>
-                    <td data-value="Rokycany">
-                        
-                            
-                            Rokycany
-                            
-                        
-                    </td>
+                    
+                    
                     <td data-value="Plzeňský">
                         
-                            
                             <a href="/kraj/Plze%C5%88sk%C3%BD">Plzeňský</a>
-                            
                         
                     </td>
+                    
                     <td class="text-right" data-value="40">
                         40
                     </td>
@@ -347,11 +346,12 @@ COVID očkování</title>
 </div>
 
 <script>
-    function filterChanged() {
+    function centersFilterChanged() {
         const stripAccents = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
         const searchValue = stripAccents($("#centers-searchbox").val().toLowerCase());
-        const vaccinesValue = $("#centers-vaccines").val()
+        const krajValue = $("#centers-kraj").val();
+        const vaccineValue = $("#centers-vaccine").val();
         const age5Value = $("#centers-5")[0].checked;
         const age16Value = $("#centers-16")[0].checked;
         const age18Value = $("#centers-18")[0].checked;
@@ -363,6 +363,7 @@ COVID očkování</title>
 
         $("#centers-table tbody tr").filter(function () {
             const normalized = stripAccents($(this).text().toLowerCase());
+            const kraj = $(this)[0].dataset.kraj;
             const vaccines = JSON.parse($(this)[0].dataset.vaccines);
             const age = JSON.parse($(this)[0].dataset.age);
             const age5 = age.includes('5-15');
@@ -376,7 +377,8 @@ COVID očkování</title>
 
             $(this).toggle(
                 normalized.indexOf(searchValue) > -1
-                && (!vaccinesValue || vaccines.includes(vaccinesValue))
+                && (!krajValue || kraj === krajValue)
+                && (!vaccineValue || vaccines.includes(vaccineValue))
                 && ((age5Value && age5) || (age16Value && age16) || (age18Value && age18))
                 && ((walkinValue && walkin === 'True') || (!walkinValue && walkin === 'False'))
                 && ((selfpaidValue && selfpaid === 'True') || (!selfpaidValue && selfpaid === 'False'))
@@ -393,36 +395,688 @@ COVID očkování</title>
 
     $(document).ready(function () {
         $("#centers-searchbox").keyup(function () {
-            filterChanged();
+            centersFilterChanged();
         });
-        $("#centers-vaccines").change(function () {
-            filterChanged();
+        $("#centers-kraj").change(function () {
+            centersFilterChanged();
+        });
+        $("#centers-vaccine").change(function () {
+            centersFilterChanged();
         });
         $("#centers-5").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-16").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-18").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-walkin").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-selfpaid").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-thirddoses").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-active").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
         $("#centers-barrierfree").change(function () {
-            filterChanged();
+            centersFilterChanged();
         });
-        filterChanged();
+        centersFilterChanged();
+    });
+</script>
+                    </div>
+                    <div class="tab-pane" id="praktici">
+                        <div class="form-row mb-1">
+    <div class="col-12 col-lg-6 mb-2">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
+            </div>
+            <input id="doctors-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    
+    <div class="col mb-2">
+        <select id="doctors-vaccine" class="custom-select">
+            <option value="">Všechny vakcíny</option>
+            
+            <option value="AstraZeneca">AstraZeneca</option>
+            
+            <option value="Janssen">Janssen</option>
+            
+            <option value="Moderna">Moderna</option>
+            
+            <option value="Pfizer">Pfizer</option>
+            
+            <option value="Pfizer 5-11">Pfizer 5-11</option>
+            
+        </select>
+    </div>
+    <div class="col-auto mb-2">
+        <div class="custom-control custom-switch" style="display: inline-block">
+            <input id="doctors-children" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="doctors-children">pediatři</label>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table id="doctors-table" class="table table-bordered table-striped table-sm" style="table-layout: fixed">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="text-center col-sortable w-25">Název zařízení</th>
+            
+            
+            <th scope="col" class="text-center col-sortable w-15">Kraj</th>
+            
+            <th scope="col" class="text-center col-sortable w-10">
+                Pediatr
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Praktický lékař pro děti a dorost podle Národního registru poskytovatelů zdravotních služeb.">
+                </i>
+            </th>
+            <th scope="col" class="text-center w-15">
+                Vakcíny
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Vakcíny očkované za posledních 7 dní.">
+                </i>
+            </th>
+            <th scope="col" class="text-center col-sortable w-10">
+                Očkováno
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet podaných dávek vakcíny.">
+                </i>
+            </th>
+            <th scope="col" class="text-center col-sortable w-10">
+                Očkováno za<br>7 dní
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet podaných dávek vakcíny za posledních 7 dní.">
+                </i>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="AMBULANCE 2010 s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="AMBULANCE 2010 s.r.o.">
+                
+                AMBULANCE 2010 s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="501.0">501</td>
+            <td class="text-right" data-value="66.0">66</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="KRAMEDIC s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="KRAMEDIC s.r.o.">
+                
+                KRAMEDIC s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="550.0">550</td>
+            <td class="text-right" data-value="48.0">48</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MEDICA SEVER s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MEDICA SEVER s.r.o.">
+                
+                MEDICA SEVER s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="0.0">0</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Bohumila Krejčíková" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Bohumila Krejčíková">
+                
+                MUDr. Bohumila Krejčíková
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="271.0">271</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Jana Čadová, PL pro dospělé" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Jana Čadová, PL pro dospělé">
+                
+                MUDr. Jana Čadová, PL pro dospělé
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="265.0">265</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Jana Musilová" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Jana Musilová">
+                
+                MUDr. Jana Musilová
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="218.0">218</td>
+            <td class="text-right" data-value="6.0">6</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Jiří Petříček s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Jiří Petříček s.r.o.">
+                
+                MUDr. Jiří Petříček s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="817.0">817</td>
+            <td class="text-right" data-value="42.0">42</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Jitka Špilarová, PL pro dospělé" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Jitka Špilarová, PL pro dospělé">
+                
+                MUDr. Jitka Špilarová, PL pro dospělé
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="49.0">49</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="" data-children="True">
+            <td class="ellipsis" data-value="MUDr. Karolina Vydrová, PL pro děti a dorost" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Karolina Vydrová, PL pro děti a dorost">
+                
+                MUDr. Karolina Vydrová, PL pro děti a dorost
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="True">Ano</td>
+            <td></td>
+            <td class="text-right" data-value="0.0">0</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Marta Fialová, s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Marta Fialová, s.r.o.">
+                
+                MUDr. Marta Fialová, s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="0.0">0</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Pavel Hrnčiřík s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Pavel Hrnčiřík s.r.o.">
+                
+                MUDr. Pavel Hrnčiřík s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="148.0">148</td>
+            <td class="text-right" data-value="18.0">18</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Pavel Seibert, PL pro dospělé" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Pavel Seibert, PL pro dospělé">
+                
+                MUDr. Pavel Seibert, PL pro dospělé
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="547.0">547</td>
+            <td class="text-right" data-value="30.0">30</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Václava Hronová, PL pro dospělé" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Václava Hronová, PL pro dospělé">
+                
+                MUDr. Václava Hronová, PL pro dospělé
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="427.0">427</td>
+            <td class="text-right" data-value="36.0">36</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="Moderna, Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Věra Knechtlová, PL pro dospělé" data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Věra Knechtlová, PL pro dospělé">
+                
+                MUDr. Věra Knechtlová, PL pro dospělé
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Moderna, Pfizer</td>
+            <td class="text-right" data-value="1230.0">1 230</td>
+            <td class="text-right" data-value="68.0">68</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="MUDr. Zdeněk Rottenborn s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="MUDr. Zdeněk Rottenborn s.r.o.">
+                
+                MUDr. Zdeněk Rottenborn s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="256.0">256</td>
+            <td class="text-right" data-value="18.0">18</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="PRAKTICKÝ LÉKAŘ - HOLOUBKOV, s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="PRAKTICKÝ LÉKAŘ - HOLOUBKOV, s.r.o.">
+                
+                PRAKTICKÝ LÉKAŘ - HOLOUBKOV, s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="261.0">261</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="" data-children="False">
+            <td class="ellipsis" data-value="Praktik Babková, s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Praktik Babková, s.r.o.">
+                
+                Praktik Babková, s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td></td>
+            <td class="text-right" data-value="93.0">93</td>
+            <td class="text-right" data-value="0.0">0</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="Praktik Mirošov s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="Praktik Mirošov s.r.o.">
+                
+                Praktik Mirošov s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="587.0">587</td>
+            <td class="text-right" data-value="60.0">60</td>
+        </tr>
+        
+        <tr class="" data-kraj="CZ032"
+            data-vaccines="Pfizer" data-children="False">
+            <td class="ellipsis" data-value="PRAKTIK ZBIROH s.r.o." data-toggle="tooltip" data-placement="auto"
+                title="PRAKTIK ZBIROH s.r.o.">
+                
+                PRAKTIK ZBIROH s.r.o.
+                
+            </td>
+            
+            
+            <td data-value="Rokycany" data-toggle="tooltip" data-placement="auto">
+                <a href="/kraj/Plze%C5%88sk%C3%BD#praktici">Plzeňský</a>
+            </td>
+            
+            <td data-value="False">Ne</td>
+            <td>Pfizer</td>
+            <td class="text-right" data-value="684.0">684</td>
+            <td class="text-right" data-value="120.0">120</td>
+        </tr>
+        
+        </tbody>
+        <tfoot class="font-weight-bold">
+        <tr>
+            <td colspan="4">Celkem</td>
+            <td class="text-right">
+                6 904
+            </td>
+            <td class="text-right">
+                512
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+<p class="card-text font-italic text-justify mb-0">
+    Oranžově jsou vyznačena zdravotnická zařízení, která ukončila očkování.
+</p>
+
+<script>
+    function doctorsFilterChanged() {
+        const stripAccents = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        const searchValue = stripAccents($("#doctors-searchbox").val().toLowerCase());
+        const krajValue = $("#doctors-kraj").val();
+        const vaccineValue = $("#doctors-vaccine").val();
+        const childrenValue = $("#doctors-children")[0].checked;
+
+        $("#doctors-table tbody tr").filter(function() {
+            const normalized = stripAccents($(this).text().toLowerCase());
+            const kraj = $(this)[0].dataset.kraj;
+            const vaccines = $(this)[0].dataset.vaccines;
+            const children = $(this)[0].dataset.children;
+
+            $(this).toggle(
+                normalized.indexOf(searchValue) > -1
+                && (!krajValue || kraj === krajValue)
+                && (!vaccineValue || vaccines.indexOf(vaccineValue) > -1)
+                && (!childrenValue || children === 'True')
+            )
+        });
+
+        $("#doctors-table tbody tr:visible").each(function (index) {
+            $(this).css("background-color", !!(index & 1) ? "rgba(0,0,0,0)"  : "rgba(0,0,0,.05)");
+        });
+    }
+
+    $(document).ready(function(){
+        $("#doctors-searchbox").on("keyup", function() {
+            doctorsFilterChanged();
+        });
+        $("#doctors-kraj").change(function () {
+            doctorsFilterChanged();
+        });
+        $("#doctors-vaccine").change(function () {
+            doctorsFilterChanged();
+        });
+        $("#doctors-children").change(function () {
+            doctorsFilterChanged();
+        });
+    });
+</script>
+                    </div>
+                    <div class="tab-pane" id="nabidky-ockovani">
+                        
+<div class="alert alert-info text-justify alert-dismissible fade show" role="alert">
+    <p>
+        V této tabulce jsou zveřejňovány nabídky očkování s uvedeným typem očkovací látky a kapacitou. Údaje se
+        pravidelně aktualizují.
+        Některé ordinace praktických lékařů pro dospělé nabízejí očkování i dětem od 14 let a naopak některé ordinace
+        praktických lékařů pro děti a dorost nabízejí očkování i dospělým.
+    </p>
+    <p class="mb-0">
+        Pokud máte o očkování zájem, kontaktujte vybranou ordinaci, dodržujte při tom pokyny v poznámce.
+    </p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+
+<div class="form-row mb-1">
+    <div class="col-12 col-lg-6 mb-2">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
+            </div>
+            <input id="free-vaccines-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    
+    <div class="col-6 col-sm mb-2">
+        <select id="free-vaccines-vaccine" class="custom-select">
+            <option value="">Všechny vakcíny</option>
+            
+            <option value="AstraZeneca">AstraZeneca</option>
+            
+            <option value="Janssen">Janssen</option>
+            
+            <option value="Moderna">Moderna</option>
+            
+            <option value="Pfizer">Pfizer</option>
+            
+        </select>
+    </div>
+    <div class="col-12 col-sm-auto text-center mb-2">
+        <div class="custom-control custom-switch mr-2" style="display: inline-block">
+            <input id="free-vaccines-adults" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="free-vaccines-adults">dospělí</label>
+        </div>
+        <div class="custom-control custom-switch" style="display: inline-block">
+            <input id="free-vaccines-children" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="free-vaccines-children">děti</label>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-responsive">
+    <table id="free-vaccines-table" class="table table-bordered table-striped table-sm mb-0">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="text-center">Aktualizace</th>
+            <th scope="col" class="text-center col-sortable">Dávek</th>
+            <th scope="col" class="text-center col-sortable">Vakcína</th>
+            
+            <th scope="col" class="text-center col-sortable">Město</th>
+            <th scope="col" class="text-center">Název zařízení</th>
+            
+            
+            <th scope="col" class="text-center col-sortable">Expirace</th>
+            <th scope="col" class="text-center">Poznámka</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function offersFilterChanged() {
+        const stripAccents = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        const searchValue = stripAccents($("#free-vaccines-searchbox").val().toLowerCase());
+        const krajValue = $("#free-vaccines-kraj").val();
+        const vaccineValue = $("#free-vaccines-vaccine").val();
+        const adultsValue = $("#free-vaccines-adults")[0].checked;
+        const childrenValue = $("#free-vaccines-children")[0].checked;
+
+        $("#free-vaccines-table tbody tr").filter(function () {
+            const normalized = stripAccents($(this).text().toLowerCase());
+            const kraj = $(this)[0].dataset.kraj;
+            const vaccine = $(this)[0].dataset.vaccine;
+            const adults = $(this)[0].dataset.adults;
+            const children = $(this)[0].dataset.children;
+
+            $(this).toggle(
+                normalized.indexOf(searchValue) > -1
+                && (!krajValue || kraj === krajValue)
+                && (!vaccineValue || vaccine === vaccineValue)
+                && ((adultsValue && adults === 'True') || (childrenValue && children === 'True'))
+            )
+        });
+
+        $("#free-vaccines-table tbody tr:visible").each(function (index) {
+            $(this).css("background-color", !!(index & 1) ? "rgba(0,0,0,0)"  : "rgba(0,0,0,.05)");
+        });
+    }
+
+    $(document).ready(function () {
+        $("#free-vaccines-searchbox").keyup(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-kraj").change(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-vaccine").change(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-adults").change(function () {
+            if (!$("#free-vaccines-adults")[0].checked) {
+                $("#free-vaccines-children")[0].checked = true;
+            }
+            offersFilterChanged();
+        });
+        $("#free-vaccines-children").change(function () {
+            if (!$("#free-vaccines-children")[0].checked) {
+                $("#free-vaccines-adults")[0].checked = true;
+            }
+            offersFilterChanged();
+        });
+        offersFilterChanged();
     });
 </script>
                     </div>
@@ -4620,6 +5274,10 @@ COVID očkování</title>
             </a>
         </div>
     </div>
+</div>
+
+<div class="d-none">
+    <a href="/404">Error 404</a>
 </div>
 
 

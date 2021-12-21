@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+    <link rel="shortcut icon" href="/static/favicon.ico">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>
+Mapa nabídek očkování |
+COVID očkování</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/static/js/main.js"></script>
+
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+    <script src="https://api.mapy.cz/loader.js"></script>
+    <script>Loader.load()</script>
+
+    
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/">COVID očkování</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/mista">Očkovací místa
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/praktici">Praktici
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/nabidky">Nabídky očkování
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle "
+                   href="#" id="menu-dropdown-stats" data-toggle="dropdown">Statistiky
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/statistiky">Souhrnné statistiky</a>
+                    <a class="dropdown-item" href="/statistiky_ockovani">Statistiky očkování</a>
+                    <a class="dropdown-item" href="/statistiky_srovnani">Srovnání očkovaní &times; neočkovaní</a>
+                    <a class="dropdown-item" href="/statistiky_nemocnice">Kapacita nemocnic</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/odkazy">Odkazy
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/napoveda">Nápověda
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+                <a class="nav-link" href="https://twitter.com/ocko_bot" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    Twitter
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/msusicky/ockovani-covid" target="_blank">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <p class="mb-0">
+                    Čas poslední aktualizace: <strong>út 21. 12. 21:38</strong>.
+                    <a class="alert-link" href="/napoveda#aktualizace">
+                        Jak často jsou data aktualizována?
+                    </a>
+                </p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+<div class="row">
+    <div class="col">
+        <h3>Nabídky očkování praktickými lékaři na mapě</h3>
+    </div>
+</div>
+
+<div class="form-row mb-1">
+    <div class="col-6 col-sm mb-2">
+        <select id="free-vaccines-vaccine" class="custom-select">
+            <option value="">Všechny vakcíny</option>
+            
+            <option value="AstraZeneca">AstraZeneca</option>
+            
+            <option value="Janssen">Janssen</option>
+            
+            <option value="Moderna">Moderna</option>
+            
+            <option value="Pfizer">Pfizer</option>
+            
+        </select>
+    </div>
+    <div class="col-12 col-sm-auto text-center mb-2">
+        <div class="custom-control custom-switch mr-2" style="display: inline-block">
+            <input id="free-vaccines-adults" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="free-vaccines-adults">dospělí</label>
+        </div>
+        <div class="custom-control custom-switch" style="display: inline-block">
+            <input id="free-vaccines-children" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="free-vaccines-children">děti</label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div id="free-vaccines-map" style="height:600px;"></div>
+    </div>
+</div>
+
+</div>
+
+<div class="footer p-3 bg-light mt-4">
+    <div class="row align-items-center">
+        <div class="col text-center text-lg-left">
+            <p class="mb-1">
+                Vznik: 16. 01. 2021, <a href="https://opendatalab.cz/" target="_blank">OpenDataLab</a>.
+                Data na tomto webu pochází z <a href="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19"
+                                                target="_blank">opendat Ministerstva zdravotnictví ČR</a>
+                a od Centrálního řídícího týmu COVID-19 (CŘT).
+            </p>
+            <p class="mb-1">
+                Vydavatel: ČVUT, Fakulta informačních technologií, Praha ve spolupráci s firmou Profinit EU, s.r.o., Praha, 2021.<br />
+                Citace: Sušický M., Staněk J. <i>COVID-19 očkování</i> [online]. Praha: ČVUT, Fakulta informačních technologií, 2021 [cit. 2021-12-22]. ISSN 2787-9925. Dostupné z https://ockovani.opendatalab.cz
+            </p>
+            <p class="mb-0 font-italic">
+                Provozovatel neodpovídá za správnost a úplnost zpracovaných dat a informací, ani tato neověřuje a zříká
+                se
+                zodpovědnosti za veškeré škody a újmy, které by použitím těchto dat mohly vzniknout.
+                Pro informace o očkování COVID-19 navštivte web: <a
+                    href="https://koronavirus.mzcr.cz/ockovani-proti-covid-19/" target="_blank">Ministerstva
+                zdravotnictví
+                ČR</a>.
+            </p>
+        </div>
+        <div class="col-lg-auto text-center mt-3 mt-lg-0">
+            <a href="https://fit.cvut.cz/" target="_blank">
+                <img src="/static/img/FIT_logo.png">
+            </a>
+            &nbsp;
+            <a href="https://profinit.eu/" target="_blank">
+                <img src="/static/img/PROFINIT_logo.png">
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="d-none">
+    <a href="/404">Error 404</a>
+</div>
+
+
+<script>
+    var m = new SMap(JAK.gel("free-vaccines-map"), SMap.Coords(15.4467614, 49.84937455), 7,  {minZoom: 7});
+    m.addControl(new SMap.Control.Sync());
+    m.addDefaultLayer(SMap.DEF_BASE).enable();
+    m.addDefaultControls();
+
+    var markers = [];
+    var coords = [];
+
+    
+        
+        var c = SMap.Coords.fromWGS84(14.54986943785, 50.133918207972);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "K-VitaMed, s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>K-VitaMed, s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/08895465000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.467738198958, 50.084196749606);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Safimed s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Safimed s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/07316101000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.46760754302, 50.1146446307);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Všeobecný lékař Praha s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Všeobecný lékař Praha s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/08974616000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.46760754302, 50.1146446307);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Všeobecný lékař Praha s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Všeobecný lékař Praha s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/08974616000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.435226094262, 50.015196488064);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Ordinace Lhotka s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Ordinace Lhotka s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/04261534000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.554589811179, 50.08978037884);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "EUC PLS s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>EUC PLS s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/02808501011" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.487023184342, 50.045010216407);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Praktický lékař Spořilov s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Praktický lékař Spořilov s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/03150241000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.471257910891, 50.134095378778);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Gerontologické centrum",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Gerontologické centrum</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/45250022000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.471257910891, 50.134095378778);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Gerontologické centrum",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Gerontologické centrum</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/45250022000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.494529265422, 50.108277384922);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Škoda, s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Škoda, s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/06322468000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.494529265422, 50.108277384922);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Škoda, s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Škoda, s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/06322468000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.494529265422, 50.108277384922);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Škoda, s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Škoda, s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/06322468000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.5790599193, 49.364135041491);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Hana Šedivá s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Hana Šedivá s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/06350216000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.5790599193, 49.364135041491);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Hana Šedivá s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Hana Šedivá s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/06350216000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.176316380183, 49.146660881032);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Stiebler s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Stiebler s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/03798968000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(17.219189795934, 48.979580474588);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "PL Vracov s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>PL Vracov s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/05915783000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(16.261692953236, 49.525271834823);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Ordinace Prudkých s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Ordinace Prudkých s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/29269512000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.483700062663, 49.754113499174);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "habrypraktik s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>habrypraktik s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/01990420000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.483700062663, 49.754113499174);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "habrypraktik s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>habrypraktik s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/01990420000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: true
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.483700062663, 49.754113499174);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "habrypraktik s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>habrypraktik s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/01990420000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: true
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.581740356087, 49.602700020144);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Dočkalová HB s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Dočkalová HB s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/09587471000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(16.168200932814, 49.328596292018);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Anna Švehlová s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Anna Švehlová s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/06173713000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.240223027722, 49.262232622691);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Pediatr Počátky s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Pediatr Počátky s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/03612902000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: true
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.94138594099, 49.565791246127);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Zuzana Zlochová s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Zuzana Zlochová s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/05558387000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.94138594099, 49.565791246127);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "VAMEDIC s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>VAMEDIC s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/01683209000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.865762870824, 50.300110383863);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "PRAKTIK Smiřice s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>PRAKTIK Smiřice s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/08189919000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(18.425408912301, 49.867820486942);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "AK Medipraktik, s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>AK Medipraktik, s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/06522556000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(18.425408912301, 49.867820486942);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "AK Medipraktik, s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>AK Medipraktik, s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/06522556000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(18.425408912301, 49.867820486942);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "AK Medipraktik, s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>AK Medipraktik, s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/06522556000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(18.222983358484, 49.793017460289);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Milena Baldermanová s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Milena Baldermanová s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/04479491000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(18.222983358484, 49.793017460289);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Milena Baldermanová s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Milena Baldermanová s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/04479491000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(18.222983358484, 49.793017460289);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Milena Baldermanová s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Milena Baldermanová s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/04479491000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(18.235634970266, 49.794820086979);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MZ Medica s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MZ Medica s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/29382301000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(18.650662234632, 49.682470751869);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Michal Bielesz s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Michal Bielesz s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/29457432000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(16.962736926636, 49.560673670346);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Anna Kopečná",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Anna Kopečná</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/47920432000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(17.472954784905, 49.453855397289);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "STAVMED s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>STAVMED s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/03666981000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(17.081808875847, 49.428211197251);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Ursamedica Praktik s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Ursamedica Praktik s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/06385702000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: true
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.738301575402, 50.044293018547);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "PraktikRosice s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>PraktikRosice s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/05989469000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.738301575402, 50.044293018547);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "PraktikRosice s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>PraktikRosice s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/05989469000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(16.402994892283, 49.968792340248);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "KARMED s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>KARMED s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/04182308000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'AstraZeneca',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(16.155378846025, 49.951631572609);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Lenka Dejdarová",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Lenka Dejdarová</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/71213376000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(16.155378846025, 49.951631572609);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Lenka Dejdarová",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Lenka Dejdarová</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/71213376000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(12.775062966015, 49.714405666613);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Hana Bultasová",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Hana Bultasová</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/69977721000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(13.369255801983, 49.743236107938);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MitroCare s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MitroCare s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/29119880000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: true
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(13.366020187478, 49.765036623512);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Praktik Plzeň s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Praktik Plzeň s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/29125294000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'AstraZeneca',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(13.366020187478, 49.765036623512);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Praktik Plzeň s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Praktik Plzeň s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/29125294000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.260038724604, 49.92424205368);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MihuMed s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MihuMed s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/07597819000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'AstraZeneca',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.876464010647, 50.229262753553);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Zdeňka Macháčková",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Zdeňka Macháčková</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/69774943000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.876464010647, 50.229262753553);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Zdeňka Macháčková",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Zdeňka Macháčková</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/69774943000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.02429693737, 50.187575326088);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MediSeb s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MediSeb s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/01562801000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.02429693737, 50.187575326088);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MediSeb s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MediSeb s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/01562801000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.02429693737, 50.187575326088);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MediSeb s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MediSeb s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/01562801000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.02429693737, 50.187575326088);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Tomáš Doležel s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Tomáš Doležel s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/24225452000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.02429693737, 50.187575326088);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Tomáš Doležel s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Tomáš Doležel s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/24225452000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(15.02429693737, 50.187575326088);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Tomáš Doležel s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Tomáš Doležel s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/24225452000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(13.724129910439, 50.658595813629);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. Vlasta Sedláková s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. Vlasta Sedláková s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/24733415000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Pfizer',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(13.572988389553, 50.593625218168);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Convamed s. r. o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Convamed s. r. o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/06688560000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Janssen',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(14.017091346686, 50.669773226521);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Medest s.r.o.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>Medest s.r.o.</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/28746945000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+        
+        var c = SMap.Coords.fromWGS84(17.670265378447, 49.226238909752);
+
+        var icon = JAK.mel("div");
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "MUDr. HANA BŘEZINOVÁ",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null);
+        card.getHeader().innerHTML = "<strong>MUDr. HANA BŘEZINOVÁ</strong>";
+        
+        card.getBody().innerHTML = '<a href="./praktik/08152659000" class="btn btn-primary">Detail nabídky</a>';
+        
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccine: 'Moderna',
+            adults: true,
+            children: false
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
+    
+
+    var layer = new SMap.Layer.Marker();
+    m.addLayer(layer);
+    layer.enable();
+
+    var cz = m.computeCenterZoom(coords);
+    m.setCenterZoom(cz[0], cz[1]);
+
+    function filterMarkers() {
+        const vaccineValue = $("#free-vaccines-vaccine").val()
+        const adultsValue = $("#free-vaccines-adults")[0].checked;
+        const childrenValue = $("#free-vaccines-children")[0].checked;
+
+        layer.removeAll();
+        var markers_filtered = [];
+
+        for (var i=0;i<markers.length;i++) {
+            marker = markers[i];
+
+            const vaccine = marker.filter_data.vaccine;
+            const adults = marker.filter_data.adults;
+            const children = marker.filter_data.children;
+
+            if ((!vaccineValue || vaccine === vaccineValue) && ((adultsValue && adults) || (childrenValue && children))) {
+                markers_filtered.push(marker);
+            }
+        }
+
+        layer.addMarker(markers_filtered);
+    }
+
+    $(document).ready(function () {
+        $("#free-vaccines-vaccine").change(function () {
+            filterMarkers();
+        });
+        $("#free-vaccines-adults").change(function () {
+            if (!$("#free-vaccines-adults")[0].checked) {
+                $("#free-vaccines-children")[0].checked = true;
+            }
+            filterMarkers();
+        });
+        $("#free-vaccines-children").change(function () {
+            if (!$("#free-vaccines-children")[0].checked) {
+                $("#free-vaccines-adults")[0].checked = true;
+            }
+            filterMarkers();
+        });
+        filterMarkers();
+    });
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TXSRVP25Y2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-TXSRVP25Y2');
+
+</script>
+
+<!-- Hotjar Tracking Code for ockovani.opendatalab.cz -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:2355869,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+</body>
+</html>
