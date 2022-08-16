@@ -102,7 +102,7 @@ COVID očkování</title>
         <div class="col">
             <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <p class="mb-0">
-                    Čas poslední aktualizace: <strong>út 16. 08. 12:38</strong>.
+                    Čas poslední aktualizace: <strong>út 16. 08. 13:38</strong>.
                     <a class="alert-link" href="/napoveda#aktualizace">
                         Jak často jsou data aktualizována?
                     </a>
@@ -4315,6 +4315,48 @@ COVID očkování</title>
         
     
         
+        var c = SMap.Coords.fromWGS84(15.8146781, 50.4485428);
+
+        var icon = JAK.mel("div");
+        
+        var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-yellow.png"}, {filter:"grayscale(1)"});
+        
+
+        // var icon = JAK.mel("div");
+        // var image = JAK.mel("img", {src:SMap.CONFIG.img+"/marker/drop-red.png"});
+        icon.appendChild(image);
+
+        var options = {
+            title: "Městská nemocnice, a.s. ve Dvoře Králové n. L.",
+            url: icon
+        }
+        var marker = new SMap.Marker(c, null, options);
+
+        var card = new SMap.Card();
+        card.setSize(450, null)
+        card.getHeader().innerHTML = "<strong>Městská nemocnice, a.s. ve Dvoře Králové n. L.</strong>";
+        card.getBody().innerHTML = "<strong>Adresa:</strong> Vrchlického 1504, 54401 Dvůr Králové nad Labem<br>" +
+            "<strong>Bezbariérový přístup:</strong> Ano<br>" +
+            "<strong>Čekání na rezervaci za poslední týden:</strong> bez dat  <br>" +
+            // "<strong>Průměrná doba čekajících ve frontě:</strong> bez dat  <br>" +
+            // "<strong>Zatížení místa:</strong> bez dat  <br>" +
+            '<a href="./misto/8805928d-545e-48b9-8be1-ea3ac9b4c21c" class="btn btn-primary mt-2">Detail místa</a>';
+        card.getFooter().style = "display: none";
+        card.getContainer().style.padding = "0";
+        marker.decorate(SMap.Marker.Feature.Card, card);
+
+        marker.filter_data = {
+            vaccines: '["Pfizer"]',
+            age: '["18+"]',
+            selfpaid: false,
+            walkin: false,
+            thirddoses: true,
+            barrierfree: true
+        }
+
+        coords.push(c);
+        markers.push(marker);
+        
     
         
         var c = SMap.Coords.fromWGS84(15.6058231, 50.62227);
@@ -6751,7 +6793,7 @@ COVID očkování</title>
 
         marker.filter_data = {
             vaccines: '["Pfizer"]',
-            age: '["16-17", "18+"]',
+            age: '["18+"]',
             selfpaid: false,
             walkin: false,
             thirddoses: true,
