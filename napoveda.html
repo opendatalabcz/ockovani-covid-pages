@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+    <link rel="shortcut icon" href="/static/favicon.ico">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>
+Nápověda |
+COVID očkování</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/static/js/main.js"></script>
+
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+    <script src="https://api.mapy.cz/loader.js"></script>
+    <script>Loader.load()</script>
+
+    
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/">COVID očkování</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/mista">Očkovací místa
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/praktici">Praktici
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/nabidky">Nabídky očkování
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle "
+                   href="#" id="menu-dropdown-stats" data-toggle="dropdown">Statistiky
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/statistiky">Souhrnné statistiky</a>
+                    <a class="dropdown-item" href="/statistiky_ockovani">Statistiky očkování</a>
+                    <a class="dropdown-item" href="/statistiky_srovnani">Srovnání očkovaní &times; neočkovaní</a>
+                    <a class="dropdown-item" href="/statistiky_nemocnice">Kapacita nemocnic</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/odkazy">Odkazy
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active"
+                   href="/napoveda">Nápověda
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+                <a class="nav-link" href="https://twitter.com/ocko_bot" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    Twitter
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/msusicky/ockovani-covid" target="_blank">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-danger" role="alert">
+                <p class="mb-0">
+                    Čas poslední aktualizace: <strong>pá 10. 11. 05:48</strong>.
+                    POZOR! - Momentálně obnovený pilotní provoz, na webu mohou být chyby.
+                </p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+<div class="row">
+    <div class="col">
+        <h3>Co dělat, když…</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body text-justify">
+                <h5 class="card-title">Jak se registruji na očkování?</h5>
+                <p class="card-text">
+                    Navštivte web <a href="https://registrace.mzcr.cz/" target="_blank">https://registrace.mzcr.cz/</a>
+                    a postupujte dle instrukcí. Potřebovat budete telefonní číslo, na které Vám přijde SMS s ověřovacím
+                    kódem. Po jeho zadání budete vyzvání k vyplnění osobních údajů a výběru preferovaného očkovacího
+                    místa.
+                </p>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body text-justify">
+                <h5 class="card-title">Jak funguje závora?</h5>
+                <p class="card-text">
+                    Očkovací místo disponuje tzv. "závorou". Ta určuje skupinu lidí, kteří mají právo vybrat si termín
+                    očkování. Se závorou je většinou manipulováno tak, aby nedocházelo k přeplnění, tzn. jakmile člověk
+                    dostane PIN2 (zvací SMS), tak pro něj existuje termín v místě, které si vybral (nemusí platit všude,
+                    některá očkovací místa rozesílají o něco více SMS, aby termíny nezůstávaly dlouho neobsazené).
+                </p>
+                <p class="card-text">
+                    Pokud do tří dnů nedojde k výběru místa, možnost výběru termínu zaniká. Zvací SMS přijde nejvýše
+                    3&times;, pokud vyprší i třetí časové okno, zaniká celá registrace a je třeba se registrovat
+                    znovu.
+                </p>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body text-justify">
+                <h5 class="card-title">Mohu již vybrané očkovací místo změnit?</h5>
+                <p class="card-text">
+                    Ministerstvo zdravotnictví nedoporučuje změnu očkovacího místa. Pokud to ale přesto chcete udělat,
+                    stačí provést novou registraci. Stará registrace tím zanikne. Na novém místě ale budete zařazení do
+                    fronty za posledního člověka stejného věku (a případně prioritní skupiny).
+                </p>
+                <p class="card-text">
+                    Záleží jak často a jak se nastaví závora. Může se tak stát, že se přeregistrujete na místo, které
+                    deklaruje více volných termínů, ale bude na něm ve frontě více zájemců. Proto také sledujte počty
+                    čekajících a jejich úspěšnost.
+                </p>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body text-justify">
+                <h5 class="card-title">Přišla mi SMS s PIN2, co dál?</h5>
+                <p class="card-text">
+                    Navštivte stránky <a href="http://rezervace.mzcr.cz/" target="_blank">http://rezervace.mzcr.cz/</a>
+                    a následujte instrukce pro rezervaci termínu.
+                </p>
+                <p class="card-text">
+                    <strong>POZOR!</strong> Nezaměňte si rezervaci s novou registrací, při nové registraci byste
+                    byli zařazeni opět na konec fronty.
+                </p>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body text-justify">
+                <h5 class="card-title">Jsem ztracen(a), co mám dělat?</h5>
+                <p class="card-text">
+                    Zavolejte na linku 1221, kde Vám vše rádi vysvětlí a pomohou.
+                </p>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body text-justify">
+                <h5 class="card-title">Kde najdu oficiální informace?</h5>
+                <p class="card-text">
+                    Pro oficiální informace od Ministerstva zdravotnictví se podívejte na
+                    <a href="https://koronavirus.mzcr.cz/ockovani-proti-covid-19/"
+                       target="_blank">https://koronavirus.mzcr.cz/ockovani-proti-covid-19/</a>,
+                    další informace najdete také na vládním portálu <a href="https://covid.gov.cz/"
+                                                                       target="_blank">https://covid.gov.cz/</a>.
+                </p>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-body text-justify">
+                <h5 class="card-title">Odkud bere tento web data?</h5>
+                <div class="card-text">
+                    <p>
+                        Z oficiálních otevřených dat MZČR:<sup>*</sup>
+                    </p>
+                    <ul>
+                        <li>data o registracích</li>
+                        <li>data o vykázaných očkováních</li>
+                        <li>data o spotřebě vakcín</li>
+                        <li>data o distribuci vakcín</li>
+                        <li>data o osobách s prokázanou nákazou</li>
+                        <li>data o úmrtích</li>
+                        <li>data o očkovacích zařízeních</li>
+                        <li>data pro prediktivní modelování</li>
+                        <li>data o epidemiologické situaci podle ORP</li>
+                        <li>data o epidemiologické charakteristice obcí</li>
+                        <li>data o nákazách a hospitalizacích s ohledem na očkování</li>
+                        <li>data o kapacitách intenzivní péče</li>
+                        <li>data o hospitalizacích</li>
+                        <li>data o provedených testech</li>
+                    </ul>
+                    <p>
+                        Z neveřejných dat Centrálního řídícího týmu COVID-19:
+                    </p>
+                    <ul>
+                        <li>data o očkovacích místech a jejich otevíracích dobách</li>
+                        <li>data o rezervacích</li>
+                    </ul>
+                    <p>
+                        Z otevřených dat Českého statistického úřadu - data o populaci.
+                    </p>
+                    <p class="mb-0">
+                        * Komenda M., Karolyi M., Bulhart V., Žofka J., Brauner T., Hak J., Jarkovský J., Mužík J.,
+                        Blaha M., Kubát J., Klimeš D., Langhammer P., Daňková Š., Májek O., Bartůňková M., Dušek L.
+                        COVID‑19: Přehled aktuální situace v ČR. Onemocnění aktuálně [online].
+                        Praha: Ministerstvo zdravotnictví ČR, 2020 [cit. 28.02.2021].
+                        Dostupné z: <a href="https://onemocneni-aktualne.mzcr.cz/covid-19"
+                                       target="_blank">https://onemocneni-aktualne.mzcr.cz/covid-19</a>.
+                        Vývoj: společné pracoviště ÚZIS ČR a IBA LF MU. ISSN 2694-9423.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body text-justify">
+                <h5 class="card-title" id="aktualizace">Jak často jsou data aktualizována?</h5>
+                <p class="card-text">
+                    Data jsou aktualizována jednou denně kolem 6. hodiny ráno.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="footer p-3 bg-light mt-4">
+    <div class="row align-items-center">
+        <div class="col text-center text-lg-left">
+            <p class="mb-1">
+                Vznik: 16. 01. 2021, <a href="https://opendatalab.cz/" target="_blank">OpenDataLab</a>.
+                Data na tomto webu pochází z <a href="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19"
+                                                target="_blank">opendat Ministerstva zdravotnictví ČR</a>
+                a od Centrálního řídícího týmu COVID-19 (CŘT).
+            </p>
+            <p class="mb-1">
+                Vydavatel: ČVUT, Fakulta informačních technologií, Praha ve spolupráci s firmou Sec4good, s.r.o., Praha, 2023.<br />
+                Citace: Sušický M., Staněk J. <i>COVID-19 očkování</i> [online]. Praha: ČVUT, Fakulta informačních technologií, 2021 [cit. 2023-11-10]. ISSN 2787-9925. Dostupné z https://ockovani.opendatalab.cz
+            </p>
+            <p class="mb-0 font-italic">
+                Provozovatel neodpovídá za správnost a úplnost zpracovaných dat a informací, ani tato neověřuje a zříká
+                se
+                zodpovědnosti za veškeré škody a újmy, které by použitím těchto dat mohly vzniknout.
+                Pro informace o očkování COVID-19 navštivte web: <a
+                    href="https://koronavirus.mzcr.cz/ockovani-proti-covid-19/" target="_blank">Ministerstva
+                zdravotnictví
+                ČR</a>.
+            </p>
+        </div>
+        <div class="col-lg-auto text-center mt-3 mt-lg-0">
+            <a href="https://fit.cvut.cz/" target="_blank">
+                <img src="/static/img/FIT_logo.png">
+            </a>
+            &nbsp;
+            <a href="https://www.sec4good.cz/" target="_blank">
+                <img src="/static/img/sec4good_mungo_logo_tmave.png" style="width: 185px;">
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Links for wget -->
+<div class="d-none">
+    <a href="/404">Error 404</a>
+    <a href="/static/geojson/orp-simple.json">ORP GeoJSON</a>
+</div>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TXSRVP25Y2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-TXSRVP25Y2');
+
+</script>
+
+
+
+</body>
+</html>

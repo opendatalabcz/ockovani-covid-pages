@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+    <link rel="shortcut icon" href="/static/favicon.ico">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>
+Svitavy |
+COVID očkování</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/static/js/main.js"></script>
+
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+    <script src="https://api.mapy.cz/loader.js"></script>
+    <script>Loader.load()</script>
+
+    
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/">COVID očkování</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/mista">Očkovací místa
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/praktici">Praktici
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/nabidky">Nabídky očkování
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle "
+                   href="#" id="menu-dropdown-stats" data-toggle="dropdown">Statistiky
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/statistiky">Souhrnné statistiky</a>
+                    <a class="dropdown-item" href="/statistiky_ockovani">Statistiky očkování</a>
+                    <a class="dropdown-item" href="/statistiky_srovnani">Srovnání očkovaní &times; neočkovaní</a>
+                    <a class="dropdown-item" href="/statistiky_nemocnice">Kapacita nemocnic</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/odkazy">Odkazy
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/napoveda">Nápověda
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+                <a class="nav-link" href="https://twitter.com/ocko_bot" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    Twitter
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/msusicky/ockovani-covid" target="_blank">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-danger" role="alert">
+                <p class="mb-0">
+                    Čas poslední aktualizace: <strong>pá 10. 11. 05:48</strong>.
+                    POZOR! - Momentálně obnovený pilotní provoz, na webu mohou být chyby.
+                </p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+<div class="row">
+    <div class="col">
+        <h3>Okres: Svitavy </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header" id="cards">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#ockovaci-mista">Očkovací místa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#praktici">Praktici</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#nabidky-ockovani">Nabídky očkování</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#statistiky">Statistiky</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#registrace">Stav registrací</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="ockovaci-mista">
+                        <div class="form-row">
+    <div class="col-12 col-lg-6 col-md-auto mb-2">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
+            </div>
+            <input id="centers-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    
+    <div class="col mb-2">
+        <select id="centers-vaccine" class="custom-select">
+            <option value="">Všechny vakcíny</option>
+            
+            <option value="AstraZeneca">AstraZeneca</option>
+            
+            <option value="Comirnaty/Pfizer BA.4/BA.5">Comirnaty/Pfizer BA.4/BA.5</option>
+            
+            <option value="Janssen">Janssen</option>
+            
+            <option value="Moderna">Moderna</option>
+            
+            <option value="Novavax">Novavax</option>
+            
+            <option value="Pfizer">Pfizer</option>
+            
+            <option value="Pfizer BA.1">Pfizer BA.1</option>
+            
+            <option value="Spikevax BA.1">Spikevax BA.1</option>
+            
+        </select>
+    </div>
+</div>
+<div class="form-row mb-2">
+    <div class="col-12 col-md-6 col-lg-auto text-center mb-1 mr-auto">
+        <div class="custom-control custom-switch mr-2" style="display: inline-block">
+            <input id="centers-5" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-5">5-15</label>
+        </div>
+        <div class="custom-control custom-switch mr-2" style="display: inline-block">
+            <input id="centers-16" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-16">16-17</label>
+        </div>
+        <div class="custom-control custom-switch" style="display: inline-block">
+            <input id="centers-18" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="centers-18">18+</label>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-auto text-center mb-1 mr-auto">
+        <div class="custom-control custom-switch mr-2" style="display: inline-block">
+            <input id="centers-walkin" type="checkbox" class="custom-control-input" >
+            <label class="custom-control-label" for="centers-walkin">bez registrace</label>
+        </div>
+        <div class="custom-control custom-switch" style="display: inline-block">
+            <input id="centers-selfpaid" type="checkbox" class="custom-control-input" >
+            <label class="custom-control-label" for="centers-selfpaid">samoplátci</label>
+        </div>
+    </div>
+    <div class="col-12 col-lg-auto text-center mb-1">
+        <div class="custom-control custom-switch mr-2" style="display: inline-block">
+            <input id="centers-active" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="centers-active">aktivní</label>
+        </div>
+        <div class="custom-control custom-switch mr-2" style="display: inline-block">
+            <input id="centers-thirddoses" type="checkbox" class="custom-control-input" >
+            <label class="custom-control-label" for="centers-thirddoses">posilující</label>
+        </div>
+        <div class="custom-control custom-switch" style="display: inline-block">
+            <input id="centers-barrierfree" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="centers-barrierfree">bezbariérová</label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        
+        <div class="table-responsive">
+            <table id="centers-table" class="table table-bordered table-striped table-sm">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center col-sortable">Název</th>
+                    
+                    
+                    <th scope="col" class="text-center col-sortable">Kraj</th>
+                    
+                    <th scope="col" class="text-center col-sortable">
+                        Ve frontě
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                           title="Počet registrovaných bez rezervovaného termínu.">
+                        </i>
+                    </th>
+                    <th scope="col" class="text-center col-sortable">
+                        Před závorou
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                           title="Počet registrovaných čekajících na možnost rezervace konkrétního termínu.">
+                        </i>
+                    </th>
+                    <th scope="col" class="text-center col-sortable">
+                        Čekání na rezervaci
+                        <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto"
+                           data-html="true"
+                           title="Průměrná doba mezi registrací a rezervací konkrétního termínu za posledních 7 dní (přibližně odpovídá čekání na možnost výběru termínu).<br>Registrace na 1. a posilující dávku mohou mít různou prioritu.<br>Pro výpočet používáme jen registrace vytvořené před 90 dny a novější.<br>Červená (>2), žlutá (>1), zelená (>0).">
+                        </i>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                <tr class=""
+                    data-kraj="CZ053"
+                    data-vaccines='["Pfizer", "Comirnaty/Pfizer BA.4/BA.5"]'
+                    data-age='["16-17", "18+"]'
+                    data-walkin="True"
+                    data-selfpaid="False"
+                    data-thirddoses="True"
+                    data-active="True"
+                    data-barrierfree="False">
+                    <td data-value="(Bez registrace) Litomyšlská nemocnice">
+                        <a href="/misto/b39def50-aa1a-48ec-b94c-5735815adbfb">(Bez registrace) Litomyšlská nemocnice</a>
+                    </td>
+                    
+                    
+                    <td data-value="Pardubický">
+                        
+                            <a href="/kraj/Pardubick%C3%BD">Pardubický</a>
+                        
+                    </td>
+                    
+                    <td class="text-right" data-value="0">
+                        0
+                    </td>
+                    <td class="text-right" data-value="0">
+                        0
+                    </td>
+                    <td class="text-center" data-value="None">
+                        
+<span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="auto" title="">
+    <span class="d-none d-sm-inline">bez dat</span>
+    <span class="d-inline d-sm-none">n/a</span>
+</span>
+
+                    </td>
+                </tr>
+                
+                <tr class="table-warning"
+                    data-kraj="CZ053"
+                    data-vaccines='["Pfizer", "Comirnaty/Pfizer BA.4/BA.5"]'
+                    data-age='["16-17", "18+"]'
+                    data-walkin="False"
+                    data-selfpaid="False"
+                    data-thirddoses="True"
+                    data-active="False"
+                    data-barrierfree="True">
+                    <td data-value="Litomyšlská nemocnice">
+                        <a href="/misto/6edad920-0382-4946-af44-cafeb841d6b1">Litomyšlská nemocnice</a>
+                    </td>
+                    
+                    
+                    <td data-value="Pardubický">
+                        
+                            <a href="/kraj/Pardubick%C3%BD">Pardubický</a>
+                        
+                    </td>
+                    
+                    <td class="text-right" data-value="24">
+                        24
+                    </td>
+                    <td class="text-right" data-value="0">
+                        0
+                    </td>
+                    <td class="text-center" data-value="None">
+                        
+<span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="auto" title="">
+    <span class="d-none d-sm-inline">bez dat</span>
+    <span class="d-inline d-sm-none">n/a</span>
+</span>
+
+                    </td>
+                </tr>
+                
+                <tr class="table-warning"
+                    data-kraj="CZ053"
+                    data-vaccines='["Pfizer", "Comirnaty/Pfizer BA.4/BA.5"]'
+                    data-age='["5-15"]'
+                    data-walkin="False"
+                    data-selfpaid="False"
+                    data-thirddoses="True"
+                    data-active="False"
+                    data-barrierfree="False">
+                    <td data-value="(skupina 12-15) Litomyšlská nemocnice">
+                        <a href="/misto/3c6b2b17-5e39-4ebd-9fdc-4299380d83cd">(skupina 12-15) Litomyšlská nemocnice</a>
+                    </td>
+                    
+                    
+                    <td data-value="Pardubický">
+                        
+                            <a href="/kraj/Pardubick%C3%BD">Pardubický</a>
+                        
+                    </td>
+                    
+                    <td class="text-right" data-value="4">
+                        4
+                    </td>
+                    <td class="text-right" data-value="0">
+                        0
+                    </td>
+                    <td class="text-center" data-value="None">
+                        
+<span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="auto" title="">
+    <span class="d-none d-sm-inline">bez dat</span>
+    <span class="d-inline d-sm-none">n/a</span>
+</span>
+
+                    </td>
+                </tr>
+                
+                <tr class="table-warning"
+                    data-kraj="CZ053"
+                    data-vaccines='["Pfizer", "Comirnaty/Pfizer BA.4/BA.5"]'
+                    data-age='["16-17", "18+"]'
+                    data-walkin="False"
+                    data-selfpaid="False"
+                    data-thirddoses="True"
+                    data-active="False"
+                    data-barrierfree="True">
+                    <td data-value="Svitavská nemocnice">
+                        <a href="/misto/03d60c72-2c3b-4aa1-882f-ed7b9f43d734">Svitavská nemocnice</a>
+                    </td>
+                    
+                    
+                    <td data-value="Pardubický">
+                        
+                            <a href="/kraj/Pardubick%C3%BD">Pardubický</a>
+                        
+                    </td>
+                    
+                    <td class="text-right" data-value="31">
+                        31
+                    </td>
+                    <td class="text-right" data-value="0">
+                        0
+                    </td>
+                    <td class="text-center" data-value="None">
+                        
+<span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="auto" title="">
+    <span class="d-none d-sm-inline">bez dat</span>
+    <span class="d-inline d-sm-none">n/a</span>
+</span>
+
+                    </td>
+                </tr>
+                
+                </tbody>
+            </table>
+        </div>
+        <p class="font-italic text-justify mb-0">
+            Oranžově jsou vyznačena očkovací místa, která jsou v&nbsp;současnosti skryta v rezervačním systému, ale
+            zároveň jsou na nich čekající ve frontě nebo s&nbsp;rezervací.
+        </p>
+        
+    </div>
+</div>
+
+<script>
+    function centersFilterChanged() {
+        const stripAccents = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        const searchValue = stripAccents($("#centers-searchbox").val().toLowerCase());
+        const krajValue = $("#centers-kraj").val();
+        const vaccineValue = $("#centers-vaccine").val();
+        const age5Value = $("#centers-5")[0].checked;
+        const age16Value = $("#centers-16")[0].checked;
+        const age18Value = $("#centers-18")[0].checked;
+        const walkinValue = $("#centers-walkin")[0].checked;
+        const selfpaidValue = $("#centers-selfpaid")[0].checked;
+        const thirddosesValue = $("#centers-thirddoses")[0].checked;
+        const activeValue = $("#centers-active")[0].checked;
+        const barrierfreeValue = $("#centers-barrierfree")[0].checked;
+
+        $("#centers-table tbody tr").filter(function () {
+            const normalized = stripAccents($(this).text().toLowerCase());
+            const kraj = $(this)[0].dataset.kraj;
+            const vaccines = JSON.parse($(this)[0].dataset.vaccines);
+            const age = JSON.parse($(this)[0].dataset.age);
+            const age5 = age.includes('5-15');
+            const age16 = age.includes('16-17');
+            const age18 = age.includes('18+') || !age.length;
+            const walkin = $(this)[0].dataset.walkin;
+            const selfpaid = $(this)[0].dataset.selfpaid;
+            const thirddoses = $(this)[0].dataset.thirddoses;
+            const active = $(this)[0].dataset.active;
+            const barrierfree = $(this)[0].dataset.barrierfree;
+
+            $(this).toggle(
+                normalized.indexOf(searchValue) > -1
+                && (!krajValue || kraj === krajValue)
+                && (!vaccineValue || vaccines.includes(vaccineValue))
+                && ((age5Value && age5) || (age16Value && age16) || (age18Value && age18))
+                && ((walkinValue && walkin === 'True') || (!walkinValue && walkin === 'False'))
+                && ((selfpaidValue && selfpaid === 'True') || (!selfpaidValue && selfpaid === 'False'))
+                && (!thirddosesValue || thirddoses === 'True')
+                && (!activeValue || active === 'True')
+                && (!barrierfreeValue || barrierfree === 'True')
+            )
+        });
+
+        $("#centers-table tbody tr:visible").each(function (index) {
+            $(this).css("background-color", !!(index & 1) ? "rgba(0,0,0,0)" : "rgba(0,0,0,.05)");
+        });
+    }
+
+    $(document).ready(function () {
+        $("#centers-searchbox").keyup(function () {
+            centersFilterChanged();
+        });
+        $("#centers-kraj").change(function () {
+            centersFilterChanged();
+        });
+        $("#centers-vaccine").change(function () {
+            centersFilterChanged();
+        });
+        $("#centers-5").change(function () {
+            centersFilterChanged();
+        });
+        $("#centers-16").change(function () {
+            centersFilterChanged();
+        });
+        $("#centers-18").change(function () {
+            centersFilterChanged();
+        });
+        $("#centers-walkin").change(function () {
+            centersFilterChanged();
+        });
+        $("#centers-selfpaid").change(function () {
+            centersFilterChanged();
+        });
+        $("#centers-thirddoses").change(function () {
+            centersFilterChanged();
+        });
+        $("#centers-active").change(function () {
+            centersFilterChanged();
+        });
+        $("#centers-barrierfree").change(function () {
+            centersFilterChanged();
+        });
+        centersFilterChanged();
+    });
+</script>
+                    </div>
+                    <div class="tab-pane" id="praktici">
+                        <div class="form-row mb-1">
+    <div class="col-12 col-lg-6 mb-2">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
+            </div>
+            <input id="doctors-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    
+    <div class="col mb-2">
+        <select id="doctors-vaccine" class="custom-select">
+            <option value="">Všechny vakcíny</option>
+            
+            <option value="AstraZeneca">AstraZeneca</option>
+            
+            <option value="AstraZenecaIN">AstraZenecaIN</option>
+            
+            <option value="BharatBiotech">BharatBiotech</option>
+            
+            <option value="Comirnaty 6m-4">Comirnaty 6m-4</option>
+            
+            <option value="Comirnaty Omicron XBB.1.5.">Comirnaty Omicron XBB.1.5.</option>
+            
+            <option value="Comirnaty Omicron XBB.1.5. 5-11">Comirnaty Omicron XBB.1.5. 5-11</option>
+            
+            <option value="Covovax">Covovax</option>
+            
+            <option value="CureVac">CureVac</option>
+            
+            <option value="Moderna">Moderna</option>
+            
+            <option value="ModernaBA.1">ModernaBA.1</option>
+            
+            <option value="Novavax">Novavax</option>
+            
+            <option value="Pfizer">Pfizer</option>
+            
+            <option value="Pfizer (5-11 let)">Pfizer (5-11 let)</option>
+            
+            <option value="PfizerBA.1">PfizerBA.1</option>
+            
+            <option value="PfizerBA.45">PfizerBA.45</option>
+            
+            <option value="Sinopharm">Sinopharm</option>
+            
+            <option value="Sinovac">Sinovac</option>
+            
+            <option value="SPIKEVAX BIVALENT ORIGINAL/OMICRON BA.4-5">SPIKEVAX BIVALENT ORIGINAL/OMICRON BA.4-5</option>
+            
+            <option value="Sputnik V">Sputnik V</option>
+            
+            <option value="Valneva">Valneva</option>
+            
+        </select>
+    </div>
+    <div class="col-auto mb-2">
+        <div class="custom-control custom-switch" style="display: inline-block">
+            <input id="doctors-children" type="checkbox" class="custom-control-input">
+            <label class="custom-control-label" for="doctors-children">pediatři</label>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table id="doctors-table" class="table table-bordered table-striped table-sm" style="table-layout: fixed">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="text-center col-sortable w-25">Název zařízení</th>
+            
+            
+            <th scope="col" class="text-center col-sortable w-15">Kraj</th>
+            
+            <th scope="col" class="text-center col-sortable w-10">
+                Pediatr
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Praktický lékař pro děti a dorost podle Národního registru poskytovatelů zdravotních služeb.">
+                </i>
+            </th>
+            <th scope="col" class="text-center w-15">
+                Vakcíny
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Vakcíny očkované za posledních 7 dní.">
+                </i>
+            </th>
+            <th scope="col" class="text-center col-sortable w-10">
+                Očkováno
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet podaných dávek vakcíny.">
+                </i>
+            </th>
+            <th scope="col" class="text-center col-sortable w-10">
+                Očkováno za<br>7 dní
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet podaných dávek vakcíny za posledních 7 dní.">
+                </i>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+        <tfoot class="font-weight-bold">
+        <tr>
+            <td colspan="4">Celkem</td>
+            <td class="text-right">
+                0
+            </td>
+            <td class="text-right">
+                0
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+<p class="card-text font-italic text-justify mb-0">
+    Oranžově jsou vyznačena zdravotnická zařízení, která ukončila očkování.
+</p>
+
+<script>
+    function doctorsFilterChanged() {
+        const stripAccents = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        const searchValue = stripAccents($("#doctors-searchbox").val().toLowerCase());
+        const krajValue = $("#doctors-kraj").val();
+        const vaccineValue = $("#doctors-vaccine").val();
+        const childrenValue = $("#doctors-children")[0].checked;
+
+        $("#doctors-table tbody tr").filter(function() {
+            const normalized = stripAccents($(this).text().toLowerCase());
+            const kraj = $(this)[0].dataset.kraj;
+            const vaccines = $(this)[0].dataset.vaccines;
+            const children = $(this)[0].dataset.children;
+
+            $(this).toggle(
+                normalized.indexOf(searchValue) > -1
+                && (!krajValue || kraj === krajValue)
+                && (!vaccineValue || vaccines.indexOf(vaccineValue) > -1)
+                && (!childrenValue || children === 'True')
+            )
+        });
+
+        $("#doctors-table tbody tr:visible").each(function (index) {
+            $(this).css("background-color", !!(index & 1) ? "rgba(0,0,0,0)"  : "rgba(0,0,0,.05)");
+        });
+    }
+
+    $(document).ready(function(){
+        $("#doctors-searchbox").on("keyup", function() {
+            doctorsFilterChanged();
+        });
+        $("#doctors-kraj").change(function () {
+            doctorsFilterChanged();
+        });
+        $("#doctors-vaccine").change(function () {
+            doctorsFilterChanged();
+        });
+        $("#doctors-children").change(function () {
+            doctorsFilterChanged();
+        });
+    });
+</script>
+                    </div>
+                    <div class="tab-pane" id="nabidky-ockovani">
+                        
+<div class="alert alert-info text-justify alert-dismissible fade show" role="alert">
+    <p>
+        V této tabulce jsou zveřejňovány nabídky očkování s uvedeným typem očkovací látky a kapacitou. Údaje se
+        pravidelně aktualizují.
+        Některé ordinace praktických lékařů pro dospělé nabízejí očkování i dětem od 14 let a naopak některé ordinace
+        praktických lékařů pro děti a dorost nabízejí očkování i dospělým.
+    </p>
+    <p class="mb-0">
+        Pokud máte o očkování zájem, kontaktujte vybranou ordinaci, dodržujte při tom pokyny v poznámce.
+    </p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+
+<div class="form-row mb-1">
+    <div class="col-12 col-lg-6 mb-2">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search fa-fw"></i></span>
+            </div>
+            <input id="free-vaccines-searchbox" type="text" class="form-control" placeholder="Hledat...">
+        </div>
+    </div>
+    
+    <div class="col-6 col-sm mb-2">
+        <select id="free-vaccines-vaccine" class="custom-select">
+            <option value="">Všechny vakcíny</option>
+            
+            <option value="Novavax">Novavax</option>
+            
+            <option value="Pfizer">Pfizer</option>
+            
+            <option value="PfizerBA.1">PfizerBA.1</option>
+            
+            <option value="PfizerBA.45">PfizerBA.45</option>
+            
+        </select>
+    </div>
+    <div class="col-12 col-sm-auto text-center mb-2">
+        <div class="custom-control custom-switch mr-2" style="display: inline-block">
+            <input id="free-vaccines-adults" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="free-vaccines-adults">dospělí</label>
+        </div>
+        <div class="custom-control custom-switch" style="display: inline-block">
+            <input id="free-vaccines-children" type="checkbox" class="custom-control-input" checked>
+            <label class="custom-control-label" for="free-vaccines-children">děti</label>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-responsive">
+    <table id="free-vaccines-table" class="table table-bordered table-striped table-sm mb-0">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="text-center">Aktualizace</th>
+            <th scope="col" class="text-center col-sortable">Dávek</th>
+            <th scope="col" class="text-center col-sortable">Vakcína</th>
+            
+            <th scope="col" class="text-center col-sortable">Město</th>
+            <th scope="col" class="text-center">Název zařízení</th>
+            
+            
+            <th scope="col" class="text-center col-sortable">Expirace</th>
+            <th scope="col" class="text-center">Poznámka</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function offersFilterChanged() {
+        const stripAccents = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        const searchValue = stripAccents($("#free-vaccines-searchbox").val().toLowerCase());
+        const krajValue = $("#free-vaccines-kraj").val();
+        const vaccineValue = $("#free-vaccines-vaccine").val();
+        const adultsValue = $("#free-vaccines-adults")[0].checked;
+        const childrenValue = $("#free-vaccines-children")[0].checked;
+
+        $("#free-vaccines-table tbody tr").filter(function () {
+            const normalized = stripAccents($(this).text().toLowerCase());
+            const kraj = $(this)[0].dataset.kraj;
+            const vaccine = $(this)[0].dataset.vaccine;
+            const adults = $(this)[0].dataset.adults;
+            const children = $(this)[0].dataset.children;
+
+            $(this).toggle(
+                normalized.indexOf(searchValue) > -1
+                && (!krajValue || kraj === krajValue)
+                && (!vaccineValue || vaccine === vaccineValue)
+                && ((adultsValue && adults === 'True') || (childrenValue && children === 'True'))
+            )
+        });
+
+        $("#free-vaccines-table tbody tr:visible").each(function (index) {
+            $(this).css("background-color", !!(index & 1) ? "rgba(0,0,0,0)"  : "rgba(0,0,0,.05)");
+        });
+    }
+
+    $(document).ready(function () {
+        $("#free-vaccines-searchbox").keyup(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-kraj").change(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-vaccine").change(function () {
+            offersFilterChanged();
+        });
+        $("#free-vaccines-adults").change(function () {
+            if (!$("#free-vaccines-adults")[0].checked) {
+                $("#free-vaccines-children")[0].checked = true;
+            }
+            offersFilterChanged();
+        });
+        $("#free-vaccines-children").change(function () {
+            if (!$("#free-vaccines-children")[0].checked) {
+                $("#free-vaccines-adults")[0].checked = true;
+            }
+            offersFilterChanged();
+        });
+        offersFilterChanged();
+    });
+</script>
+                    </div>
+                    <div class="tab-pane" id="statistiky">
+                        <div class="row px-2 mb-n2">
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Počet obyvatel">
+                            Počet obyvatel
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">104 000 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Čekající ve frontě">
+                            Čekající ve frontě
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Počet registrovaných bez rezervovaného termínu."></i>
+                        
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">59 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0
+                </span>
+                
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Čekající před závorou">
+                            Čekající před závorou
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Počet registrovaných čekajících na možnost rezervace konkrétního termínu."></i>
+                        
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">0 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0
+                </span>
+                
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Rezervací denně">
+                            Rezervací denně
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Průměrný počet rezervací uvolněných za posledních 7 dnů."></i>
+                        
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">0 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0
+                </span>
+                
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Čekající na 1. dávku">
+                            Čekající na 1. dávku
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        
+                        <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto"
+                           data-html="true" title="Počet registrovaných s rezervovaným termínem na 1.&amp;nbsp;dávku očkování.&lt;br&gt;V současnosti jsou k dispozici data jen pro následující měsíc!"></i>
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">0 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0
+                </span>
+                
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Čekající na 2. dávku">
+                            Čekající na 2. dávku
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        
+                        <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto"
+                           data-html="true" title="Počet registrovaných s rezervovaným termínem na 2.&amp;nbsp;dávku očkování.&lt;br&gt;Rezervace na 2.&amp;nbsp;dávku se vytváří společně s rezervací na 1.&amp;nbsp;dávku, zahrnuti jsou tedy i ti, kteří čekají na obě dávky.&lt;br&gt;V současnosti jsou k dispozici data jen pro následující měsíc!"></i>
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">0 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0
+                </span>
+                
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Čekající na posilující">
+                            Čekající na posilující
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        
+                        <i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="auto"
+                           data-html="true" title="Počet registrovaných s rezervovaným termínem na posilující dávku očkování.&lt;br&gt;V současnosti jsou k dispozici data jen pro následující měsíc!"></i>
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">0 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0
+                </span>
+                
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Dnešní kapacita 1. dávky">
+                            Dnešní kapacita 1. dávky
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Dnešní kapacita pro očkování 1.&amp;nbsp;dávkou.&lt;br&gt;Získáno z maximální kapacity uvedené v rezervačním systému."></i>
+                        
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">0 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0
+                </span>
+                
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+                            
+<div class="col-sm-6 col-md-4 col-lg-3 px-1 pt-0 pb-2">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 col-xl-10 pr-0">
+                    <h6 class="card-title ellipsis mb-1">
+                        <span data-toggle="tooltip" data-placement="auto" title="Dnešní kapacita posilující">
+                            Dnešní kapacita posilující
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-3 col-xl-2 pl-0 text-right">
+                    <h6 class="card-title mb-1">
+                        
+                        <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                           title="Dnešní kapacita pro očkování posilující dávkou.&lt;br&gt;Získáno z maximální kapacity uvedené v rezervačním systému."></i>
+                        
+                        
+                    </h6>
+                </div>
+            </div>
+            
+            <p class="card-text text-right metrics-number">0 </p>
+            <p class="card-text text-right metrics-delta">
+                
+                <span class=""
+                      data-toggle="tooltip" data-placement="auto" data-html="true"
+                      title="Změna za 1 den<br>(rozdíl od včerejší hodnoty - zahrnuje i zpětně doplněné)">
+                    0
+                </span>
+                
+                
+                
+                
+                
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="registrace">
+                        <div class="table-responsive">
+    <table class="table table-bordered table-striped table-sm" style="table-layout: fixed">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="w-15 text-center col-sortable">Věková skupina</th>
+            <th scope="col" class="w-20 text-center col-sortable">Prioritní skupina</th>
+            <th scope="col" class="w-10 text-center col-sortable">
+                Ve frontě
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet registrovaných čekajících na rezervaci konkrétního termínu (přibližně odpovídá čekajícím na SMS s PIN2).">
+                </i>
+            </th>
+            <th scope="col" class="w-10 text-center">
+                S termínem
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Počet lidí s PIN2, kteří ještě pravděpodobně nebyli očkováni - možná nepřesnost cca 1 den.">
+                </i>
+            </th>
+            <th scope="col" class="w-15 text-center col-sortable">
+                Čekání na rezervaci
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Průměrná doba mezi registrací a rezervací konkrétního termínu za posledních 7 dní (přibližně odpovídá čekání na možnost výběru termínu).<br>Registrace na 1. a posilující dávku mohou mít různou prioritu.<br>Pro výpočet používáme jen registrace vytvořené před 90 dny a novější.<br>Červená (>2), žlutá (>1), zelená (>0).">
+                </i>
+            </th>
+            <th scope="col" class="w-15 text-center col-sortable">
+                Doba ve frontě
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Průměrná doba strávená čekajícími ve frontě k dnešnímu dni.<br>Pro výpočet používáme jen registrace vytvořené před 90 dny a novější.<br>Červená (>2), žlutá (>1), zelená (>0).">
+                </i>
+            </th>
+            <th scope="col" class="w-15 text-center col-sortable">
+                7denní úspěšnost
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto" data-html="true"
+                   title="Poměr počtu registrovaných za posledních 7 dní s vybraným termínem ku počtu všech registrovaných za posledních 7 dní.<br>Zelená (>50 %), žlutá (>5 %), červená (>0 %).">
+                </i>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        
+        <tr>
+            <td colspan="7" class="font-italic">Toto očkovací místo zatím nemá žádné registrace nebo rezervace.</td>
+        </tr>
+        
+        </tbody>
+    </table>
+    <p class="card-text font-italic text-justify">
+        Oranžově jsou vyznačeny kategorie, kterým nebyla za posledních 14 dní umožněna žádná rezervace.
+    </p>
+    <p class="card-text font-italic text-justify">
+        V tabulce uvažujeme pouze registrace vytvořené před 90 dny a novější.
+    </p>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="footer p-3 bg-light mt-4">
+    <div class="row align-items-center">
+        <div class="col text-center text-lg-left">
+            <p class="mb-1">
+                Vznik: 16. 01. 2021, <a href="https://opendatalab.cz/" target="_blank">OpenDataLab</a>.
+                Data na tomto webu pochází z <a href="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19"
+                                                target="_blank">opendat Ministerstva zdravotnictví ČR</a>
+                a od Centrálního řídícího týmu COVID-19 (CŘT).
+            </p>
+            <p class="mb-1">
+                Vydavatel: ČVUT, Fakulta informačních technologií, Praha ve spolupráci s firmou Sec4good, s.r.o., Praha, 2023.<br />
+                Citace: Sušický M., Staněk J. <i>COVID-19 očkování</i> [online]. Praha: ČVUT, Fakulta informačních technologií, 2021 [cit. 2023-11-10]. ISSN 2787-9925. Dostupné z https://ockovani.opendatalab.cz
+            </p>
+            <p class="mb-0 font-italic">
+                Provozovatel neodpovídá za správnost a úplnost zpracovaných dat a informací, ani tato neověřuje a zříká
+                se
+                zodpovědnosti za veškeré škody a újmy, které by použitím těchto dat mohly vzniknout.
+                Pro informace o očkování COVID-19 navštivte web: <a
+                    href="https://koronavirus.mzcr.cz/ockovani-proti-covid-19/" target="_blank">Ministerstva
+                zdravotnictví
+                ČR</a>.
+            </p>
+        </div>
+        <div class="col-lg-auto text-center mt-3 mt-lg-0">
+            <a href="https://fit.cvut.cz/" target="_blank">
+                <img src="/static/img/FIT_logo.png">
+            </a>
+            &nbsp;
+            <a href="https://www.sec4good.cz/" target="_blank">
+                <img src="/static/img/sec4good_mungo_logo_tmave.png" style="width: 185px;">
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Links for wget -->
+<div class="d-none">
+    <a href="/404">Error 404</a>
+    <a href="/static/geojson/orp-simple.json">ORP GeoJSON</a>
+</div>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TXSRVP25Y2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-TXSRVP25Y2');
+
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+    <link rel="shortcut icon" href="/static/favicon.ico">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>
+Srovnání očkovaní &times; neočkovaní |
+COVID očkování</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/static/js/main.js"></script>
+
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+    <script src="https://api.mapy.cz/loader.js"></script>
+    <script>Loader.load()</script>
+
+    
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/">COVID očkování</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/mista">Očkovací místa
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/praktici">Praktici
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/nabidky">Nabídky očkování
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active"
+                   href="#" id="menu-dropdown-stats" data-toggle="dropdown">Statistiky
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/statistiky">Souhrnné statistiky</a>
+                    <a class="dropdown-item" href="/statistiky_ockovani">Statistiky očkování</a>
+                    <a class="dropdown-item" href="/statistiky_srovnani">Srovnání očkovaní &times; neočkovaní</a>
+                    <a class="dropdown-item" href="/statistiky_nemocnice">Kapacita nemocnic</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/odkazy">Odkazy
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "
+                   href="/napoveda">Nápověda
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+                <a class="nav-link" href="https://twitter.com/ocko_bot" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    Twitter
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/msusicky/ockovani-covid" target="_blank">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-danger" role="alert">
+                <p class="mb-0">
+                    Čas poslední aktualizace: <strong>pá 10. 11. 05:48</strong>.
+                    POZOR! - Momentálně obnovený pilotní provoz, na webu mohou být chyby.
+                </p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+<div class="row">
+    <div class="col">
+        <h3>Srovnání očkovaní &times; neočkovaní</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title" id="srovnani" data-toggle="tooltip" data-placement="bottom">
+                    Srovnání očkovaných a neočkovaných podle zastoupení v populaci za týden
+                    30. 10. -
+                    05. 11.
+                    <a href="#srovnani" class="text-secondary"><i class="fas fa-link"></i></a>
+                </h5>
+                <div id="plotly-srovnani-ockovani-neockovani"></div>
+
+<script>
+    function grafSrovnaniOckovaniNeockovani() {
+        const hovertemplate = "%{y:.1f} (počet: %{customdata[0]}, v populaci: %{customdata[1]:.1f} %)";
+
+        const traces = [
+            {
+                x: ["18-29","30-39","40-49","50-59","60-69","70-79","80+",],
+                y: [37.23817630079195, 33.74609810740633, 38.297958114127916, 47.816019676619604, 29.662080452688983, 107.32218375091033, 622.9923099386742, ],
+                customdata: [{0: 161, 1: 33.5048282841903},{0: 180, 1: 36.23014166838174},{0: 190, 1: 27.935584464727036},{0: 146, 1: 22.437787327603438},{0: 78, 1: 20.260840152771863},{0: 84, 1: 7.537621174562635},{0: 64, 1: 2.295509087740154},],
+                name: "Neočkovaní",
+                type: "bar",
+                hovertemplate: hovertemplate,
+            },
+            {
+                x: ["18-29","30-39","40-49","50-59","60-69","70-79","80+",],
+                y: [37.01214582785456, 40.54415608471053, 46.04857928325583, 68.31114787796746, 70.09555130414618, 88.39653550459013, 90.05493350944076, ],
+                customdata: [{0: 190, 1: 39.781326501433256},{0: 197, 1: 33.00342810721886},{0: 234, 1: 28.614054677412724},{0: 218, 1: 23.451223383616888},{0: 133, 1: 14.619268454860723},{0: 109, 1: 11.875058986226597},{0: 60, 1: 14.887626640686799},],
+                text: ["1,0×", "0,8×", "0,8×", "0,7×", "0,4×", "1,2×", "6,9×", ],
+                textposition: 'outside',
+                name: "Plně očkovaní",
+                type: "bar",
+                hovertemplate: hovertemplate,
+            },
+            {
+                x: ["18-29","30-39","40-49","50-59","60-69","70-79","80+",],
+                y: [29.858749832425385, 35.38748150718708, 41.97014988211519, 55.551135849274, 47.79624733902438, 61.59988523856997, 85.3785160112259, ],
+                customdata: [{0: 98, 1: 25.4345688254262},{0: 155, 1: 29.751107325499014},{0: 319, 1: 42.798637541267645},{0: 405, 1: 53.575060845845435},{0: 401, 1: 64.64203630065268},{0: 511, 1: 79.88873030823072},{0: 310, 1: 81.13249286074999},],
+                text: ["1,2×", "1,0×", "0,9×", "0,9×", "0,6×", "1,7×", "7,3×", ],
+                textposition: 'outside',
+                name: "Očkovaní posilující",
+                type: "bar",
+                hovertemplate: hovertemplate,
+            },
+            {
+                x: ["18-29","30-39","40-49","50-59","60-69","70-79","80+",],
+                y: [0.23129302050181333, 0.37495664563784814, 0.20156820060067324, 0.9825209522593069, 5.323963158174945, 31.941126116342357, 379.6359388688796, ],
+                customdata: [{0: 1.0, 1: 33.5048282841903},{0: 2.0, 1: 36.23014166838174},{0: 1.0, 1: 27.935584464727036},{0: 3.0, 1: 22.437787327603438},{0: 14.0, 1: 20.260840152771863},{0: 25.0, 1: 7.537621174562635},{0: 39.0, 1: 2.295509087740154},],
+                name: "Neočkovaní",
+                type: "bar",
+                hovertemplate: hovertemplate,
+            },
+            {
+                x: ["18-29","30-39","40-49","50-59","60-69","70-79","80+",],
+                y: [0.0, 0.20580789890716006, 0.5903664010673825, 2.8201850041362713, 1.5811026609957786, 19.463457358808835, 36.0219734037763, ],
+                customdata: [{0: 0.0, 1: 39.781326501433256},{0: 1.0, 1: 33.00342810721886},{0: 3.0, 1: 28.614054677412724},{0: 9.0, 1: 23.451223383616888},{0: 3.0, 1: 14.619268454860723},{0: 24.0, 1: 11.875058986226597},{0: 24.0, 1: 14.887626640686799},],
+                text: ["", "1,8×", "0,3×", "0,3×", "3,4×", "1,6×", "10,5×", ],
+                textposition: 'outside',
+                name: "Plně očkovaní",
+                type: "bar",
+                hovertemplate: hovertemplate,
+            },
+            {
+                x: ["18-29","30-39","40-49","50-59","60-69","70-79","80+",],
+                y: [0.3046811207390345, 0.6849189969132984, 0.9209750757830919, 1.3716329839326913, 3.3373938291588097, 11.331485738601911, 33.04974813337777, ],
+                customdata: [{0: 1.0, 1: 25.4345688254262},{0: 3.0, 1: 29.751107325499014},{0: 7.0, 1: 42.798637541267645},{0: 10.0, 1: 53.575060845845435},{0: 28.0, 1: 64.64203630065268},{0: 94.0, 1: 79.88873030823072},{0: 120.0, 1: 81.13249286074999},],
+                text: ["0,8×", "0,5×", "0,2×", "0,7×", "1,6×", "2,8×", "11,5×", ],
+                textposition: 'outside',
+                name: "Očkovaní posilující",
+                type: "bar",
+                hovertemplate: hovertemplate,
+            },
+            {
+                x: ["18-29","30-39","40-49","50-59","60-69","70-79","80+",],
+                y: [0.0, 0.18747832281892407, 0.0, 0.0, 0.3802830827267818, 3.832935133961083, 19.46850968558357, ],
+                customdata: [{0: 0.0, 1: 33.5048282841903},{0: 1.0, 1: 36.23014166838174},{0: 0.0, 1: 27.935584464727036},{0: 0.0, 1: 22.437787327603438},{0: 1.0, 1: 20.260840152771863},{0: 3.0, 1: 7.537621174562635},{0: 2.0, 1: 2.295509087740154},],
+                name: "Neočkovaní",
+                type: "bar",
+                hovertemplate: hovertemplate,
+            },
+            {
+                x: ["18-29","30-39","40-49","50-59","60-69","70-79","80+",],
+                y: [0.0, 0.0, 0.3935776007115883, 0.9400616680454238, 0.5270342203319262, 3.2439095598014727, 1.5009155584906793, ],
+                customdata: [{0: 0.0, 1: 39.781326501433256},{0: 0.0, 1: 33.00342810721886},{0: 2.0, 1: 28.614054677412724},{0: 3.0, 1: 23.451223383616888},{0: 1.0, 1: 14.619268454860723},{0: 4.0, 1: 11.875058986226597},{0: 1.0, 1: 14.887626640686799},],
+                text: ["", "", "", "", "0,7×", "1,2×", "13,0×", ],
+                textposition: 'outside',
+                name: "Plně očkovaní",
+                type: "bar",
+                hovertemplate: hovertemplate,
+            },
+            {
+                x: ["18-29","30-39","40-49","50-59","60-69","70-79","80+",],
+                y: [0.0, 0.0, 0.13156786796901312, 0.0, 0.23838527351134356, 1.0849294856108214, 1.9279019744470365, ],
+                customdata: [{0: 0.0, 1: 25.4345688254262},{0: 0.0, 1: 29.751107325499014},{0: 1.0, 1: 42.798637541267645},{0: 0.0, 1: 53.575060845845435},{0: 2.0, 1: 64.64203630065268},{0: 9.0, 1: 79.88873030823072},{0: 7.0, 1: 81.13249286074999},],
+                text: ["", "", "", "", "1,6×", "3,5×", "10,1×", ],
+                textposition: 'outside',
+                name: "Očkovaní posilující",
+                type: "bar",
+                hovertemplate: hovertemplate,
+            },
+        ];
+
+        const buttons = [
+            {
+                label: "Nakažení",
+                args: [
+                    {
+                        "visible": [true, true, true, false, false, false, false, false, false],
+                    }, {
+                        "title": "Počet nově nakažených na 100 tisíc obyvatel ve skupině"
+                    }
+                ],
+                method: "update"
+            },
+            {
+                label: "Hospitalizovaní",
+                args: [
+                    {
+                        "visible": [false, false, false, true, true, true, false, false, false],
+                    }, {
+                        "title": "Počet nově hospitalizovaných na 100 tisíc obyvatel ve skupině"
+                    }
+                ],
+                method: "update"
+            },
+            {
+                label: "Hospitalizovaní na JIP",
+                args: [
+                    {
+                        "visible": [false, false, false, false, false, false, true, true, true],
+                    }, {
+                        "title": "Počet nově hospitalizovaných na JIP na 100 tisíc obyvatel ve skupině"
+                    }
+                ],
+                method: "update"
+            },
+        ];
+        buttons[0]["activate"] = true;
+
+        const layout = {
+            barmode: "group",
+            autosize: true,
+            xaxis: {
+                title: "Věková skupina",
+            },
+            yaxis: {
+                title: "Počet na 100 tisíc obyvatel ve skupině",
+                automargin: true,
+                tickformat: ".f",
+            },
+            hovermode: "x unified",
+            showlegend: true,
+            legend: {
+                orientation: "h",
+                xanchor: "center",
+                x: 0.5,
+                y: -0.18,
+            },
+            height: 600,
+            updatemenus: [{
+                direction: "right",
+                xanchor: "center",
+                yanchor: "center",
+                x: 0.5,
+                y: 1.5,
+                type: "buttons",
+                showactive: true,
+                buttons: buttons,
+            }]
+        };
+
+        const config = {
+            responsive: true,
+            displayModeBar: false,
+        };
+
+        Plotly.newPlot("plotly-srovnani-ockovani-neockovani", traces, layout, config);
+
+        Plotly.update("plotly-srovnani-ockovani-neockovani", buttons[0].args[0], buttons[0].args[1]);
+    }
+
+    grafSrovnaniOckovaniNeockovani();
+</script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title" id="nakazeni" data-toggle="tooltip" data-placement="bottom">
+                    Nakažení za týden
+                    30. 10. -
+                    05. 11.
+                    <a href="#nakazeni" class="text-secondary"><i class="fas fa-link"></i></a>
+                </h5>
+                <div class="table-responsive">
+    <table class="table table-bordered table-striped table-sm mb-0">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="text-center" rowspan="2" style="width: 12%">Věková skupina</th>
+            <th scope="col" class="text-center" colspan="2">
+                Neočkovaní
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Lidé, kteří nedostali žádnou dávku.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" colspan="3">
+                Plně očkovaní
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Lidé, kteří mají dokončené základní očkovací schéma (2 dávky nebo jednodávková vakcína).">
+                </i>
+            </th>
+            <th scope="col" class="text-center" colspan="3">
+                Očkovaní posilující
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Lidé očkovaní posilující dávkou.">
+                </i>
+            </th>
+        </tr>
+        <tr>
+            <th scope="col" class="text-center" style="width: 11%">
+                V populaci
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Podíl neočkovaných na začátku uvedeného týdne.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Počet
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Počet nových případů.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                V populaci
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Podíl plně očkovaných na začátku uvedeného týdne.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Počet
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Počet nových případů.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Poměr
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Poměr udává kolikrát více je případů bez očkování než plně očkovaných při přepočtu na stejně velké skupiny.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                V populaci
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Podíl očkovaných posilující dávkou na začátku uvedeného týdne.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Počet
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Počet nových případů.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Poměr
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Poměr udává kolikrát více je případů bez očkování než očkovaných posilující dávkou při přepočtu na stejně velké skupiny.">
+                </i>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        <tr>
+            <td>18-29</td>
+            <td class="text-right">33,5 %</td>
+            <td class="text-right">161</td>
+            <td class="text-right">39,8 %</td>
+            <td class="text-right">190</td>
+            <td class="text-right">1,0&times;</td>
+            <td class="text-right">25,4 %</td>
+            <td class="text-right">98</td>
+            <td class="text-right">1,2&times;</td>
+        </tr>
+        
+        <tr>
+            <td>30-39</td>
+            <td class="text-right">36,2 %</td>
+            <td class="text-right">180</td>
+            <td class="text-right">33,0 %</td>
+            <td class="text-right">197</td>
+            <td class="text-right">0,8&times;</td>
+            <td class="text-right">29,8 %</td>
+            <td class="text-right">155</td>
+            <td class="text-right">1,0&times;</td>
+        </tr>
+        
+        <tr>
+            <td>40-49</td>
+            <td class="text-right">27,9 %</td>
+            <td class="text-right">190</td>
+            <td class="text-right">28,6 %</td>
+            <td class="text-right">234</td>
+            <td class="text-right">0,8&times;</td>
+            <td class="text-right">42,8 %</td>
+            <td class="text-right">319</td>
+            <td class="text-right">0,9&times;</td>
+        </tr>
+        
+        <tr>
+            <td>50-59</td>
+            <td class="text-right">22,4 %</td>
+            <td class="text-right">146</td>
+            <td class="text-right">23,5 %</td>
+            <td class="text-right">218</td>
+            <td class="text-right">0,7&times;</td>
+            <td class="text-right">53,6 %</td>
+            <td class="text-right">405</td>
+            <td class="text-right">0,9&times;</td>
+        </tr>
+        
+        <tr>
+            <td>60-69</td>
+            <td class="text-right">20,3 %</td>
+            <td class="text-right">78</td>
+            <td class="text-right">14,6 %</td>
+            <td class="text-right">133</td>
+            <td class="text-right">0,4&times;</td>
+            <td class="text-right">64,6 %</td>
+            <td class="text-right">401</td>
+            <td class="text-right">0,6&times;</td>
+        </tr>
+        
+        <tr>
+            <td>70-79</td>
+            <td class="text-right">7,5 %</td>
+            <td class="text-right">84</td>
+            <td class="text-right">11,9 %</td>
+            <td class="text-right">109</td>
+            <td class="text-right">1,2&times;</td>
+            <td class="text-right">79,9 %</td>
+            <td class="text-right">511</td>
+            <td class="text-right">1,7&times;</td>
+        </tr>
+        
+        <tr>
+            <td>80+</td>
+            <td class="text-right">2,3 %</td>
+            <td class="text-right">64</td>
+            <td class="text-right">14,9 %</td>
+            <td class="text-right">60</td>
+            <td class="text-right">6,9&times;</td>
+            <td class="text-right">81,1 %</td>
+            <td class="text-right">310</td>
+            <td class="text-right">7,3&times;</td>
+        </tr>
+        
+        </tbody>
+        <tfoot class="font-weight-bold">
+        <tr>
+            <td>Celkem</td>
+            <td class="text-right">24,4 %</td>
+            <td class="text-right">903</td>
+            <td class="text-right">25,4 %</td>
+            <td class="text-right">1 141</td>
+            <td></td>
+            <td class="text-right">49,4 %</td>
+            <td class="text-right">2 199</td>
+            <td></td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title" id="hospitalizace" data-toggle="tooltip" data-placement="bottom">
+                    Nově hospitalizovaní za týden
+                    30. 10. -
+                    05. 11.
+                    <a href="#hospitalizace" class="text-secondary"><i class="fas fa-link"></i></a>
+                </h5>
+                <div class="table-responsive">
+    <table class="table table-bordered table-striped table-sm mb-0">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="text-center" rowspan="2" style="width: 12%">Věková skupina</th>
+            <th scope="col" class="text-center" colspan="2">
+                Neočkovaní
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Lidé, kteří nedostali žádnou dávku.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" colspan="3">
+                Plně očkovaní
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Lidé, kteří mají dokončené základní očkovací schéma (2 dávky nebo jednodávková vakcína).">
+                </i>
+            </th>
+            <th scope="col" class="text-center" colspan="3">
+                Očkovaní posilující
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Lidé očkovaní posilující dávkou.">
+                </i>
+            </th>
+        </tr>
+        <tr>
+            <th scope="col" class="text-center" style="width: 11%">
+                V populaci
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Podíl neočkovaných na začátku uvedeného týdne.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Počet
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Počet nových případů.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                V populaci
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Podíl plně očkovaných na začátku uvedeného týdne.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Počet
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Počet nových případů.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Poměr
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Poměr udává kolikrát více je případů bez očkování než plně očkovaných při přepočtu na stejně velké skupiny.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                V populaci
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Podíl očkovaných posilující dávkou na začátku uvedeného týdne.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Počet
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Počet nových případů.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Poměr
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Poměr udává kolikrát více je případů bez očkování než očkovaných posilující dávkou při přepočtu na stejně velké skupiny.">
+                </i>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        <tr>
+            <td>18-29</td>
+            <td class="text-right">33,5 %</td>
+            <td class="text-right">1</td>
+            <td class="text-right">39,8 %</td>
+            <td class="text-right">0</td>
+            <td class="text-right">bez dat</td>
+            <td class="text-right">25,4 %</td>
+            <td class="text-right">1</td>
+            <td class="text-right">0,8&times;</td>
+        </tr>
+        
+        <tr>
+            <td>30-39</td>
+            <td class="text-right">36,2 %</td>
+            <td class="text-right">2</td>
+            <td class="text-right">33,0 %</td>
+            <td class="text-right">1</td>
+            <td class="text-right">1,8&times;</td>
+            <td class="text-right">29,8 %</td>
+            <td class="text-right">3</td>
+            <td class="text-right">0,5&times;</td>
+        </tr>
+        
+        <tr>
+            <td>40-49</td>
+            <td class="text-right">27,9 %</td>
+            <td class="text-right">1</td>
+            <td class="text-right">28,6 %</td>
+            <td class="text-right">3</td>
+            <td class="text-right">0,3&times;</td>
+            <td class="text-right">42,8 %</td>
+            <td class="text-right">7</td>
+            <td class="text-right">0,2&times;</td>
+        </tr>
+        
+        <tr>
+            <td>50-59</td>
+            <td class="text-right">22,4 %</td>
+            <td class="text-right">3</td>
+            <td class="text-right">23,5 %</td>
+            <td class="text-right">9</td>
+            <td class="text-right">0,3&times;</td>
+            <td class="text-right">53,6 %</td>
+            <td class="text-right">10</td>
+            <td class="text-right">0,7&times;</td>
+        </tr>
+        
+        <tr>
+            <td>60-69</td>
+            <td class="text-right">20,3 %</td>
+            <td class="text-right">14</td>
+            <td class="text-right">14,6 %</td>
+            <td class="text-right">3</td>
+            <td class="text-right">3,4&times;</td>
+            <td class="text-right">64,6 %</td>
+            <td class="text-right">28</td>
+            <td class="text-right">1,6&times;</td>
+        </tr>
+        
+        <tr>
+            <td>70-79</td>
+            <td class="text-right">7,5 %</td>
+            <td class="text-right">25</td>
+            <td class="text-right">11,9 %</td>
+            <td class="text-right">24</td>
+            <td class="text-right">1,6&times;</td>
+            <td class="text-right">79,9 %</td>
+            <td class="text-right">94</td>
+            <td class="text-right">2,8&times;</td>
+        </tr>
+        
+        <tr>
+            <td>80+</td>
+            <td class="text-right">2,3 %</td>
+            <td class="text-right">39</td>
+            <td class="text-right">14,9 %</td>
+            <td class="text-right">24</td>
+            <td class="text-right">10,5&times;</td>
+            <td class="text-right">81,1 %</td>
+            <td class="text-right">120</td>
+            <td class="text-right">11,5&times;</td>
+        </tr>
+        
+        </tbody>
+        <tfoot class="font-weight-bold">
+        <tr>
+            <td>Celkem</td>
+            <td class="text-right">24,4 %</td>
+            <td class="text-right">85</td>
+            <td class="text-right">25,4 %</td>
+            <td class="text-right">64</td>
+            <td></td>
+            <td class="text-right">49,4 %</td>
+            <td class="text-right">263</td>
+            <td></td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title" id="hospitalizace-jip" data-toggle="tooltip" data-placement="bottom">
+                    Nově hospitalizovaní na JIP za týden
+                    30. 10. -
+                    05. 11.
+                    <a href="#hospitalizace-jip" class="text-secondary"><i class="fas fa-link"></i></a>
+                </h5>
+                <div class="table-responsive">
+    <table class="table table-bordered table-striped table-sm mb-0">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="text-center" rowspan="2" style="width: 12%">Věková skupina</th>
+            <th scope="col" class="text-center" colspan="2">
+                Neočkovaní
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Lidé, kteří nedostali žádnou dávku.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" colspan="3">
+                Plně očkovaní
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Lidé, kteří mají dokončené základní očkovací schéma (2 dávky nebo jednodávková vakcína).">
+                </i>
+            </th>
+            <th scope="col" class="text-center" colspan="3">
+                Očkovaní posilující
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Lidé očkovaní posilující dávkou.">
+                </i>
+            </th>
+        </tr>
+        <tr>
+            <th scope="col" class="text-center" style="width: 11%">
+                V populaci
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Podíl neočkovaných na začátku uvedeného týdne.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Počet
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Počet nových případů.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                V populaci
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Podíl plně očkovaných na začátku uvedeného týdne.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Počet
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Počet nových případů.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Poměr
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Poměr udává kolikrát více je případů bez očkování než plně očkovaných při přepočtu na stejně velké skupiny.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                V populaci
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Podíl očkovaných posilující dávkou na začátku uvedeného týdne.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Počet
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Počet nových případů.">
+                </i>
+            </th>
+            <th scope="col" class="text-center" style="width: 11%">
+                Poměr
+                <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="auto"
+                   title="Poměr udává kolikrát více je případů bez očkování než očkovaných posilující dávkou při přepočtu na stejně velké skupiny.">
+                </i>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        <tr>
+            <td>18-29</td>
+            <td class="text-right">33,5 %</td>
+            <td class="text-right">0</td>
+            <td class="text-right">39,8 %</td>
+            <td class="text-right">0</td>
+            <td class="text-right">bez dat</td>
+            <td class="text-right">25,4 %</td>
+            <td class="text-right">0</td>
+            <td class="text-right">bez dat</td>
+        </tr>
+        
+        <tr>
+            <td>30-39</td>
+            <td class="text-right">36,2 %</td>
+            <td class="text-right">1</td>
+            <td class="text-right">33,0 %</td>
+            <td class="text-right">0</td>
+            <td class="text-right">bez dat</td>
+            <td class="text-right">29,8 %</td>
+            <td class="text-right">0</td>
+            <td class="text-right">bez dat</td>
+        </tr>
+        
+        <tr>
+            <td>40-49</td>
+            <td class="text-right">27,9 %</td>
+            <td class="text-right">0</td>
+            <td class="text-right">28,6 %</td>
+            <td class="text-right">2</td>
+            <td class="text-right">0,0</td>
+            <td class="text-right">42,8 %</td>
+            <td class="text-right">1</td>
+            <td class="text-right">0,0</td>
+        </tr>
+        
+        <tr>
+            <td>50-59</td>
+            <td class="text-right">22,4 %</td>
+            <td class="text-right">0</td>
+            <td class="text-right">23,5 %</td>
+            <td class="text-right">3</td>
+            <td class="text-right">0,0</td>
+            <td class="text-right">53,6 %</td>
+            <td class="text-right">0</td>
+            <td class="text-right">bez dat</td>
+        </tr>
+        
+        <tr>
+            <td>60-69</td>
+            <td class="text-right">20,3 %</td>
+            <td class="text-right">1</td>
+            <td class="text-right">14,6 %</td>
+            <td class="text-right">1</td>
+            <td class="text-right">0,7&times;</td>
+            <td class="text-right">64,6 %</td>
+            <td class="text-right">2</td>
+            <td class="text-right">1,6&times;</td>
+        </tr>
+        
+        <tr>
+            <td>70-79</td>
+            <td class="text-right">7,5 %</td>
+            <td class="text-right">3</td>
+            <td class="text-right">11,9 %</td>
+            <td class="text-right">4</td>
+            <td class="text-right">1,2&times;</td>
+            <td class="text-right">79,9 %</td>
+            <td class="text-right">9</td>
+            <td class="text-right">3,5&times;</td>
+        </tr>
+        
+        <tr>
+            <td>80+</td>
+            <td class="text-right">2,3 %</td>
+            <td class="text-right">2</td>
+            <td class="text-right">14,9 %</td>
+            <td class="text-right">1</td>
+            <td class="text-right">13,0&times;</td>
+            <td class="text-right">81,1 %</td>
+            <td class="text-right">7</td>
+            <td class="text-right">10,1&times;</td>
+        </tr>
+        
+        </tbody>
+        <tfoot class="font-weight-bold">
+        <tr>
+            <td>Celkem</td>
+            <td class="text-right">24,4 %</td>
+            <td class="text-right">7</td>
+            <td class="text-right">25,4 %</td>
+            <td class="text-right">11</td>
+            <td></td>
+            <td class="text-right">49,4 %</td>
+            <td class="text-right">19</td>
+            <td></td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col font-italic text-justify">
+        <h6>Poznámky</h6>
+        <p>
+            Data zahrnují i pozitivně testované osoby, u nichž není COVID primární příčinou hospitalizace.
+        </p>
+        <p>
+            Kvůli nízké přesnosti nepočítáme poměry pro kategorie s proočkovaností menší než 5 %.
+            Poměry vycházející z nízkého počtu případů také nemusí být přesné.
+        </p>
+        <p>
+            Pro úmrtí nejsou v současné době k dispozici data obsahující věkové skupiny.
+        </p>
+    </div>
+</div>
+
+
+</div>
+
+<div class="footer p-3 bg-light mt-4">
+    <div class="row align-items-center">
+        <div class="col text-center text-lg-left">
+            <p class="mb-1">
+                Vznik: 16. 01. 2021, <a href="https://opendatalab.cz/" target="_blank">OpenDataLab</a>.
+                Data na tomto webu pochází z <a href="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19"
+                                                target="_blank">opendat Ministerstva zdravotnictví ČR</a>
+                a od Centrálního řídícího týmu COVID-19 (CŘT).
+            </p>
+            <p class="mb-1">
+                Vydavatel: ČVUT, Fakulta informačních technologií, Praha ve spolupráci s firmou Sec4good, s.r.o., Praha, 2023.<br />
+                Citace: Sušický M., Staněk J. <i>COVID-19 očkování</i> [online]. Praha: ČVUT, Fakulta informačních technologií, 2021 [cit. 2023-11-10]. ISSN 2787-9925. Dostupné z https://ockovani.opendatalab.cz
+            </p>
+            <p class="mb-0 font-italic">
+                Provozovatel neodpovídá za správnost a úplnost zpracovaných dat a informací, ani tato neověřuje a zříká
+                se
+                zodpovědnosti za veškeré škody a újmy, které by použitím těchto dat mohly vzniknout.
+                Pro informace o očkování COVID-19 navštivte web: <a
+                    href="https://koronavirus.mzcr.cz/ockovani-proti-covid-19/" target="_blank">Ministerstva
+                zdravotnictví
+                ČR</a>.
+            </p>
+        </div>
+        <div class="col-lg-auto text-center mt-3 mt-lg-0">
+            <a href="https://fit.cvut.cz/" target="_blank">
+                <img src="/static/img/FIT_logo.png">
+            </a>
+            &nbsp;
+            <a href="https://www.sec4good.cz/" target="_blank">
+                <img src="/static/img/sec4good_mungo_logo_tmave.png" style="width: 185px;">
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Links for wget -->
+<div class="d-none">
+    <a href="/404">Error 404</a>
+    <a href="/static/geojson/orp-simple.json">ORP GeoJSON</a>
+</div>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TXSRVP25Y2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-TXSRVP25Y2');
+
+</script>
+
+
+
+</body>
+</html>
